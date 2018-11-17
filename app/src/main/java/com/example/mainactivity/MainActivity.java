@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     public static String name = "";
+    //Test line
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -34,9 +35,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // OnCreate - Fedor's huinya, which we do not touch.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btnChats = (Button) findViewById(R.id.button2);
+        btnChats = findViewById(R.id.button2);
         btnChats.setOnClickListener(this);
-        imageSwitcher = (ImageSwitcher) findViewById(R.id.imageSwitcher);
+        imageSwitcher = findViewById(R.id.imageSwitcher);
         imageSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
             public View makeView() {
