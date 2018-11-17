@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <manifest package="com.example.mainactivity" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+
+    -<application android:theme="@style/AppTheme" android:windowSoftInputMode="" android:supportsRtl="true" android:label="Laugh and Love" android:icon="@drawable/icon" android:allowBackup="true">
+
+
+    -<activity android:name="MainActivity"
+    android:label="Laugh and Love"
+    android:noHistory="true">
+    -<intent-filter>
+
+    <action android:name="android.intent.action.MAIN"/>
+
+    <category android:name="android.intent.category.LAUNCHER"/>
+
+</intent-filter>
+
+</activity>
+
+    <activity android:name="ChatsActivity" android:label="Chats" android:noHistory="true"/>
+
+    <activity android:name="Messages"/>
+
+</application>
+
+</manifest>
