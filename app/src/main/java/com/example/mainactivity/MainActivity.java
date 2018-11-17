@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public static String name = "";
     //Test line
-
+//
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
