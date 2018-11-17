@@ -21,12 +21,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btnChats;
     ImageSwitcher imageSwitcher;
 
-    UserLogic.User Me = new UserLogic.User("Fidor");
+    UserLogic.User Me = new UserLogic.User("Frontender");
 
 
     public static String name = "";
     //Test line
-
+//
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
