@@ -32,7 +32,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
         // OnCreate - Fedor's huinya, which we do not touch.
+        //Soglasen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnChats = findViewById(R.id.button2);
