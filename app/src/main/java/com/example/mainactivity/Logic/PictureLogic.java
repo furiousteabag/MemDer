@@ -1,4 +1,6 @@
-package com.example.mainactivity;
+package com.example.mainactivity.Logic;
+
+import com.example.mainactivity.Logic.UserLogic;
 
 import java.util.ArrayList;
 
@@ -59,11 +61,11 @@ public class PictureLogic {
             int index = pic.Category;
 
             if (liked) {
-                if (user.Preferences.get(index) < 15)
-                    user.Preferences.set(index, user.Preferences.get(index) + 1);
+                if (user.getPreferencesList().get(index) < 15)
+                    user.setSinglePreferences(index, user.getPreferencesList().get(index) + 1);
             } else {
-                if (user.Preferences.get(index) > 0)
-                    user.Preferences.set(index, user.Preferences.get(index) - 1);
+                if (user.getPreferencesList().get(index) > 0)
+                    user.setSinglePreferences(index, user.getPreferencesList().get(index) - 1);
             }
 
             return user;

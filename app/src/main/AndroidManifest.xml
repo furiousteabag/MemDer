@@ -17,17 +17,14 @@
             android:label="Laugh and Love"
             android:noHistory="true">
             -
-
         </activity>
-        <activity
-            android:name=".ChatsActivity"
-            android:label="Chats"
-            android:noHistory="true" />
         <activity android:name=".Messages" />
-        <activity android:name=".RegisterActivity"
-            android:parentActivityName=".StartActivity"/>
-        <activity android:name=".LoginActivity"
-            android:parentActivityName=".StartActivity"/>
+        <activity
+            android:name=".RegisterActivity"
+            android:parentActivityName=".StartActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:parentActivityName=".StartActivity" />
         <activity android:name=".StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,6 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ChatsActivity"></activity>
     </application>
 
 </manifest>

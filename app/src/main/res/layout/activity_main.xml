@@ -3,10 +3,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:padding="0dp"
-    android:background="#dddddd">
+    android:orientation="vertical"
+    android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
+    app:popupTheme="@style/MenuStyle"
+    android:background="@color/colorPrimary">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/MenuStyle">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/profile_image"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/username"
+                android:layout_marginLeft="25dp"
+                android:text="username"
+                android:textStyle="bold"
+                android:textColor="#fff"/>
+
+
+
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
 
     <Button
         android:id="@+id/button9"
@@ -17,15 +53,17 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="186dp"
         android:layout_marginRight="186dp"
+        android:textColor="#fff"
+        android:textSize="15sp"
+
         android:layout_marginBottom="0dp"
-        android:background="#414670"
+        android:background="@color/colorPrimaryDark"
         android:text="Memes" />
 
     <Button
         android:layout_height="wrap_content"
-        android:id="@+id/button2"
+        android:id="@+id/btn_chats"
         android:padding="0dp"
-        android:layout_weight="1"
         android:paddingBottom="0dp"
         android:paddingEnd="0dp"
         android:paddingLeft="0dp"
@@ -36,7 +74,9 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:text="Chats"
-        android:onClick="onClick (MainActivity)"
+        android:textColor="#fff"
+        android:textSize="15sp"
+        android:onClick="onClick"
 
         android:layout_width="193dp"
         style="@style/Widget.AppCompat.Button.Borderless"
@@ -46,7 +86,7 @@
         android:id="@+id/imageSwitcher"
         android:layout_width="400dp"
         android:layout_height="340dp"
-        android:layout_above="@+id/button2"
+        android:layout_above="@+id/btn_chats"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_marginStart="0dp"
@@ -60,7 +100,11 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="53dp"
         app:srcCompat="@drawable/d24" />
 
     <ImageView
@@ -69,6 +113,10 @@
         android:layout_height="120dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="53dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
         app:srcCompat="@drawable/d25" />
 
 </RelativeLayout>

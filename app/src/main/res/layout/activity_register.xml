@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".RegisterActivity">
 
     <include
@@ -52,13 +53,14 @@
             app:met_floatingLabel="normal" />
 
         <Button
+            android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="register"
-            android:id="@+id/btn_register"
             android:layout_marginTop="10dp"
             android:background="@color/colorPrimaryDark"
-            android:textColor="#fff"/>
+            android:text="register"
+            android:textColor="#fff" />
+
 
     </LinearLayout>
 

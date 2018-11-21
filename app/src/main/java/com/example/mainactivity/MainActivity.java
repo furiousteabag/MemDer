@@ -5,8 +5,9 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -14,88 +15,90 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.auth.AuthResult;
+import com.bumptech.glide.Glide;
+import com.example.mainactivity.Logic.OnSwipeTouchListener;
+import com.example.mainactivity.Logic.PictureLogic;
+import com.example.mainactivity.Logic.UserLogic;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import java.io.Console;
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-
-    private static final String TAG = "MainActivity";
-
-    private FirebaseAnalytics mFirebaseAnalytics;
-    private FirebaseAuth mAuth;
-
+    // Initializing activity elements.
     Button btnChats;
     ImageSwitcher imageSwitcher;
+    CircleImageView profile_image;
+    TextView username;
 
-    UserLogic.User Me = new UserLogic.User("Fidor");
+    // Initializing firebase elements.
+    FirebaseUser firebaseUser;
+    DatabaseReference reference;
 
-
-    public static String name = "";
-    //Test line
-
-
+    UserLogic.User user;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-//        FirebaseAuth.getInstance()
-//                .createUserWithEmailAndPassword("k222ek@gmail.com", "lol")
-//                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        System.out.println("PRIVET");
-//                        if(task.isSuccessful()) {
-//                            // User registered successfully
-//                            System.out.println("ZALOGINELSYA");
-//                        }
-//                    }
-//                });
-
-        // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
-
-        mAuth.createUserWithEmailAndPassword("kek@gmai.com", "123")
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-
-                        }
-
-                        // ...
-                    }
-                });
-
-
-
-        // Obtain the FirebaseAnalytics instance.
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
-        // OnCreate - Fedor's huinya, which we do not touch.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btnChats = findViewById(R.id.button2);
+
+        // Toolbar initializing.
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+
+        // Associating activity elements.
+        profile_image = findViewById(R.id.profile_image);
+        username = findViewById(R.id.username);
+        btnChats = findViewById(R.id.btn_chats);
         btnChats.setOnClickListener(this);
         imageSwitcher = findViewById(R.id.imageSwitcher);
+
+        // Associating firebase variables
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+
+        // Handling username and image.
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+
+                    // Setting username.
+                    UserLogic.User fireUser = dataSnapshot.getValue(UserLogic.User.class);
+                    username.setText(fireUser.getUsername());
+
+                    // Assign our user to user from firebase.
+                    user = fireUser;
+
+                    // Setting image.
+                    if (fireUser.getImageURL().equals("default")) {
+                        profile_image.setImageResource(R.mipmap.ic_launcher);
+                    } else {
+                        Glide.with(MainActivity.this).load(fireUser.getImageURL()).into(profile_image);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        // Image switcher.
         imageSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
             public View makeView() {
@@ -117,70 +120,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Setting the first image.
         imageSwitcher.setImageResource(pictureList.get(firstImageIndex).Image);
 
-        // Fedino govno.
+        // Animation setting.
         Animation in = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.in);
         imageSwitcher.setInAnimation(in);
 
-
+        // Swipes
         imageSwitcher.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
             public void onSwipeRight() {
                 boolean flag = true;
-                int category = 0;
 
                 Animation out2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.out2);
                 imageSwitcher.setOutAnimation(out2);
 
-                PictureLogic.PictureMethods.ChangePreference(Me, currentPicture, flag);
-                currentPicture = pictureList.get(UserLogic.UserMethods.GetCategory(Me.Preferences) * 10 + (int) (Math.random() * 9));
+                PictureLogic.PictureMethods.ChangePreference(user, currentPicture, flag);
+                // THERE user SHOULD BE PUSHED TO FIREBASE DATABASE
+                currentPicture = pictureList.get(UserLogic.UserMethods.GetCategory(user.getPreferencesList()) * 10 + (int) (Math.random() * 9));
                 imageSwitcher.setImageResource(currentPicture.Image);
-                System.out.println(Me.Preferences.toString());
-
-
-                //
-                // FIREBASE
-                //
-
-//                // Create an instance of FirebaseAnalytics
-//                FirebaseAnalytics fa = FirebaseAnalytics.getInstance(this);
-//
-//                // Create a Bundle containing information about
-//                // the analytics event
-//                Bundle eventDetails = new Bundle();
-//                eventDetails.putString("my_message", "Clicked that special button");
-//
-//                // Log the event
-//                fa.logEvent("my_custom_event", eventDetails);
+                System.out.println(user.getPreferencesList().toString());
             }
 
             public void onSwipeLeft() {
                 boolean flag = false;
-                int category = 0;
 
                 Animation out = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.out);
                 imageSwitcher.setOutAnimation(out);
 
-                PictureLogic.PictureMethods.ChangePreference(Me, currentPicture, flag);
-                currentPicture = pictureList.get(UserLogic.UserMethods.GetCategory(Me.Preferences) * 10 + (int) (Math.random() * 9));
+                PictureLogic.PictureMethods.ChangePreference(user, currentPicture, flag);
+                // THERE user SHOULD BE PUSHED TO FIREBASE DATABASE
+                currentPicture = pictureList.get(UserLogic.UserMethods.GetCategory(user.getPreferencesList()) * 10 + (int) (Math.random() * 9));
                 imageSwitcher.setImageResource(currentPicture.Image);
-                System.out.println(Me.Preferences.toString());
+                System.out.println(user.getPreferencesList().toString());
             }
         });
-
-
     }
 
 
+    // Methods to handle top menu with logout button.
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(MainActivity.this, StartActivity.class));
+                finish();
+                return true;
+        }
+        return false;
+    }
+
+    // Handling the chat button.
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.button2:
+            case R.id.btn_chats:
                 Intent intent = new Intent(this, ChatsActivity.class);
                 startActivity(intent);
-//                ArrayList<BusinessLogic.User> AllGirls = BusinessLogic.GetRandomUserArray();
-//                name = Me.FindGirl(AllGirls).Name;
-//                for (BusinessLogic.User p : AllGirls) {
-//                    System.out.println(p.Name + " " + Me.koef(p) + " " + p.Preferences.toString());
-//                }
-//                System.out.println(name);
                 break;
             default:
                 break;
@@ -219,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // Initializing a Picture array.
     ArrayList<PictureLogic.Picture> pictureList = PictureLogic.PictureMethods.intImagesToPictures(images);
 
+    // Initializing first random picture.
     int firstImageIndex = (int) (Math.random() * 99);
     public PictureLogic.Picture currentPicture = pictureList.get(firstImageIndex);
 
