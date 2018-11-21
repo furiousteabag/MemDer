@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -63,19 +64,18 @@ public class ChatsActivity extends AppCompatActivity {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
 
-                    // Setting username.
-                    UserLogic.User user = dataSnapshot.getValue(UserLogic.User.class);
-                    username.setText(user.getUsername());
+                // Setting username.
+                UserLogic.User user = dataSnapshot.getValue(UserLogic.User.class);
+                username.setText(user.getUsername());
 
-                    // Setting image.
-                    if (user.getImageURL().equals("default")) {
-                        profile_image.setImageResource(R.mipmap.ic_launcher);
-                    } else {
-                        Glide.with(ChatsActivity.this).load(user.getImageURL()).into(profile_image);
-                    }
+                // Setting image.
+                if (user.getImageURL().equals("default")) {
+                    profile_image.setImageResource(R.mipmap.ic_launcher);
+                } else {
+                    Glide.with(ChatsActivity.this).load(user.getImageURL()).into(profile_image);
                 }
+
             }
 
             @Override
@@ -119,12 +119,12 @@ public class ChatsActivity extends AppCompatActivity {
     }
 
     // Pages class.
-    class ViewPagerAdapter extends FragmentPagerAdapter{
+    class ViewPagerAdapter extends FragmentPagerAdapter {
 
         private ArrayList<Fragment> fragments;
         private ArrayList<String> titles;
 
-        ViewPagerAdapter(FragmentManager fm){
+        ViewPagerAdapter(FragmentManager fm) {
             super(fm);
             this.fragments = new ArrayList<>();
             this.titles = new ArrayList<>();
@@ -141,7 +141,7 @@ public class ChatsActivity extends AppCompatActivity {
             return fragments.size();
         }
 
-        public void addFragment(Fragment fragment, String title){
+        public void addFragment(Fragment fragment, String title) {
             fragments.add(fragment);
             titles.add(title);
         }
@@ -150,6 +150,19 @@ public class ChatsActivity extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             return titles.get(position);
+        }
+    }
+
+    // Handling the chat button.
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_memes:
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
+
         }
     }
 }

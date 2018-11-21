@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
 
                     // Setting username.
                     UserLogic.User fireUser = dataSnapshot.getValue(UserLogic.User.class);
@@ -89,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     } else {
                         Glide.with(MainActivity.this).load(fireUser.getImageURL()).into(profile_image);
                     }
-                }
+
             }
 
             @Override
