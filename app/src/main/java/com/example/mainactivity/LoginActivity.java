@@ -16,6 +16,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import static com.example.mainactivity.StartActivity.hideKeyboard;
+
 public class LoginActivity extends AppCompatActivity {
 
     MaterialEditText email, password;
@@ -42,6 +44,9 @@ public class LoginActivity extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                hideKeyboard(LoginActivity.this);
+
                 String txt_email = email.getText().toString();
                 String txt_password = password.getText().toString();
 

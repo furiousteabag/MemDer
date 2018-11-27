@@ -19,16 +19,18 @@ public class UserLogic {
         private String username;
         private String preferences;
         private ArrayList<Integer> Preferences = new ArrayList<>();
+        private String status;
 
         public User() {
         }
 
-        public User(String preferences, String id, String imageURL, String username) {
+        public User(String preferences, String id, String imageURL, String username, String status) {
             this.id = id;
             this.imageURL = imageURL;
             this.username = username;
             this.preferences = preferences;
             Preferences = stringToArrayList(preferences);
+            this.status = status;
         }
 
         //---some getters and setters---
@@ -39,6 +41,14 @@ public class UserLogic {
         public void setPreferences(String preferences) {
             this.preferences = preferences;
             Preferences = stringToArrayList(preferences);
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
         }
 
         public String getId() {
@@ -83,6 +93,7 @@ public class UserLogic {
 
     // Methods attached to User element.
     public static class UserMethods {
+
         // Returns the percentage of similarity of two person.
         public int SimilarityRatio(User me, User possibleFriend) {
             double rez = 0;
@@ -112,7 +123,7 @@ public class UserLogic {
         }
 
         // Function that gets Preferences and returns category
-        public static int GetCategory(ArrayList<Integer> list) {
+        public static int getCategory(ArrayList<Integer> list) {
             int Sum = 10;
             int l = 0;
             //Random r = new Random();
@@ -132,24 +143,11 @@ public class UserLogic {
 
             return l - 1;
         }
+
+
     }
 
 
-//    // List of random girls.
-//    public static ArrayList<User> GetRandomUserArray() {
-//        ArrayList<User> AllGirls = new ArrayList<>();
-//        AllGirls.add(new User("Veronika"));
-//        AllGirls.add(new User("Anna"));
-//        AllGirls.add(new User("Oksana"));
-//        AllGirls.add(new User("Sveta"));
-//        AllGirls.add(new User("Angela"));
-//        AllGirls.add(new User("Sneganna"));
-//        AllGirls.add(new User("Ira"));
-//        AllGirls.add(new User("Alona"));
-//        AllGirls.add(new User("Vika"));
-//        AllGirls.add(new User("Nastya"));
-//        return AllGirls;
-//    }
 
 
 }

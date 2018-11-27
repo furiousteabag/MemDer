@@ -22,6 +22,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/textColor"
             android:text="Login"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -32,7 +33,9 @@
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:layout_marginTop="10dp"
+            app:met_textColorHint="@color/colorPrimaryDark"
             android:hint="Email"
+            app:met_textColor="@color/textColor"
             app:met_floatingLabel="normal" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
@@ -41,7 +44,9 @@
             android:inputType="textPassword"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            app:met_textColorHint="@color/colorPrimaryDark"
             android:hint="Password"
+            app:met_textColor="@color/textColor"
             app:met_floatingLabel="normal" />
 
         <Button
@@ -49,9 +54,10 @@
             android:layout_height="wrap_content"
             android:text="login"
             android:id="@+id/btn_login"
+            style="@style/CustomAnimationButton"
             android:layout_marginTop="10dp"
-            android:background="@color/colorPrimaryDark"
-            android:textColor="#fff"/>
+            android:background="@drawable/rounded_button_clickable"
+            android:textColor="@color/textColor"/>
 
     </LinearLayout>
 

@@ -3,7 +3,10 @@
     package="com.example.mainactivity">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    -
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/icon"
@@ -11,12 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="">
-        -
         <activity
             android:name=".MainActivity"
             android:label="Laugh and Love"
-            android:noHistory="true">
-            -
+            android:noHistory="false">
         </activity>
         <activity
             android:name=".RegisterActivity"
@@ -24,15 +25,19 @@
         <activity
             android:name=".LoginActivity"
             android:parentActivityName=".StartActivity" />
-        <activity android:name=".StartActivity">
+        <activity android:name=".StartActivity"></activity>
+        <activity
+            android:name=".ChatsActivity"
+            android:noHistory="false"/>
+        <activity android:name=".MessageActivity" />
+        <activity android:name=".LoadActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ChatsActivity" />
-        <activity android:name=".MessageActivity"></activity>
+        <activity
+            android:name=".ProfileActivity"/>
     </application>
 
 </manifest>

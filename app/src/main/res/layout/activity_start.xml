@@ -13,24 +13,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="MemDer"
-        android:textColor="#fff"
-        android:textSize="25sp"
+
+        android:textColor="@color/textColor"
+        android:textSize="40sp"
         android:textStyle="bold"/>
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:id="@+id/login"
+        style="@style/CustomAnimationButton"
         android:layout_marginTop="100dp"
-        android:background="@color/colorPrimaryDark"
-        android:textColor="#fff"
+        android:background="@drawable/rounded_button_clickable"
+        android:textColor="@color/textColor"
         android:text="login"/>
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:id="@+id/register"
-        android:background="@color/colorPrimaryDark"
-        android:textColor="#fff"
+        style="@style/CustomAnimationButton"
+        android:background="@drawable/rounded_button_clickable"
+        android:textColor="@color/textColor"
         android:layout_marginTop="10dp"
         android:text="register"/>
 

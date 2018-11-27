@@ -42,6 +42,7 @@ public class MessageActivity extends AppCompatActivity {
     // Initializing firebase elements.
     FirebaseUser firebaseUser;
     DatabaseReference reference;
+    String userid;
 
     // Message adapter.
     MessageAdapter messageAdapter;
@@ -64,7 +65,9 @@ public class MessageActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 finish();
+              //  startActivity(new Intent(MessageActivity.this, ChatsActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
         });
 
@@ -114,7 +117,7 @@ public class MessageActivity extends AppCompatActivity {
                 if (fireUser.getImageURL().equals("default")) {
                     profile_image.setImageResource(R.mipmap.ic_launcher);
                 } else {
-                    Glide.with(MessageActivity .this).load(fireUser.getImageURL()).into(profile_image);
+                    Glide.with(MessageActivity.this).load(fireUser.getImageURL()).into(profile_image);
                 }
 
                 readMessages(firebaseUser.getUid(), userid, fireUser.getImageURL());
@@ -138,6 +141,27 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("message", message);
 
         reference.child("Chats").push().setValue(hashMap);
+
+//        // Add user to chat fragment.
+//        final DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("Chatlist")
+//                .child(firebaseUser.getUid())
+//                .child(userid);
+//
+//        chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                if (!dataSnapshot.exists()){
+//                    chatRef.child("id").setValue(userid);
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+
     }
 
     private void readMessages(final String myid, final String userid, final String imageurl){
@@ -171,5 +195,32 @@ public class MessageActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void status(String status) {
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("status", status);
+
+        reference.updateChildren(hashMap);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("offline");
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.right_to_left_1, R.anim.right_to_left_2);
     }
 }

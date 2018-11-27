@@ -1,5 +1,6 @@
 package com.example.mainactivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -22,6 +24,8 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static com.example.mainactivity.StartActivity.hideKeyboard;
+
 public class RegisterActivity extends AppCompatActivity {
 
     // User data.
@@ -33,6 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
     // Firebase variables.
     FirebaseAuth auth;
     DatabaseReference reference;
+    DatabaseReference referenceSeen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +63,8 @@ public class RegisterActivity extends AppCompatActivity {
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                hideKeyboard(RegisterActivity.this);
 
                 // Getting user data to string.
                 String txt_username = username.getText().toString();
@@ -88,11 +95,26 @@ public class RegisterActivity extends AppCompatActivity {
                             FirebaseUser firebaseUser = auth.getCurrentUser();
                             assert firebaseUser != null;
                             String userid = firebaseUser.getUid();
+
                             reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
+                            referenceSeen = FirebaseDatabase.getInstance().getReference("Users").child(userid).child("Categories_seen");
+
                             ArrayList<Integer> preferences = new ArrayList<>();
                             for (int i = 0; i < 10; i++) {
                                 preferences.add(0);
                             }
+
+                            HashMap<String, String> seen = new HashMap<>();
+                            seen.put("abstract", "1");
+                            seen.put("anime", "1");
+                            seen.put("cats", "1");
+                            seen.put("cybersport", "1");
+                            seen.put("disgraceful", "1");
+                            seen.put("lentach", "1");
+                            seen.put("mhk", "1");
+                            seen.put("normal", "1");
+                            seen.put("physkek", "1");
+                            seen.put("programmer", "1");
 
                             // Initializing hashmap to send.
                             HashMap<String, String> hashMap = new HashMap<>();
@@ -101,11 +123,14 @@ public class RegisterActivity extends AppCompatActivity {
                             hashMap.put("imageURL", "default");
                             hashMap.put("preferences", preferences.toString());
 
+
+
                             // Send the hashmap and close the form.
                             reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
+
                                         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
@@ -113,11 +138,16 @@ public class RegisterActivity extends AppCompatActivity {
                                     }
                                 }
                             });
+
+                            // Send the hashmap of seen urls
+                            referenceSeen.setValue(seen);
                         } else {
                             Toast.makeText(RegisterActivity.this, "You can't register with this email or password", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
+
+
 
 }

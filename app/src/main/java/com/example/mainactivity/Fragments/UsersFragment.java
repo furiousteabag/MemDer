@@ -37,26 +37,16 @@ public class UsersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
         View view = inflater.inflate(R.layout.fragment_users, container, false);
-
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
-
-
         mUsers = new ArrayList<>();
 
-
-
         readUsers();
-
-
         return view;
-
     }
 
 
@@ -80,7 +70,7 @@ public class UsersFragment extends Fragment {
                     }
                 }
 
-                userAdapter = new UserAdapter(getContext(), mUsers);
+                userAdapter = new UserAdapter(getContext(), mUsers, true);
                 recyclerView.setAdapter(userAdapter);
 
             }
