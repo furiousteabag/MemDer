@@ -105,16 +105,16 @@ public class RegisterActivity extends AppCompatActivity {
                             }
 
                             HashMap<String, String> seen = new HashMap<>();
-                            seen.put("abstract", "1");
-                            seen.put("anime", "1");
-                            seen.put("cats", "1");
-                            seen.put("cybersport", "1");
-                            seen.put("disgraceful", "1");
-                            seen.put("lentach", "1");
-                            seen.put("mhk", "1");
-                            seen.put("normal", "1");
-                            seen.put("physkek", "1");
-                            seen.put("programmer", "1");
+                            seen.put("abstract", "0");
+                            seen.put("anime", "0");
+                            seen.put("cats", "0");
+                            seen.put("cybersport", "0");
+                            seen.put("disgraceful", "0");
+                            seen.put("lentach", "0");
+                            seen.put("mhk", "0");
+                            seen.put("normal", "0");
+                            seen.put("physkek", "0");
+                            seen.put("programmer", "0");
 
                             // Initializing hashmap to send.
                             HashMap<String, String> hashMap = new HashMap<>();
@@ -146,6 +146,12 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.right_to_left_1, R.anim.right_to_left_2);
     }
 
 

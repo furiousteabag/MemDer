@@ -87,7 +87,7 @@ public class ChatsFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUsers.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    UserLogic.User user = dataSnapshot.getValue(UserLogic.User.class);
+                    UserLogic.User user = snapshot.getValue(UserLogic.User.class);
                     for (ChatList chatList: userList){
                         if (user.getId().equals(chatList.getId())){
                             mUsers.add(user);

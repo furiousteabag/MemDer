@@ -17,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,18 @@ import java.util.Random;
 
 public class LoadActivity extends AppCompatActivity {
 
+    public static HashMap<String, Integer> numberOfMemesInBuffer= new HashMap<String, Integer>() {{
+        put("abstract", 1);
+        put("anime", 1);
+        put("cats", 1);
+        put("cybersport", 1);
+        put("disgraceful", 1);
+        put("lentach", 1);
+        put("mhk", 1);
+        put("normal", 1);
+        put("physkek", 1);
+        put("programmer", 1);
+    }};
     private static int TIME_OUT = 4000; //Time to launch the another activity
 
     // The buffer.
@@ -78,16 +91,16 @@ public class LoadActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                         // Getting the list of meme values (links).
-                        Map<String, Object> td = (HashMap<String, Object>) dataSnapshot.getValue();
-                        List<Object> values = new ArrayList<>(td.values());
+                        final Map<String, Object> td = (HashMap<String, Object>) dataSnapshot.getValue();
 
-                        // Choose random meme (link).
-                        Random randomizer = new Random();
-                        Object randomMemeUrlObject = values.get(randomizer.nextInt(values.size()));
-                        String randomMemeUrl = String.valueOf(randomMemeUrlObject);
+                        // Getting and sorting the keys.
+                        final ArrayList <String> keys = new ArrayList<>(td.keySet());
+                        Collections.sort(keys);
 
-                        // Making image left_to_right_2 of Url.
-                        PictureLogic.Data image = new PictureLogic.Data(randomMemeUrl);
+                        String memeUrl = td.get(keys.get(0)).toString();
+
+                        // Making image of Url.
+                        PictureLogic.Data image = new PictureLogic.Data(memeUrl);
 
                         // Making a Picture element (attaching category to a picture).
                         PictureLogic.Picture picture = new PictureLogic.Picture(image, categories.indexOf(category));
@@ -96,6 +109,10 @@ public class LoadActivity extends AppCompatActivity {
                         pictureList.add(picture);
 
                         System.out.println(pictureList.toString());
+
+
+
+
                     }
 
                     @Override
@@ -126,24 +143,49 @@ public class LoadActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                         // Getting the list of meme values (links).
-                        Map<String, Object> td = (HashMap<String, Object>) dataSnapshot.getValue();
+                        final Map<String, Object> td = (HashMap<String, Object>) dataSnapshot.getValue();
+
+                        // Getting and sorting the keys.
+                        final ArrayList <String> keys = new ArrayList<>(td.keySet());
+                        Collections.sort(keys);
+
                         List<Object> values = new ArrayList<>(td.values());
 
-                        // Choose random meme (link).
-                        Random randomizer = new Random();
-                        Object randomMemeUrlObject = values.get(randomizer.nextInt(values.size()));
-                        String randomMemeUrl = String.valueOf(randomMemeUrlObject);
+                        // Taking the number of the meme to pick.
+                        DatabaseReference memeCategory = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid()).child("Categories_seen").child(category);
+                        memeCategory.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        // Making image left_to_right_2 of Url.
-                        PictureLogic.Data image = new PictureLogic.Data(randomMemeUrl);
+                                // Current meme number.
+                                Integer memeNumber = Integer.parseInt(dataSnapshot.getValue().toString());
+                                if (memeNumber >= td.size()) {
+                                    System.out.println("Закончились мемесы.");
+                                    memeNumber = td.size()-1;
 
-                        // Making a Picture element (attaching category to a picture).
-                        PictureLogic.Picture picture = new PictureLogic.Picture(image, categories.indexOf(category));
+                                }
 
-                        // Add it to pic list.
-                        pictureList.add(picture);
+                                String memeUrl = td.get(keys.get(memeNumber)).toString();
 
-                        System.out.println(pictureList.toString());
+                                // Making image of Url.
+                                PictureLogic.Data image = new PictureLogic.Data(memeUrl);
+
+                                // Making a Picture element (attaching category to a picture).
+                                PictureLogic.Picture picture = new PictureLogic.Picture(image, categories.indexOf(category));
+
+                                // Add it to pic list.
+                                pictureList.add(picture);
+
+                                System.out.println(pictureList.toString());
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+
                     }
 
                     @Override

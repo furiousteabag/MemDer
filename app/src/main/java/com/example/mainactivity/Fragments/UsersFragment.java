@@ -20,10 +20,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.ToDoubleBiFunction;
 
 public class UsersFragment extends Fragment {
 
@@ -31,7 +33,8 @@ public class UsersFragment extends Fragment {
     private RecyclerView recyclerView;
 
     private UserAdapter userAdapter;
-    private List<UserLogic.User> mUsers;
+    private ArrayList<UserLogic.User> mUsers;
+    private UserLogic.User currentUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +47,7 @@ public class UsersFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mUsers = new ArrayList<>();
+        currentUser = new UserLogic.User();
 
         readUsers();
         return view;
@@ -67,8 +71,12 @@ public class UsersFragment extends Fragment {
                     assert firebaseUser != null;
                     if (!user.getId().equals(firebaseUser.getUid())){
                         mUsers.add(user);
+                    } else {
+                        currentUser = user;
                     }
                 }
+
+                mUsers = UserLogic.UserMethods.sortUsers(currentUser,mUsers);
 
                 userAdapter = new UserAdapter(getContext(), mUsers, true);
                 recyclerView.setAdapter(userAdapter);
@@ -82,5 +90,6 @@ public class UsersFragment extends Fragment {
 
         });
     }
+
 
 }

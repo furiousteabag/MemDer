@@ -52,6 +52,7 @@ public class StartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(StartActivity.this, LoginActivity.class));
+                overridePendingTransition(R.anim.left_to_right_1, R.anim.left_to_right_2);
             }
         });
 
@@ -59,6 +60,7 @@ public class StartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(StartActivity.this, RegisterActivity.class));
+                overridePendingTransition(R.anim.left_to_right_1, R.anim.left_to_right_2);
             }
         });
     }

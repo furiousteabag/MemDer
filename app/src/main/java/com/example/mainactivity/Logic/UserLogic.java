@@ -95,7 +95,7 @@ public class UserLogic {
     public static class UserMethods {
 
         // Returns the percentage of similarity of two person.
-        public int SimilarityRatio(User me, User possibleFriend) {
+        public static int SimilarityRatio(User me, User possibleFriend) {
             double rez = 0;
             int temp = 0;
             for (int i = 0; i < 10; i++) {
@@ -108,7 +108,7 @@ public class UserLogic {
         }
 
         // Returns the most similar user of array of users.
-        public User FindFriend(User me, ArrayList<User> allPossibleFriends) {
+        public static User FindFriend(User me, ArrayList<User> allPossibleFriends) {
             int max = 0;
             int temp = 0;
             User fittest = null;
@@ -144,10 +144,21 @@ public class UserLogic {
             return l - 1;
         }
 
+        // Takes current user and list of all users and returns the sorted by preferences users array.
+        public static ArrayList<User> sortUsers(UserLogic.User user, ArrayList<User> userList){
+            ArrayList<UserLogic.User> sortedUsers = new ArrayList<>();
+            int size = userList.size();
+            for(int i = 0; i < size; i++){
+                User current = FindFriend(user, userList);
+                sortedUsers.add(current);
+                userList.remove(current);
+            }
+
+            return sortedUsers;
+        }
+
 
     }
-
-
 
 
 }
