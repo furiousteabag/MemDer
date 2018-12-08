@@ -64,6 +64,8 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+
                 hideKeyboard(RegisterActivity.this);
 
                 // Getting user data to string.
@@ -73,8 +75,11 @@ public class RegisterActivity extends AppCompatActivity {
 
                 // Check if data is ok and if yes registering the user.
                 if (TextUtils.isEmpty(txt_username) || TextUtils.isEmpty(txt_email) || TextUtils.isEmpty(txt_password)) {
+                    findViewById(R.id.loadingPanel).setVisibility(View.GONE);
                     Toast.makeText(RegisterActivity.this, "All fields are required", Toast.LENGTH_SHORT).show();
+
                 } else if (txt_password.length() < 6) {
+                    findViewById(R.id.loadingPanel).setVisibility(View.GONE);
                     Toast.makeText(RegisterActivity.this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
                 } else {
                     register(txt_username, txt_email, txt_password);
@@ -100,7 +105,7 @@ public class RegisterActivity extends AppCompatActivity {
                             referenceSeen = FirebaseDatabase.getInstance().getReference("Users").child(userid).child("Categories_seen");
 
                             ArrayList<Integer> preferences = new ArrayList<>();
-                            for (int i = 0; i < 10; i++) {
+                            for (int i = 0; i < LoadActivity.categories.size(); i++) {
                                 preferences.add(0);
                             }
 
@@ -131,6 +136,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
 
+                                        findViewById(R.id.loadingPanel).setVisibility(View.GONE);
                                         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
@@ -142,6 +148,7 @@ public class RegisterActivity extends AppCompatActivity {
                             // Send the hashmap of seen urls
                             referenceSeen.setValue(seen);
                         } else {
+                            findViewById(R.id.loadingPanel).setVisibility(View.GONE);
                             Toast.makeText(RegisterActivity.this, "You can't register with this email or password", Toast.LENGTH_SHORT).show();
                         }
                     }

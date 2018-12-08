@@ -98,7 +98,7 @@ public class UserLogic {
         public static int SimilarityRatio(User me, User possibleFriend) {
             double rez = 0;
             int temp = 0;
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < me.Preferences.size(); i++) {
                 temp += Math.max(me.Preferences.get(i), possibleFriend.Preferences.get(i));
                 rez += Math.abs(me.Preferences.get(i) - possibleFriend.Preferences.get(i));
             }
@@ -124,11 +124,11 @@ public class UserLogic {
 
         // Function that gets Preferences and returns category
         public static int getCategory(ArrayList<Integer> list) {
-            int Sum = 10;
+            int Sum = list.size();
             int l = 0;
             //Random r = new Random();
 
-            for (int i = 0; i <= 9; i++) {
+            for (int i = 0; i <= list.size()-1; i++) {
                 Sum += list.get(i);
             }
             //int res = //r.nextInt(Sum);

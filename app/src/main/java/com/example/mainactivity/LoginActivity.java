@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -45,18 +46,23 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+
                 hideKeyboard(LoginActivity.this);
 
                 String txt_email = email.getText().toString();
                 String txt_password = password.getText().toString();
 
                 if (TextUtils.isEmpty(txt_email) || TextUtils.isEmpty(txt_password)) {
+                    findViewById(R.id.loadingPanel).setVisibility(View.GONE);
                     Toast.makeText(LoginActivity.this, "All fields are required", Toast.LENGTH_SHORT).show();
+
                 } else{
                     auth.signInWithEmailAndPassword(txt_email, txt_password)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
+                                    findViewById(R.id.loadingPanel).setVisibility(View.GONE);
                                     if (task.isSuccessful()){
                                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -53,18 +53,18 @@ import static com.example.mainactivity.LoadActivity.numberOfMemesInBuffer;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Categories array.
-    public static final ArrayList<String> categories = new ArrayList<String>() {{
-        add("abstract");
-        add("anime");
-        add("cats");
-        add("cybersport");
-        add("disgraceful");
-        add("lentach");
-        add("mhk");
-        add("normal");
-        add("physkek");
-        add("programmer");
-    }};
+//    public static final ArrayList<String> categories = new ArrayList<String>() {{
+//        add("abstract");
+//        add("anime");
+//        add("cats");
+//        add("cybersport");
+//        add("disgraceful");
+//        add("lentach");
+//        add("mhk");
+//        add("normal");
+//        add("physkek");
+//        add("programmer");
+//    }};
 
     // Arraylist of memes.
     private ArrayList<PictureLogic.Picture> pictureList;
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (fireUser.getImageURL().equals("default")) {
                     profile_image.setImageResource(R.mipmap.ic_launcher);
                 } else {
-                    Glide.with(MainActivity.this).load(fireUser.getImageURL()).into(profile_image);
+                    Glide.with(getApplicationContext()).load(fireUser.getImageURL()).into(profile_image);
                 }
             }
 
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                          */
 
                         // String of current category.
-                        final String category = categories.get(pictureList.get(0).Category);
+                        final String category = LoadActivity.categories.get(pictureList.get(0).Category);
 
                         // Number of meme in category.
 
@@ -234,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                          */
 
                         // Defining the category of next meme.
-                        final String categoryNext = categories.get(UserLogic.UserMethods.getCategory(fireUser.getPreferencesList()));
+                        final String categoryNext = LoadActivity.categories.get(UserLogic.UserMethods.getCategory(fireUser.getPreferencesList()));
 
                         // Creating reference for subfolder (selecting subfolder by choosing the prefered category).
                         DatabaseReference memeReference = FirebaseDatabase.getInstance().getReference("Memes").child(categoryNext);
@@ -274,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         PictureLogic.Data image = new PictureLogic.Data(memeUrl);
 
                                         // Making a Picture element (attaching category to a picture).
-                                        PictureLogic.Picture picture = new PictureLogic.Picture(image, categories.indexOf(categoryNext));
+                                        PictureLogic.Picture picture = new PictureLogic.Picture(image, LoadActivity.categories.indexOf(categoryNext));
 
                                         // Add it to pic list.
                                         pictureList.add(picture);
@@ -367,7 +367,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                          */
 
                         // String of current category.
-                        final String category = categories.get(pictureList.get(0).Category);
+                        final String category = LoadActivity.categories.get(pictureList.get(0).Category);
 
                         // Number of meme in category.
 
@@ -423,7 +423,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                          */
 
                         // Defining the category of next meme.
-                        final String categoryNext = categories.get(UserLogic.UserMethods.getCategory(fireUser.getPreferencesList()));
+                        final String categoryNext = LoadActivity.categories.get(UserLogic.UserMethods.getCategory(fireUser.getPreferencesList()));
 
                         // Creating reference for subfolder (selecting subfolder by choosing the prefered category).
                         DatabaseReference memeReference = FirebaseDatabase.getInstance().getReference("Memes").child(categoryNext);
@@ -463,7 +463,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         PictureLogic.Data image = new PictureLogic.Data(memeUrl);
 
                                         // Making a Picture element (attaching category to a picture).
-                                        PictureLogic.Picture picture = new PictureLogic.Picture(image, categories.indexOf(categoryNext));
+                                        PictureLogic.Picture picture = new PictureLogic.Picture(image, LoadActivity.categories.indexOf(categoryNext));
 
                                         // Add it to pic list.
                                         pictureList.add(picture);
