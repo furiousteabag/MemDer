@@ -1,7 +1,11 @@
 package com.example.mainactivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -153,92 +157,215 @@ public class LoadActivity extends AppCompatActivity {
 
             });
 
+            // If user closed the app and came again.
         } else {
+
+            // User reference.
+            final DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+
+            // Memes reference.
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Memes");
 
+            // Filling the categories array and local buffer array.
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                        // Filling them.
                         categories.add(snapshot.getKey().toString());
                         numberOfMemesInBuffer.put(snapshot.getKey().toString(), 0);
 
                         //Todo: whe adding a picture tu buffer increment
-
                     }
 
-                    // Go into every category subfolder.
-                    for (final String category : categories) {
 
-                        // Creating reference for subfolder.
-                        DatabaseReference memeReference = FirebaseDatabase.getInstance().getReference("Memes").child(category);
+                    // Getting the instanse of user.
+                    userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        memeReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            // Initializing local user.
+                            final UserLogic.User fireUser = dataSnapshot.getValue(UserLogic.User.class);
 
-                                // Getting the list of meme values (links).
-                                final Map<String, Object> td = (HashMap<String, Object>) dataSnapshot.getValue();
 
-                                // Getting and sorting the keys.
-                                final ArrayList<String> keys = new ArrayList<>(td.keySet());
-                                Collections.sort(keys);
+                            // Repeating choosing category and adding picture to buffer
+                            for (int i = 0; i < categories.size(); i++) {
 
-                                List<Object> values = new ArrayList<>(td.values());
-
-                                // Taking the number of the meme to pick.
-                                DatabaseReference memeCategory = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid()).child("Categories_seen").child(category);
-                                memeCategory.addListenerForSingleValueEvent(new ValueEventListener() {
+                                new Handler().postDelayed(new Runnable() {
                                     @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    public void run() {
 
-                                        // Current meme number.
-                                        Integer memeNumber = Integer.parseInt(dataSnapshot.getValue().toString());
-                                        if (memeNumber >= td.size()) {
-                                            System.out.println("Закончились мемесы.");
-                                            memeNumber = td.size() - 1;
 
-                                        }
+                                        // Defining the category of next meme.
+                                        final String categoryNext = categories.get(UserLogic.UserMethods.getCategory(fireUser.getPreferencesList()));
 
-                                        String memeUrl = td.get(keys.get(memeNumber)).toString();
+                                        // Creating reference for subfolder (selecting subfolder by choosing the prefered category).
+                                        DatabaseReference memeReference = FirebaseDatabase.getInstance().getReference("Memes").child(categoryNext);
 
-                                        // Making image of Url.
-                                        PictureLogic.Data image = new PictureLogic.Data(memeUrl);
+                                        memeReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                        // Making a Picture element (attaching category to a picture).
-                                        PictureLogic.Picture picture = new PictureLogic.Picture(image, categories.indexOf(category));
+                                                // Getting the list of meme values (links).
+                                                final Map<String, Object> td = (HashMap<String, Object>) dataSnapshot.getValue();
 
-                                        // Add it to pic list.
-                                        pictureList.add(picture);
+                                                // Getting and sorting the keys.
+                                                final ArrayList<String> keys = new ArrayList<>(td.keySet());
+                                                Collections.sort(keys);
 
-                                        System.out.println(pictureList.toString());
+                                                // Taking the number of the meme to pick.
+                                                DatabaseReference memeCategory = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid()).child("Categories_seen").child(categoryNext);
+
+                                                memeCategory.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                                        String memeUrl;
+                                                        try {
+                                                            // Current meme number.
+                                                            Integer memeNumber;
+                                                            memeNumber = Integer.parseInt(dataSnapshot.getValue().toString()) + numberOfMemesInBuffer.get(categoryNext);
+                                                            numberOfMemesInBuffer.put(categoryNext, numberOfMemesInBuffer.get(categoryNext) + 1);
+                                                            memeUrl = td.get(keys.get(memeNumber)).toString();
+                                                        } catch (Exception e) {
+                                                            memeUrl = td.get(keys.get(keys.size() - 1)).toString();
+                                                        }
+
+                                                        // Making image of Url.
+                                                        PictureLogic.Data image = new PictureLogic.Data(memeUrl);
+
+                                                        // Making a Picture element (attaching category to a picture).
+                                                        PictureLogic.Picture picture = new PictureLogic.Picture(image, LoadActivity.categories.indexOf(categoryNext));
+
+                                                        // Add it to pic list.
+                                                        pictureList.add(picture);
+
+
+
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                    }
+                                                });
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                            }
+                                        });
+
+
+
+
+
+
                                     }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                    }
-                                });
+                                }, 10);
 
 
                             }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
 
-                            }
-                        });
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent i = new Intent(LoadActivity.this, MainActivity.class);
-                                startActivity(i);
-                                finish();
-                            }
-                        }, TIME_OUT);
+                        }
+                    });
 
-                    }
+
+                    /*
+                     * Adding new picture.
+                     */
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            Intent i = new Intent(LoadActivity.this, MainActivity.class);
+                            startActivity(i);
+                            finish();
+
+                        }
+                    }, TIME_OUT);
+
+
+//                    // Go into every category subfolder.
+//                    for (final String category : categories) {
+//
+//                        // Creating reference for subfolder.
+//                        DatabaseReference memeReference = FirebaseDatabase.getInstance().getReference("Memes").child(category);
+//
+//                        memeReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                                // Getting the list of meme values (links).
+//                                final Map<String, Object> td = (HashMap<String, Object>) dataSnapshot.getValue();
+//
+//                                // Getting and sorting the keys.
+//                                final ArrayList<String> keys = new ArrayList<>(td.keySet());
+//                                Collections.sort(keys);
+//
+//                                List<Object> values = new ArrayList<>(td.values());
+//
+//                                // Taking the number of the meme to pick.
+//                                DatabaseReference memeCategory = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid()).child("Categories_seen").child(category);
+//                                memeCategory.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                    @Override
+//                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                                        // Current meme number.
+//                                        Integer memeNumber = Integer.parseInt(dataSnapshot.getValue().toString());
+//                                        if (memeNumber >= td.size()) {
+//                                            System.out.println("Закончились мемесы.");
+//                                            memeNumber = td.size() - 1;
+//
+//                                        }
+//
+//                                        String memeUrl = td.get(keys.get(memeNumber)).toString();
+//
+//                                        // Making image of Url.
+//                                        PictureLogic.Data image = new PictureLogic.Data(memeUrl);
+//
+//                                        // Making a Picture element (attaching category to a picture).
+//                                        PictureLogic.Picture picture = new PictureLogic.Picture(image, categories.indexOf(category));
+//
+//                                        // Add it to pic list.
+//                                        pictureList.add(picture);
+//
+//                                        System.out.println(pictureList.toString());
+//                                    }
+//
+//                                    @Override
+//                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                                    }
+//                                });
+//
+//
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                            }
+//                        });
+//
+//                        new Handler().postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                Intent i = new Intent(LoadActivity.this, MainActivity.class);
+//                                startActivity(i);
+//                                finish();
+//                            }
+//                        }, TIME_OUT);
+//
+//                    }
 
 
                 }

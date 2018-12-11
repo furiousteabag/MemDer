@@ -204,9 +204,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         // Getting the hasmap of memes.
                                         Map<String, Object> td = (HashMap<String, Object>) dataSnapshot.getValue();
 
-                                        if (memeNumber + numberOfMemesInBuffer.get(category) >= td.size()) {
+                                        if (memeNumber >= td.size()) {
                                             System.out.println("Закончились мемесы.");
-                                            numberOfMemesInBuffer.put(category, 0);
+                                            //numberOfMemesInBuffer.put(category, 0);
 
                                         } else {
                                             currentMemeCategory.setValue(memeNumber + 1);
@@ -263,15 +263,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                                                 String memeUrl;
-                                                try {
-                                                    // Current meme number.
-                                                    Integer memeNumber;
-                                                    memeNumber = Integer.parseInt(dataSnapshot.getValue().toString()) + numberOfMemesInBuffer.get(categoryNext);
+                                                // Current meme number.
+                                                Integer memeNumber;
+                                                memeNumber = Integer.parseInt(dataSnapshot.getValue().toString()) + numberOfMemesInBuffer.get(categoryNext);
+                                                if (memeNumber  < td.size()) {
                                                     numberOfMemesInBuffer.put(categoryNext, numberOfMemesInBuffer.get(categoryNext) + 1);
                                                     memeUrl = td.get(keys.get(memeNumber)).toString();
-                                                } catch (Exception e) {
+                                                } else {
                                                     memeUrl = td.get(keys.get(keys.size() - 1)).toString();
                                                 }
+
 
                                                 // Making image of Url.
                                                 PictureLogic.Data image = new PictureLogic.Data(memeUrl);
@@ -384,9 +385,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         // Getting the hasmap of memes.
                                         Map<String, Object> td = (HashMap<String, Object>) dataSnapshot.getValue();
 
-                                        if (memeNumber + numberOfMemesInBuffer.get(category) >= td.size()) {
+                                        if (memeNumber >= td.size()) {
                                             System.out.println("Закончились мемесы.");
-                                            numberOfMemesInBuffer.put(category, 0);
+                                           // numberOfMemesInBuffer.put(category, 0);
 
                                         } else {
                                             currentMemeCategory.setValue(memeNumber + 1);
@@ -443,13 +444,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                                                 String memeUrl;
-                                                try {
-                                                    // Current meme number.
-                                                    Integer memeNumber;
-                                                    memeNumber = Integer.parseInt(dataSnapshot.getValue().toString()) + numberOfMemesInBuffer.get(categoryNext);
+                                                Integer memeNumber;
+                                                memeNumber = Integer.parseInt(dataSnapshot.getValue().toString()) + numberOfMemesInBuffer.get(categoryNext);
+                                                if (memeNumber < td.size()) {
                                                     numberOfMemesInBuffer.put(categoryNext, numberOfMemesInBuffer.get(categoryNext) + 1);
                                                     memeUrl = td.get(keys.get(memeNumber)).toString();
-                                                } catch (Exception e) {
+                                                } else {
                                                     memeUrl = td.get(keys.get(keys.size() - 1)).toString();
                                                 }
 
