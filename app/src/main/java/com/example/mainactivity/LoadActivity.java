@@ -28,18 +28,19 @@ import java.util.Random;
 public class LoadActivity extends AppCompatActivity {
 
 
-    public static HashMap<String, Integer> numberOfMemesInBuffer = new HashMap<String, Integer>() {{
-        put("abstract", 1);
-        put("anime", 1);
-        put("cats", 1);
-        put("cybersport", 1);
-        put("disgraceful", 1);
-        put("lentach", 1);
-        put("mhk", 1);
-        put("normal", 1);
-        put("physkek", 1);
-        put("programmer", 1);
-    }};
+    public static HashMap<String, Integer> numberOfMemesInBuffer;
+    //{{
+//        put("abstract", 1);
+//        put("anime", 1);
+//        put("cats", 1);
+//        put("cybersport", 1);
+//        put("disgraceful", 1);
+//        put("lentach", 1);
+//        put("mhk", 1);
+//        put("normal", 1);
+//        put("physkek", 1);
+//        put("programmer", 1);
+//    }};
     private static int TIME_OUT = 4000; //Time to launch the another activity
 
     // The buffer.
@@ -47,18 +48,6 @@ public class LoadActivity extends AppCompatActivity {
 
     // Categories array.
     public static ArrayList<String> categories;
-//    public static final ArrayList<String> categories = new ArrayList<String>() {{
-//        add("abstract");
-//        add("anime");
-//        add("cats");
-//        add("cybersport");
-//        add("disgraceful");
-//        add("lentach");
-//        add("mhk");
-//        add("normal");
-//        add("physkek");
-//        add("programmer");
-//    }};
 
 
     // Announce a firebase user.
@@ -76,6 +65,7 @@ public class LoadActivity extends AppCompatActivity {
          */
 //
         categories = new ArrayList<>();
+        numberOfMemesInBuffer = new HashMap<String, Integer>();
 
 
         pictureList = new ArrayList<>();
@@ -101,9 +91,10 @@ public class LoadActivity extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         categories.add(snapshot.getKey().toString());
-
-
+                        numberOfMemesInBuffer.put(snapshot.getKey().toString(), 1);
                     }
+
+
                     // Go into every category subfolder.
                     for (final String category : categories) {
 
@@ -170,7 +161,9 @@ public class LoadActivity extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         categories.add(snapshot.getKey().toString());
+                        numberOfMemesInBuffer.put(snapshot.getKey().toString(), 0);
 
+                        //Todo: whe adding a picture tu buffer increment
 
                     }
 
