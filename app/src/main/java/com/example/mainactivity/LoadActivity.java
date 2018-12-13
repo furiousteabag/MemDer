@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,21 +32,18 @@ import java.util.Random;
 
 public class LoadActivity extends AppCompatActivity {
 
+    public static final String memeFolder = "MEMES";
+
+
+    //ToDo: медленная загрузка при старте
+    //ToDo: очищать кэш
+    //ToDo: кнопку на место имень пользователя и иконки
+    //ToDo: заходить в профиль человека
+    //ToDo: Санек должен сделать чтобы у всех пользователей могла добавляться категория к categories_seen
 
     public static HashMap<String, Integer> numberOfMemesInBuffer;
-    //{{
-//        put("abstract", 1);
-//        put("anime", 1);
-//        put("cats", 1);
-//        put("cybersport", 1);
-//        put("disgraceful", 1);
-//        put("lentach", 1);
-//        put("mhk", 1);
-//        put("normal", 1);
-//        put("physkek", 1);
-//        put("programmer", 1);
-//    }};
-    private static int TIME_OUT = 2500; //Time to launch the another activity
+
+    private static int TIME_OUT = 1000; //Time to launch the another activity
 
     // The buffer.
     public static ArrayList<PictureLogic.Picture> pictureList;
@@ -88,7 +86,7 @@ public class LoadActivity extends AppCompatActivity {
         // If user opens app for the first time.
         if (firebaseUser == null) {
 
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Memes");
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference(memeFolder);
 
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -103,7 +101,7 @@ public class LoadActivity extends AppCompatActivity {
                     for (final String category : categories) {
 
                         // Creating reference for subfolder.
-                        DatabaseReference memeReference = FirebaseDatabase.getInstance().getReference("Memes").child(category);
+                        DatabaseReference memeReference = FirebaseDatabase.getInstance().getReference(memeFolder).child(category);
 
                         memeReference.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -114,7 +112,19 @@ public class LoadActivity extends AppCompatActivity {
 
                                 // Getting and sorting the keys.
                                 final ArrayList<String> keys = new ArrayList<>(td.keySet());
-                                Collections.sort(keys);
+
+                                // Sorting the keys.
+                                Collections.sort(keys, new Comparator<String>() {
+                                    public int compare(String o1, String o2) {
+                                        return extractInt(o1) - extractInt(o2);
+                                    }
+
+                                    int extractInt(String s) {
+                                        String num = s.replaceAll("\\D", "");
+                                        // return 0 if no digits found
+                                        return num.isEmpty() ? 0 : Integer.parseInt(num);
+                                    }
+                                });
 
                                 String memeUrl = td.get(keys.get(0)).toString();
 
@@ -164,7 +174,7 @@ public class LoadActivity extends AppCompatActivity {
             final DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
             // Memes reference.
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Memes");
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference(memeFolder);
 
             // Filling the categories array and local buffer array.
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -201,7 +211,7 @@ public class LoadActivity extends AppCompatActivity {
                                         final String categoryNext = categories.get(UserLogic.UserMethods.getCategory(fireUser.getPreferencesList()));
 
                                         // Creating reference for subfolder (selecting subfolder by choosing the prefered category).
-                                        DatabaseReference memeReference = FirebaseDatabase.getInstance().getReference("Memes").child(categoryNext);
+                                        DatabaseReference memeReference = FirebaseDatabase.getInstance().getReference(memeFolder).child(categoryNext);
 
                                         memeReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
@@ -212,7 +222,19 @@ public class LoadActivity extends AppCompatActivity {
 
                                                 // Getting and sorting the keys.
                                                 final ArrayList<String> keys = new ArrayList<>(td.keySet());
-                                                Collections.sort(keys);
+
+                                                // Sorting the keys.
+                                                Collections.sort(keys, new Comparator<String>() {
+                                                    public int compare(String o1, String o2) {
+                                                        return extractInt(o1) - extractInt(o2);
+                                                    }
+
+                                                    int extractInt(String s) {
+                                                        String num = s.replaceAll("\\D", "");
+                                                        // return 0 if no digits found
+                                                        return num.isEmpty() ? 0 : Integer.parseInt(num);
+                                                    }
+                                                });
 
                                                 // Taking the number of the meme to pick.
                                                 DatabaseReference memeCategory = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid()).child("Categories_seen").child(categoryNext);

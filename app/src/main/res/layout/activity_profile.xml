@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/colorPrimary"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:background="@color/colorPrimary"
     tools:context=".ProfileActivity">
 
     <android.support.v7.widget.Toolbar
@@ -19,50 +20,61 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Profile"
+            android:textColor="@color/textColor"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@color/textColor"/>
+            android:textStyle="bold" />
 
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:layout_height="wrap_content">
-        
+        android:layout_height="wrap_content"
+        android:focusableInTouchMode="true"
+        android:layout_below="@+id/toolbar">
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:background="@color/colorPrimary"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:background="@color/colorPrimary">
 
 
-            
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:id="@+id/profile_image"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="50dp"
-                android:src="@mipmap/ic_launcher"/>
+                android:src="@mipmap/ic_launcher" />
 
             <TextView
+                android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="username"
-                android:textColor="@color/textColor"
                 android:layout_below="@+id/profile_image"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
-                android:textStyle="bold"
-                android:id="@+id/username"
-                android:textSize="18sp"/>
-            
-            
+                android:text="username"
+                android:textColor="@color/textColor"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/user_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/username"
+                android:layout_marginTop="15dp"
+                android:hint="Write about yourself..."
+                android:textColor="@color/textColor"
+                android:textColorHint="@color/textColorGray"
+                />
+
 
 
         </RelativeLayout>
-        
-        
+
+
     </android.support.v7.widget.CardView>
 
 </RelativeLayout>

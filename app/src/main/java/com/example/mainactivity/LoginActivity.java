@@ -46,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                btn_login.setEnabled(false);
+
                 findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
 
                 hideKeyboard(LoginActivity.this);
@@ -56,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(txt_email) || TextUtils.isEmpty(txt_password)) {
                     findViewById(R.id.loadingPanel).setVisibility(View.GONE);
                     Toast.makeText(LoginActivity.this, "All fields are required", Toast.LENGTH_SHORT).show();
+                    btn_login.setEnabled(true);
 
                 } else{
                     auth.signInWithEmailAndPassword(txt_email, txt_password)
@@ -70,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                                         finish();
                                     } else{
                                         Toast.makeText(LoginActivity.this, "Authentication failed!", Toast.LENGTH_SHORT).show();
+                                        btn_login.setEnabled(true);
                                     }
 
                                 }

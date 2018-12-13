@@ -71,8 +71,8 @@
             android:layout_centerVertical="true"/>
 
         <ImageButton
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:id="@+id/btn_send"
             android:background="@drawable/ic_action_name1"
             android:layout_alignParentEnd="true"

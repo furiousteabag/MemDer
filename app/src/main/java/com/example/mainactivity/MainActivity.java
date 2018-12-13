@@ -48,6 +48,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import static com.example.mainactivity.LoadActivity.memeFolder;
 import static com.example.mainactivity.LoadActivity.numberOfMemesInBuffer;
 
 
@@ -195,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 final Integer memeNumber = Integer.parseInt(dataSnapshot.getValue().toString());
 
                                 // Creating reference for subfolder (selecting subfolder by choosing the prefered category).
-                                final DatabaseReference memeReference = FirebaseDatabase.getInstance().getReference("Memes").child(category);
+                                final DatabaseReference memeReference = FirebaseDatabase.getInstance().getReference(memeFolder).child(category);
 
                                 memeReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -242,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 final String categoryNext = LoadActivity.categories.get(UserLogic.UserMethods.getCategory(fireUser.getPreferencesList()));
 
                                 // Creating reference for subfolder (selecting subfolder by choosing the prefered category).
-                                DatabaseReference memeReference = FirebaseDatabase.getInstance().getReference("Memes").child(categoryNext);
+                                DatabaseReference memeReference = FirebaseDatabase.getInstance().getReference(memeFolder).child(categoryNext);
 
                                 memeReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -378,7 +379,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 final Integer memeNumber = Integer.parseInt(dataSnapshot.getValue().toString());
 
                                 // Creating reference for subfolder (selecting subfolder by choosing the prefered category).
-                                final DatabaseReference memeReference = FirebaseDatabase.getInstance().getReference("Memes").child(category);
+                                final DatabaseReference memeReference = FirebaseDatabase.getInstance().getReference(memeFolder).child(category);
 
                                 memeReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -425,7 +426,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 final String categoryNext = LoadActivity.categories.get(UserLogic.UserMethods.getCategory(fireUser.getPreferencesList()));
 
                                 // Creating reference for subfolder (selecting subfolder by choosing the prefered category).
-                                DatabaseReference memeReference = FirebaseDatabase.getInstance().getReference("Memes").child(categoryNext);
+                                DatabaseReference memeReference = FirebaseDatabase.getInstance().getReference(memeFolder).child(categoryNext);
 
                                 memeReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -582,6 +583,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent1 = new Intent(this, ProfileActivity.class);
                 startActivity(intent1);
                 overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
+            case R.id.profile_image:
+                Intent intent2 = new Intent(this, ProfileActivity.class);
+                startActivity(intent2);
+                overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
+
 
             default:
                 break;

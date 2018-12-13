@@ -64,6 +64,8 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                btn_register.setEnabled(false);
+
                 findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
 
                 hideKeyboard(RegisterActivity.this);
@@ -77,10 +79,12 @@ public class RegisterActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(txt_username) || TextUtils.isEmpty(txt_email) || TextUtils.isEmpty(txt_password)) {
                     findViewById(R.id.loadingPanel).setVisibility(View.GONE);
                     Toast.makeText(RegisterActivity.this, "All fields are required", Toast.LENGTH_SHORT).show();
+                    btn_register.setEnabled(true);
 
                 } else if (txt_password.length() < 6) {
                     findViewById(R.id.loadingPanel).setVisibility(View.GONE);
                     Toast.makeText(RegisterActivity.this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
+                    btn_register.setEnabled(true);
                 } else {
                     register(txt_username, txt_email, txt_password);
                 }
@@ -109,17 +113,10 @@ public class RegisterActivity extends AppCompatActivity {
                                 preferences.add(0);
                             }
 
-                            HashMap<String, String> seen = new HashMap<>();
-                            seen.put("abstract", "0");
-                            seen.put("anime", "0");
-                            seen.put("cats", "0");
-                            seen.put("cybersport", "0");
-                            seen.put("disgraceful", "0");
-                            seen.put("lentach", "0");
-                            seen.put("mhk", "0");
-                            seen.put("normal", "0");
-                            seen.put("physkek", "0");
-                            seen.put("programmer", "0");
+                            HashMap<String, Integer> seen = new HashMap<>();
+
+                            //ToDo: значения сделать нулями а не единицами
+                            seen = LoadActivity.numberOfMemesInBuffer;
 
                             // Initializing hashmap to send.
                             HashMap<String, String> hashMap = new HashMap<>();
@@ -150,6 +147,7 @@ public class RegisterActivity extends AppCompatActivity {
                         } else {
                             findViewById(R.id.loadingPanel).setVisibility(View.GONE);
                             Toast.makeText(RegisterActivity.this, "You can't register with this email or password", Toast.LENGTH_SHORT).show();
+                            btn_register.setEnabled(true);
                         }
                     }
                 });

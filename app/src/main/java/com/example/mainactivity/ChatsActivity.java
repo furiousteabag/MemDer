@@ -167,6 +167,10 @@ public class ChatsActivity extends AppCompatActivity {
                 startActivity(intent1);
                 overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
                 break;
+            case R.id.profile_image:
+                Intent intent2 = new Intent(this, ProfileActivity.class);
+                startActivity(intent2);
+                overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
             default:
                 break;
 

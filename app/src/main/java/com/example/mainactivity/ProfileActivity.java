@@ -2,14 +2,21 @@ package com.example.mainactivity;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +59,10 @@ public class ProfileActivity extends AppCompatActivity {
     private StorageTask uploadTask;
 
 
+
+    EditText user_description;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +76,8 @@ public class ProfileActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i = new Intent(ProfileActivity.this, MainActivity.class);
+                startActivity(i);
                 finish();
                 overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
             }
@@ -73,6 +86,41 @@ public class ProfileActivity extends AppCompatActivity {
         // Initializing activity elements.
         image_profile = findViewById(R.id.profile_image);
         username = findViewById(R.id.username);
+        user_description = findViewById(R.id.user_description);
+
+
+
+//        View.OnClickListener editTextClickListener = new View.OnClickListener()
+//
+//        {
+//
+//            public void onClick(View v)
+//            {
+//                if (v.getId() == user_description.getId())
+//                {
+//                    user_description.setCursorVisible(true);
+//                }
+//
+//            }
+//        };
+//
+//        user_description.setOnClickListener(editTextClickListener);
+//
+//        user_description.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId,
+//                                          KeyEvent event) {
+//                user_description.setCursorVisible(false);
+//                if (event != null&& (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+//                    InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    in.hideSoftInputFromWindow(user_description.getApplicationWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+//                }
+//                return false;
+//            }
+//        });
+
+
 
         // Initialing firebase elements.
         fuser = FirebaseAuth.getInstance().getCurrentUser();
@@ -110,6 +158,33 @@ public class ProfileActivity extends AppCompatActivity {
                 openImage();
             }
         });
+
+        // Setting up description from DB.
+        setTextDescription();
+
+
+
+
+
+        // Edit description.
+        user_description.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                updateDescription(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+               // user_description.setCursorVisible(false);
+            }
+        });
     }
 
     private void openImage() {
@@ -117,6 +192,35 @@ public class ProfileActivity extends AppCompatActivity {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, IMAGE_REQUEST);
+    }
+
+    private void setTextDescription(){
+        final FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid()).child("description");
+
+        database.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    user_description.setText(dataSnapshot.getValue().toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void updateDescription(String description){
+
+        final FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("description", description);
+        database.updateChildren(map);
     }
 
     private String getFileExtension(Uri uri) {
@@ -193,7 +297,33 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        //super.onBackPressed();
+        Intent i = new Intent(ProfileActivity.this, MainActivity.class);
+        startActivity(i);
+        finish();
         overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
     }
+
+    private void status(String status) {
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("status", status);
+
+        reference.updateChildren(hashMap);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("offline");
+    }
+
+
 }
