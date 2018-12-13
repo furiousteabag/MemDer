@@ -22,6 +22,7 @@
     <color name="colorPrimaryDark">#373e45</color>
     <color name="colorAccent">#009788</color>
     <color name="textColor">#fff</color>
+    <color name="textColorGray">#939395</color>
 
 
 </resources>

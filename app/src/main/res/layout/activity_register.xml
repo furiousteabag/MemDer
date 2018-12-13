@@ -35,7 +35,7 @@
             android:layout_marginTop="10dp"
             android:inputType="text"
             android:hint="Username"
-            app:met_textColorHint="@color/colorPrimaryDark"
+            app:met_textColorHint="@color/textColorGray"
             app:met_floatingLabel="normal" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
@@ -45,7 +45,7 @@
             android:inputType="textEmailAddress"
             android:layout_marginTop="10dp"
             app:met_textColor="@color/textColor"
-            app:met_textColorHint="@color/colorPrimaryDark"
+            app:met_textColorHint="@color/textColorGray"
             android:hint="Email"
             app:met_floatingLabel="normal" />
 
@@ -55,7 +55,7 @@
             android:inputType="textPassword"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:met_textColorHint="@color/colorPrimaryDark"
+            app:met_textColorHint="@color/textColorGray"
             app:met_textColor="@color/textColor"
             android:hint="Password"
             app:met_floatingLabel="normal" />

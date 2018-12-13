@@ -45,7 +45,7 @@ public class LoadActivity extends AppCompatActivity {
 //        put("physkek", 1);
 //        put("programmer", 1);
 //    }};
-    private static int TIME_OUT = 4000; //Time to launch the another activity
+    private static int TIME_OUT = 2500; //Time to launch the another activity
 
     // The buffer.
     public static ArrayList<PictureLogic.Picture> pictureList;

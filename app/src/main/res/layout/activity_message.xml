@@ -61,9 +61,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/text_send"
             android:background="@drawable/rounded_edittext"
-            android:hint=" Type a message..."
-            android:textColorHint="@color/colorPrimaryDark"
+            android:hint="Type a message..."
+            android:textColorHint="@color/textColorGray"
             android:textColor="@color/textColor"
+            android:paddingLeft="10dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
             android:layout_toLeftOf="@+id/btn_send"
             android:layout_centerVertical="true"/>
 
