@@ -305,13 +305,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 pictureList.remove(0);
                                 myAppAdapter.notifyDataSetChanged();
 
-                                // Vibration.
-                                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    v.vibrate(VibrationEffect.createOneShot(30, VibrationEffect.DEFAULT_AMPLITUDE));
-                                } else {
-                                    v.vibrate(30);
-                                }
+
 
                                 System.out.println(fireUser.getPreferencesList().toString());
 
@@ -327,6 +321,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     }
                 });
+
+                // Vibration.
+                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    v.vibrate(VibrationEffect.createOneShot(30, VibrationEffect.DEFAULT_AMPLITUDE));
+                } else {
+                    v.vibrate(30);
+                }
 
 
             }
@@ -490,14 +492,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                        Intent intentVibrate = new Intent(getApplicationContext(), VibrateService.class);
 //                        startService(intentVibrate);
 
-                                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                                // Vibrate for 500 milliseconds
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    v.vibrate(VibrationEffect.createOneShot(30, VibrationEffect.DEFAULT_AMPLITUDE));
-                                } else {
-                                    //deprecated left_to_right_1 API 26
-                                    v.vibrate(30);
-                                }
+
 
                                 System.out.println(fireUser.getPreferencesList().toString());
 
@@ -511,6 +506,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     }
                 });
+
+                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                // Vibrate for 500 milliseconds
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    v.vibrate(VibrationEffect.createOneShot(30, VibrationEffect.DEFAULT_AMPLITUDE));
+                } else {
+                    //deprecated left_to_right_1 API 26
+                    v.vibrate(30);
+                }
 
             }
 
