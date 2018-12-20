@@ -68,7 +68,10 @@ public class MessageActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i = new Intent(MessageActivity.this, ChatsActivity.class);
+                startActivity(i);
                 finish();
+                overridePendingTransition(R.anim.right_to_left_1, R.anim.right_to_left_2);
               //  startActivity(new Intent(MessageActivity.this, ChatsActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
         });
@@ -86,7 +89,7 @@ public class MessageActivity extends AppCompatActivity {
         text_send = findViewById(R.id.text_send);
 
         intent = getIntent();
-        final String userid = intent.getStringExtra("userid");
+        userid = intent.getStringExtra("userid");
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         btn_send.setOnClickListener(new View.OnClickListener() {
@@ -244,6 +247,27 @@ public class MessageActivity extends AppCompatActivity {
 
     }
 
+    // Handling the chat button.
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.username:
+                Intent intent1 = new Intent(this, ProfileActivity.class);
+                intent1.putExtra("userid", userid);
+                startActivity(intent1);
+                overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
+            case R.id.profile_image:
+                Intent intent2 = new Intent(this, ProfileActivity.class);
+                intent2.putExtra("userid", userid);
+                startActivity(intent2);
+                overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
+
+
+            default:
+                break;
+
+        }
+    }
+
     private void status(String status) {
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
@@ -268,7 +292,9 @@ public class MessageActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        Intent i = new Intent(MessageActivity.this, ChatsActivity.class);
+        startActivity(i);
+        finish();
         overridePendingTransition(R.anim.right_to_left_1, R.anim.right_to_left_2);
     }
 }

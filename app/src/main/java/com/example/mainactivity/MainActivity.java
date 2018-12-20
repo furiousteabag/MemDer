@@ -581,10 +581,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.username:
                 Intent intent1 = new Intent(this, ProfileActivity.class);
+                intent1.putExtra("userid", firebaseUser.getUid());
                 startActivity(intent1);
                 overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
             case R.id.profile_image:
                 Intent intent2 = new Intent(this, ProfileActivity.class);
+                intent2.putExtra("userid", firebaseUser.getUid());
                 startActivity(intent2);
                 overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
 

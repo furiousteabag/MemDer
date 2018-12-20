@@ -43,7 +43,7 @@ public class LoadActivity extends AppCompatActivity {
 
     public static HashMap<String, Integer> numberOfMemesInBuffer;
 
-    private static int TIME_OUT = 1000; //Time to launch the another activity
+    private static int TIME_OUT = 4000; //Time to launch the another activity
 
     // The buffer.
     public static ArrayList<PictureLogic.Picture> pictureList;
@@ -148,14 +148,6 @@ public class LoadActivity extends AppCompatActivity {
                             }
                         });
 
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent i = new Intent(LoadActivity.this, StartActivity.class);
-                                startActivity(i);
-                                finish();
-                            }
-                        }, TIME_OUT);
 
                     }
                 }
@@ -166,6 +158,15 @@ public class LoadActivity extends AppCompatActivity {
                 }
 
             });
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent i = new Intent(LoadActivity.this, StartActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            }, TIME_OUT);
 
             // If user closed the app and came again.
         } else {
@@ -264,6 +265,7 @@ public class LoadActivity extends AppCompatActivity {
                                                         pictureList.add(picture);
 
 
+                                                        System.out.println(pictureList.toString());
 
                                                     }
 
@@ -279,10 +281,6 @@ public class LoadActivity extends AppCompatActivity {
 
                                             }
                                         });
-
-
-
-
 
 
                                     }
@@ -304,16 +302,16 @@ public class LoadActivity extends AppCompatActivity {
                      * Adding new picture.
                      */
 
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            Intent i = new Intent(LoadActivity.this, MainActivity.class);
-                            startActivity(i);
-                            finish();
-
-                        }
-                    }, TIME_OUT);
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//
+//                            Intent i = new Intent(LoadActivity.this, MainActivity.class);
+//                            startActivity(i);
+//                            finish();
+//
+//                        }
+//                    }, TIME_OUT);
 
 
 //                    // Go into every category subfolder.
@@ -398,6 +396,17 @@ public class LoadActivity extends AppCompatActivity {
                 }
 
             });
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    Intent i = new Intent(LoadActivity.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+
+                }
+            }, TIME_OUT);
+
 
         }
     }

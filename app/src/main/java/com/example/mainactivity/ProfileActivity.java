@@ -58,9 +58,12 @@ public class ProfileActivity extends AppCompatActivity {
     private Uri imageUri;
     private StorageTask uploadTask;
 
+    String userid;
 
 
     EditText user_description;
+
+    Intent intent;
 
 
     @Override
@@ -76,10 +79,23 @@ public class ProfileActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(ProfileActivity.this, MainActivity.class);
-                startActivity(i);
-                finish();
-                overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
+                if (!fuser.getUid().equals(userid)) {
+                    Intent i = new Intent(ProfileActivity.this, MessageActivity.class);
+                    i.putExtra("userid", userid);
+                    startActivity(i);
+                    finish();
+                    overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
+                } else if (intent.getStringExtra("form") != null) {
+                    Intent i = new Intent(ProfileActivity.this, ChatsActivity.class);
+                    startActivity(i);
+                    finish();
+                    overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
+                } else {
+                    Intent i = new Intent(ProfileActivity.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+                    overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
+                }
             }
         });
 
@@ -87,7 +103,6 @@ public class ProfileActivity extends AppCompatActivity {
         image_profile = findViewById(R.id.profile_image);
         username = findViewById(R.id.username);
         user_description = findViewById(R.id.user_description);
-
 
 
 //        View.OnClickListener editTextClickListener = new View.OnClickListener()
@@ -121,10 +136,11 @@ public class ProfileActivity extends AppCompatActivity {
 //        });
 
 
-
         // Initialing firebase elements.
         fuser = FirebaseAuth.getInstance().getCurrentUser();
-        reference = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
+        intent = getIntent();
+        userid = intent.getStringExtra("userid");
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
 
         // Initializing storage element.
         storageReference = FirebaseStorage.getInstance().getReference("Uploads");
@@ -151,19 +167,28 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        // Listening for clicks on picture.
-        image_profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openImage();
-            }
-        });
+        if (fuser.getUid().equals(userid)) {
+            // Listening for clicks on picture.
+            image_profile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openImage();
+                }
+            });
+        }
+
 
         // Setting up description from DB.
         setTextDescription();
 
 
+        if (!fuser.getUid().equals(userid)) {
+            user_description.setEnabled(false);
+        }
 
+        if (fuser.getUid().equals(userid)) {
+            user_description.setEnabled(true);
+        }
 
 
         // Edit description.
@@ -176,13 +201,16 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
+
                 updateDescription(s.toString());
+
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
 
-               // user_description.setCursorVisible(false);
+                // user_description.setCursorVisible(false);
             }
         });
     }
@@ -194,9 +222,9 @@ public class ProfileActivity extends AppCompatActivity {
         startActivityForResult(intent, IMAGE_REQUEST);
     }
 
-    private void setTextDescription(){
+    private void setTextDescription() {
         final FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid()).child("description");
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference("Users").child(userid).child("description");
 
         database.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -213,10 +241,10 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void updateDescription(String description){
+    private void updateDescription(String description) {
 
         final FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference("Users").child(userid);
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("description", description);
@@ -255,7 +283,7 @@ public class ProfileActivity extends AppCompatActivity {
                         Uri downloadUri = task.getResult();
                         String mUri = downloadUri.toString();
 
-                        reference = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
+                        reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
                         HashMap<String, Object> map = new HashMap<>();
                         map.put("imageURL", mUri);
                         reference.updateChildren(map);
@@ -298,14 +326,27 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
-        Intent i = new Intent(ProfileActivity.this, MainActivity.class);
-        startActivity(i);
-        finish();
-        overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
+        if (!fuser.getUid().equals(userid)) {
+            Intent i = new Intent(ProfileActivity.this, MessageActivity.class);
+            i.putExtra("userid", userid);
+            startActivity(i);
+            finish();
+            overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
+        } else if (intent.getStringExtra("form") != null) {
+            Intent i = new Intent(ProfileActivity.this, ChatsActivity.class);
+            startActivity(i);
+            finish();
+            overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
+        } else {
+            Intent i = new Intent(ProfileActivity.this, MainActivity.class);
+            startActivity(i);
+            finish();
+            overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
+        }
     }
 
     private void status(String status) {
-        reference = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("status", status);
