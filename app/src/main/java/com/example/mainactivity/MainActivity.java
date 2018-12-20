@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 
@@ -54,20 +55,6 @@ import static com.example.mainactivity.LoadActivity.numberOfMemesInBuffer;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    // Categories array.
-//    public static final ArrayList<String> categories = new ArrayList<String>() {{
-//        add("abstract");
-//        add("anime");
-//        add("cats");
-//        add("cybersport");
-//        add("disgraceful");
-//        add("lentach");
-//        add("mhk");
-//        add("normal");
-//        add("physkek");
-//        add("programmer");
-//    }};
-
     // Arraylist of memes.
     private ArrayList<PictureLogic.Picture> pictureList;
 
@@ -75,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btnChats;
     CircleImageView profile_image;
     Button username;
+    Button btn_profile;
 
     // Initializing firebase elements.
     FirebaseUser firebaseUser;
@@ -102,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         profile_image = findViewById(R.id.profile_image);
         username = findViewById(R.id.username);
         btnChats = findViewById(R.id.btn_chats);
+        btn_profile = findViewById(R.id.btn_profile);
         btnChats.setOnClickListener(this);
         flingContainer = findViewById(R.id.frame);
 
@@ -584,11 +573,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 intent1.putExtra("userid", firebaseUser.getUid());
                 startActivity(intent1);
                 overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
+                break;
             case R.id.profile_image:
                 Intent intent2 = new Intent(this, ProfileActivity.class);
                 intent2.putExtra("userid", firebaseUser.getUid());
                 startActivity(intent2);
                 overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
+                break;
+            case R.id.btn_profile:
+                Intent intent3 = new Intent(this, ProfileActivity.class);
+                intent3.putExtra("userid", firebaseUser.getUid());
+                startActivity(intent3);
+                overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
+                break;
 
 
             default:

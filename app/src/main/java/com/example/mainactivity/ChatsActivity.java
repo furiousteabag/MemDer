@@ -38,6 +38,7 @@ public class ChatsActivity extends AppCompatActivity {
     // Activity patterns.
     CircleImageView profile_image;
     Button btn_profile;
+    Button btn_profile_click;
 
     // Firebase stuff.
     FirebaseUser firebaseUser;
@@ -56,6 +57,7 @@ public class ChatsActivity extends AppCompatActivity {
         // Associating patterns with them.
         profile_image = findViewById(R.id.profile_image);
         btn_profile = findViewById(R.id.btn_profile);
+        btn_profile_click = findViewById(R.id.btn_profile_click);
 
         //Initializing firebase.
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -162,19 +164,20 @@ public class ChatsActivity extends AppCompatActivity {
                 startActivity(intent);
                 overridePendingTransition(R.anim.right_to_left_1, R.anim.right_to_left_2);
                 break;
-            case R.id.btn_profile:
+            case R.id.btn_profile_click:
                 Intent intent1 = new Intent(this, ProfileActivity.class);
                 intent1.putExtra("userid", firebaseUser.getUid());
                 intent1.putExtra("form", firebaseUser.getUid());
                 startActivity(intent1);
                 overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
                 break;
-            case R.id.profile_image:
-                Intent intent2 = new Intent(this, ProfileActivity.class);
-                intent2.putExtra("userid", firebaseUser.getUid());
-                intent2.putExtra("form", firebaseUser.getUid());
-                startActivity(intent2);
-                overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
+//            case R.id.profile_image:
+//                Intent intent2 = new Intent(this, ProfileActivity.class);
+//                intent2.putExtra("userid", firebaseUser.getUid());
+//                intent2.putExtra("form", firebaseUser.getUid());
+//                startActivity(intent2);
+//                overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
+//                break;
             default:
                 break;
 

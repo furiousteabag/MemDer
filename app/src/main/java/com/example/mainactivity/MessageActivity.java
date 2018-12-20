@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -38,6 +39,7 @@ public class MessageActivity extends AppCompatActivity {
     TextView username;
     ImageButton btn_send;
     EditText text_send;
+    Button btn_profile_click;
 
     // Initializing firebase elements.
     FirebaseUser firebaseUser;
@@ -86,6 +88,7 @@ public class MessageActivity extends AppCompatActivity {
         profile_image = findViewById(R.id.profile_image);
         username = findViewById(R.id.username);
         btn_send = findViewById(R.id.btn_send);
+        btn_profile_click = findViewById(R.id.btn_profile_click);
         text_send = findViewById(R.id.text_send);
 
         intent = getIntent();
@@ -250,16 +253,24 @@ public class MessageActivity extends AppCompatActivity {
     // Handling the chat button.
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.username:
-                Intent intent1 = new Intent(this, ProfileActivity.class);
-                intent1.putExtra("userid", userid);
-                startActivity(intent1);
-                overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
-            case R.id.profile_image:
+//            case R.id.username:
+//                Intent intent1 = new Intent(this, ProfileActivity.class);
+//                intent1.putExtra("userid", userid);
+//                startActivity(intent1);
+//                overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
+//                break;
+//            case R.id.profile_image:
+//                Intent intent2 = new Intent(this, ProfileActivity.class);
+//                intent2.putExtra("userid", userid);
+//                startActivity(intent2);
+//                overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
+//                break;
+            case R.id.btn_profile_click:
                 Intent intent2 = new Intent(this, ProfileActivity.class);
                 intent2.putExtra("userid", userid);
                 startActivity(intent2);
                 overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
+                break;
 
 
             default:

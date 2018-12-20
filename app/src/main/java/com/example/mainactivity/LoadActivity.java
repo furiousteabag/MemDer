@@ -37,8 +37,6 @@ public class LoadActivity extends AppCompatActivity {
 
     //ToDo: медленная загрузка при старте
     //ToDo: очищать кэш
-    //ToDo: кнопку на место имень пользователя и иконки
-    //ToDo: заходить в профиль человека
     //ToDo: Санек должен сделать чтобы у всех пользователей могла добавляться категория к categories_seen
 
     public static HashMap<String, Integer> numberOfMemesInBuffer;
