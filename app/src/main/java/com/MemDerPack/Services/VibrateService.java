@@ -1,4 +1,4 @@
-package com.example.mainactivity.Services;
+package com.MemDerPack.Services;
 
 import android.app.Service;
 import android.content.Context;

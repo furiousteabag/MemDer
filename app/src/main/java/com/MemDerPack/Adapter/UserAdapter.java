@@ -1,4 +1,4 @@
-package com.example.mainactivity.Adapter;
+package com.MemDerPack.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,10 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.mainactivity.Logic.Chat;
-import com.example.mainactivity.Logic.UserLogic;
-import com.example.mainactivity.MessageActivity;
-import com.example.mainactivity.R;
+import com.MemDerPack.Logic.Chat;
+import com.MemDerPack.Logic.UserLogic;
+import com.MemDerPack.MessageActivity;
+import com.MemDerPack.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

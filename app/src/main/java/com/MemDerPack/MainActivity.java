@@ -1,4 +1,4 @@
-package com.example.mainactivity;
+package com.MemDerPack;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -16,13 +16,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 
 import com.bumptech.glide.Glide;
-import com.example.mainactivity.Logic.PictureLogic;
-import com.example.mainactivity.Logic.UserLogic;
+import com.MemDerPack.Logic.PictureLogic;
+import com.MemDerPack.Logic.UserLogic;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -44,14 +44,15 @@ import android.widget.FrameLayout;
 
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
+import com.MemDerPack.R;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
-import static com.example.mainactivity.LoadActivity.memeFolder;
-import static com.example.mainactivity.LoadActivity.numberOfMemesInBuffer;
+import static com.MemDerPack.LoadActivity.memeFolder;
+import static com.MemDerPack.LoadActivity.numberOfMemesInBuffer;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {

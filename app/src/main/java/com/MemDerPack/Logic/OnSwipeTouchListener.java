@@ -1,7 +1,6 @@
-package com.example.mainactivity.Logic;
+package com.MemDerPack.Logic;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;

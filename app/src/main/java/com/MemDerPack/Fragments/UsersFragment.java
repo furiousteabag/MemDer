@@ -1,7 +1,5 @@
-package com.example.mainactivity.Fragments;
+package com.MemDerPack.Fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -14,9 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.example.mainactivity.Adapter.UserAdapter;
-import com.example.mainactivity.Logic.UserLogic;
-import com.example.mainactivity.R;
+import com.MemDerPack.Adapter.UserAdapter;
+import com.MemDerPack.Logic.UserLogic;
+import com.MemDerPack.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -27,8 +25,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.function.ToDoubleBiFunction;
 
 public class UsersFragment extends Fragment {
 

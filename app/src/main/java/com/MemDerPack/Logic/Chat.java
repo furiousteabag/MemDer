@@ -1,4 +1,4 @@
-package com.example.mainactivity.Logic;
+package com.MemDerPack.Logic;
 
 public class Chat {
 

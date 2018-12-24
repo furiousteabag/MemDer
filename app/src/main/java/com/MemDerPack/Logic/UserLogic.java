@@ -1,13 +1,8 @@
-package com.example.mainactivity.Logic;
+package com.MemDerPack.Logic;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 public class UserLogic {
 

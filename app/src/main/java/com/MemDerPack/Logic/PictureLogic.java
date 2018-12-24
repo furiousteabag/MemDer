@@ -1,26 +1,13 @@
-package com.example.mainactivity.Logic;
+package com.MemDerPack.Logic;
 
-import android.media.Image;
 import android.support.annotation.NonNull;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.mainactivity.Logic.UserLogic;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.Currency;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class PictureLogic {
 

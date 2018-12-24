@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.mainactivity">
+    package="com.MemDerPack"
+    >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -16,16 +17,16 @@
         android:windowSoftInputMode="">
         <activity
             android:name=".MainActivity"
-            android:label="Laugh and Love"
+            android:label="MemDer"
             android:noHistory="false">
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:parentActivityName=".StartActivity" />
+            android:parentActivityName="com.MemDerPack.StartActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name="com.MemDerPack.LoginActivity"
             android:parentActivityName=".StartActivity" />
-        <activity android:name=".StartActivity"></activity>
+        <activity android:name="com.MemDerPack.StartActivity"></activity>
         <activity
             android:name=".ChatsActivity"
             android:noHistory="false"/>
@@ -37,7 +38,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ProfileActivity"/>
+            android:name="com.MemDerPack.ProfileActivity"/>
     </application>
 
 </manifest>
