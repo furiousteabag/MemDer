@@ -23,6 +23,8 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import static com.example.mainactivity.StartActivity.hideKeyboard;
 
@@ -115,8 +117,14 @@ public class RegisterActivity extends AppCompatActivity {
 
                             HashMap<String, Integer> seen = new HashMap<>();
 
-                            //ToDo: значения сделать нулями а не единицами
                             seen = LoadActivity.numberOfMemesInBuffer;
+
+//                            Iterator it = seen.entrySet().iterator();
+//                            while (it.hasNext()) {
+//                                Map.Entry pair = (Map.Entry) it.next();
+//                                pair.setValue(0);
+//                            }
+
 
                             // Initializing hashmap to send.
                             HashMap<String, String> hashMap = new HashMap<>();
@@ -124,7 +132,6 @@ public class RegisterActivity extends AppCompatActivity {
                             hashMap.put("username", username);
                             hashMap.put("imageURL", "default");
                             hashMap.put("preferences", preferences.toString());
-
 
 
                             // Send the hashmap and close the form.
@@ -158,7 +165,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onBackPressed();
         overridePendingTransition(R.anim.right_to_left_1, R.anim.right_to_left_2);
     }
-
 
 
 }

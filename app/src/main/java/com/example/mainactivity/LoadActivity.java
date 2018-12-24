@@ -1,5 +1,6 @@
 package com.example.mainactivity;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -7,11 +8,13 @@ import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
 import com.example.mainactivity.Adapter.UserAdapter;
+import com.example.mainactivity.Logic.AlphanumericComparator;
 import com.example.mainactivity.Logic.PictureLogic;
 import com.example.mainactivity.Logic.UserLogic;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +30,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -35,7 +39,9 @@ public class LoadActivity extends AppCompatActivity {
     public static final String memeFolder = "MEMES";
 
 
-    //ToDo: медленная загрузка при старте
+    //ToDo: Время загрузки в зависимости от инета
+    //ToDo: share
+    //ToDo: 10 картинок из буфера сохранять в кэш и подгружать их при повоторном заходе
     //ToDo: очищать кэш
     //ToDo: Санек должен сделать чтобы у всех пользователей могла добавляться категория к categories_seen
 
@@ -102,6 +108,8 @@ public class LoadActivity extends AppCompatActivity {
                         DatabaseReference memeReference = FirebaseDatabase.getInstance().getReference(memeFolder).child(category);
 
                         memeReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @TargetApi(Build.VERSION_CODES.N)
+                            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -111,18 +119,10 @@ public class LoadActivity extends AppCompatActivity {
                                 // Getting and sorting the keys.
                                 final ArrayList<String> keys = new ArrayList<>(td.keySet());
 
-                                // Sorting the keys.
-                                Collections.sort(keys, new Comparator<String>() {
-                                    public int compare(String o1, String o2) {
-                                        return extractInt(o1) - extractInt(o2);
-                                    }
 
-                                    int extractInt(String s) {
-                                        String num = s.replaceAll("\\D", "");
-                                        // return 0 if no digits found
-                                        return num.isEmpty() ? 0 : Integer.parseInt(num);
-                                    }
-                                });
+                                // Sort.
+                                keys.sort(new AlphanumericComparator(Locale.ENGLISH));
+
 
                                 String memeUrl = td.get(keys.get(0)).toString();
 
@@ -185,7 +185,6 @@ public class LoadActivity extends AppCompatActivity {
                         categories.add(snapshot.getKey().toString());
                         numberOfMemesInBuffer.put(snapshot.getKey().toString(), 0);
 
-                        //Todo: whe adding a picture tu buffer increment
                     }
 
 
@@ -199,8 +198,7 @@ public class LoadActivity extends AppCompatActivity {
 
 
                             // Repeating choosing category and adding picture to buffer
-                            for (int i = 0; i < categories.size(); i++) {
-
+                            for (int i = 0; i < categories.size(); i++)
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
@@ -209,10 +207,15 @@ public class LoadActivity extends AppCompatActivity {
                                         // Defining the category of next meme.
                                         final String categoryNext = categories.get(UserLogic.UserMethods.getCategory(fireUser.getPreferencesList()));
 
+                                        // Adding a point to local buffer.
+                                        numberOfMemesInBuffer.put(categoryNext, numberOfMemesInBuffer.get(categoryNext) + 1);
+
                                         // Creating reference for subfolder (selecting subfolder by choosing the prefered category).
                                         DatabaseReference memeReference = FirebaseDatabase.getInstance().getReference(memeFolder).child(categoryNext);
 
                                         memeReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @TargetApi(Build.VERSION_CODES.N)
+                                            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -222,18 +225,8 @@ public class LoadActivity extends AppCompatActivity {
                                                 // Getting and sorting the keys.
                                                 final ArrayList<String> keys = new ArrayList<>(td.keySet());
 
-                                                // Sorting the keys.
-                                                Collections.sort(keys, new Comparator<String>() {
-                                                    public int compare(String o1, String o2) {
-                                                        return extractInt(o1) - extractInt(o2);
-                                                    }
-
-                                                    int extractInt(String s) {
-                                                        String num = s.replaceAll("\\D", "");
-                                                        // return 0 if no digits found
-                                                        return num.isEmpty() ? 0 : Integer.parseInt(num);
-                                                    }
-                                                });
+                                                // Sort.
+                                                keys.sort(new AlphanumericComparator(Locale.ENGLISH));
 
                                                 // Taking the number of the meme to pick.
                                                 DatabaseReference memeCategory = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid()).child("Categories_seen").child(categoryNext);
@@ -283,9 +276,6 @@ public class LoadActivity extends AppCompatActivity {
 
                                     }
                                 }, 10);
-
-
-                            }
 
                         }
 
