@@ -1,7 +1,6 @@
 package com.MemDerPack.Logic;
 
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 
 import java.nio.CharBuffer;
 import java.text.Collator;
@@ -27,7 +26,6 @@ public class AlphanumericComparator implements Comparator<CharSequence> {
      *
      * @param locale the locale to use
      */
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public AlphanumericComparator(final Locale locale) {
         this(Collator.getInstance(requireNonNull(locale)));
     }
@@ -37,14 +35,12 @@ public class AlphanumericComparator implements Comparator<CharSequence> {
      *
      * @param collator the collator to use
      */
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public AlphanumericComparator(final Collator collator) {
         this.collator = requireNonNull(collator);
     }
 
 
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public int compare(final CharSequence s1, final CharSequence s2) {
         final CharBuffer b1 = wrap(s1);
@@ -81,7 +77,6 @@ public class AlphanumericComparator implements Comparator<CharSequence> {
                 .limit(end);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private int compare(final CharBuffer b1, final CharBuffer b2) {
         if (isNumerical(b1) && isNumerical(b2)) {
             return compareNumerically(b1, b2);
@@ -102,7 +97,6 @@ public class AlphanumericComparator implements Comparator<CharSequence> {
         return Character.isDigit(c);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private int compareNumerically(final CharBuffer b1, final CharBuffer b2) {
         final int diff = b1.length() - b2.length();
         if (diff != 0) {

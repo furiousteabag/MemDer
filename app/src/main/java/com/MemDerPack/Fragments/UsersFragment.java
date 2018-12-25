@@ -91,19 +91,22 @@ public class UsersFragment extends Fragment {
                 if (!search_users.getText().toString().equals("")) {
                     mUsers.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        UserLogic.User user = snapshot.getValue(UserLogic.User.class);
+                        try {
+                            UserLogic.User user = snapshot.getValue(UserLogic.User.class);
 
-                        assert user != null;
-                        assert fuser != null;
-                        if (!user.getId().equals(fuser.getUid())) {
-                            mUsers.add(user);
+                            assert user != null;
+                            assert fuser != null;
+                            if (!user.getId().equals(fuser.getUid())) {
+                                mUsers.add(user);
+                            }
+                        } catch (Exception e) {
                         }
                     }
 
                     userAdapter = new UserAdapter(getContext(), mUsers, false);
                     recyclerView.setAdapter(userAdapter);
 
-                } else{
+                } else {
                     readUsers();
                 }
             }
@@ -127,16 +130,19 @@ public class UsersFragment extends Fragment {
                 if (search_users.getText().toString().equals("")) {
                     mUsers.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        UserLogic.User user = snapshot.getValue(UserLogic.User.class);
+                        try {
+                            UserLogic.User user = snapshot.getValue(UserLogic.User.class);
+                            assert user != null;
+                            assert firebaseUser != null;
+                            if (!user.getId().equals(firebaseUser.getUid())) {
+                                mUsers.add(user);
+                            } else {
+                                currentUser = user;
+                            }
 
-
-                        assert user != null;
-                        assert firebaseUser != null;
-                        if (!user.getId().equals(firebaseUser.getUid())) {
-                            mUsers.add(user);
-                        } else {
-                            currentUser = user;
+                        } catch (Exception e) {
                         }
+
                     }
 
                     mUsers = UserLogic.UserMethods.sortUsers(currentUser, mUsers);

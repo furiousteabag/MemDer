@@ -23,6 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/loadingPanel"
+        android:visibility="visible"
         android:theme="@style/CircularProgress"
         android:indeterminate="true" />
 
