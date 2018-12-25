@@ -32,7 +32,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private boolean ischat;
     String theLastMessage;
 
-    public UserAdapter(Context mContext, List<UserLogic.User> mUsers, boolean ischat){
+    public UserAdapter(Context mContext, List<UserLogic.User> mUsers, boolean ischat) {
         this.mUsers = mUsers;
         this.mContext = mContext;
         this.ischat = ischat;
@@ -50,20 +50,20 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         final UserLogic.User user = mUsers.get(i);
         viewHolder.username.setText(user.getUsername());
-        if (user.getImageURL().equals("default")){
+        if (user.getImageURL().equals("default")) {
             viewHolder.profile_image.setImageResource(R.mipmap.ic_launcher);
         } else {
             Glide.with(mContext).load(user.getImageURL()).into(viewHolder.profile_image);
         }
 
-        if (ischat){
+        if (ischat) {
             lastMessage(user.getId(), viewHolder.last_msg);
         } else {
             viewHolder.last_msg.setVisibility(View.GONE);
         }
 
-        if (ischat){
-            if (user.getStatus().equals("online")){
+        if (ischat) {
+            if (user.getStatus().equals("online")) {
                 viewHolder.img_on.setVisibility(View.VISIBLE);
                 viewHolder.img_off.setVisibility(View.GONE);
             } else {
@@ -91,7 +91,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView username;
         public ImageView profile_image;
@@ -99,7 +99,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         private ImageView img_off;
         private TextView last_msg;
 
-        public ViewHolder(View itemView){
+        public ViewHolder(View itemView) {
             super(itemView);
 
             username = itemView.findViewById(R.id.username);
@@ -113,7 +113,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     }
 
     // Check for last message.
-    private void lastMessage(final String userid, final TextView last_msg){
+    private void lastMessage(final String userid, final TextView last_msg) {
 
         theLastMessage = "default";
 
@@ -123,20 +123,22 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()){
-                    Chat chat = snapshot.getValue(Chat.class);
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    try {
+                        Chat chat = snapshot.getValue(Chat.class);
 
-                    if (chat.getReceiver().equals(firebaseUser.getUid()) && chat.getSender().equals(userid) ||
-                            chat.getReceiver().equals(userid) && chat.getSender().equals(firebaseUser.getUid())){
+                        if (chat.getReceiver().equals(firebaseUser.getUid()) && chat.getSender().equals(userid) ||
+                                chat.getReceiver().equals(userid) && chat.getSender().equals(firebaseUser.getUid())) {
 
-                        theLastMessage = chat.getMessage();
+                            theLastMessage = chat.getMessage();
+                        }
+
+                    } catch (Exception e) {
                     }
-
-
 
                 }
 
-                switch (theLastMessage){
+                switch (theLastMessage) {
 
                     case "default":
                         last_msg.setText("");
