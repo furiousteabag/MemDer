@@ -15,6 +15,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
+
 import com.MemDerPack.Logic.AlphanumericComparator;
 import com.MemDerPack.Logic.PictureLogic;
 import com.MemDerPack.Logic.UserLogic;
@@ -66,6 +69,9 @@ public class LoadActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load);
+
+        Fabric.with(this, new Crashlytics());
+
 
         /*
          *
