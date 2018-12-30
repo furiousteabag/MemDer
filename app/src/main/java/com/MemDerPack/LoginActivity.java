@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.MemDerPack.R;
@@ -23,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
 
     MaterialEditText email, password;
     Button btn_login;
+    TextView forgot_password;
 
     FirebaseAuth auth;
 
@@ -35,12 +37,32 @@ public class LoginActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Login");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LoginActivity.this, StartActivity.class);
+                startActivity(i);
+                finish();
+                overridePendingTransition(R.anim.right_to_left_1, R.anim.right_to_left_2);
+                //  startActivity(new Intent(MessageActivity.this, ChatsActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            }
+        });
 
         auth = FirebaseAuth.getInstance();
 
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         btn_login = findViewById(R.id.btn_login);
+        forgot_password = findViewById(R.id.forgot_password);
+
+        forgot_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
+                overridePendingTransition(R.anim.left_to_right_1, R.anim.left_to_right_2);
+            }
+        });
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +107,10 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+//        super.onBackPressed();
+        Intent i = new Intent(LoginActivity.this, StartActivity.class);
+        startActivity(i);
+        finish();
         overridePendingTransition(R.anim.right_to_left_1, R.anim.right_to_left_2);
     }
 }

@@ -58,4 +58,9 @@ public class StartActivity extends AppCompatActivity {
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

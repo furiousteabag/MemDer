@@ -75,7 +75,6 @@ public class MessageActivity extends AppCompatActivity {
                 startActivity(i);
                 finish();
                 overridePendingTransition(R.anim.right_to_left_1, R.anim.right_to_left_2);
-                //  startActivity(new Intent(MessageActivity.this, ChatsActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
         });
 

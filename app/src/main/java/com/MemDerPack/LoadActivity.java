@@ -171,6 +171,7 @@ public class LoadActivity extends AppCompatActivity {
                         Intent i = new Intent(LoadActivity.this, StartActivity.class);
                         startActivity(i);
                         finish();
+                        overridePendingTransition(R.anim.left_to_right_1, R.anim.left_to_right_2);
                     }
                 }, TIME_OUT);
 
@@ -402,22 +403,22 @@ public class LoadActivity extends AppCompatActivity {
                         Intent i = new Intent(LoadActivity.this, MainActivity.class);
                         startActivity(i);
                         finish();
+                        overridePendingTransition(R.anim.left_to_right_1, R.anim.left_to_right_2);
 
                     }
                 }, TIME_OUT);
 
 
             }
-        }
-
-        else{
+        } else {
             Toast.makeText(LoadActivity.this, "No internet!", Toast.LENGTH_SHORT).show();
             loadingPanel.setVisibility(View.GONE);
         }
 
     }
+
     // ICMP
-    public boolean isOnline () {
+    public boolean isOnline() {
         Runtime runtime = Runtime.getRuntime();
         try {
             Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");

@@ -19,13 +19,13 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/textColor"
-            android:text="Login"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@color/textColor"-->
+            <!--android:text="Login"-->
+            <!--android:textSize="20sp"-->
+            <!--android:textStyle="bold" />-->
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/email"
@@ -58,6 +58,17 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/rounded_button_clickable"
             android:textColor="@color/textColor"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Forgot your password?"
+            android:textColor="@color/textColorGray"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:id="@+id/forgot_password"
+            android:layout_gravity="end"/>
 
         <ProgressBar
             android:layout_width="wrap_content"

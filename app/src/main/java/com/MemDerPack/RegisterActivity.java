@@ -48,6 +48,16 @@ public class RegisterActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Register");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(RegisterActivity.this, StartActivity.class);
+                startActivity(i);
+                finish();
+                overridePendingTransition(R.anim.right_to_left_1, R.anim.right_to_left_2);
+                //  startActivity(new Intent(MessageActivity.this, ChatsActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            }
+        });
 
         // Associating variables.
         username = findViewById(R.id.username);
@@ -159,7 +169,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        //super.onBackPressed();
+        Intent i = new Intent(RegisterActivity.this, StartActivity.class);
+        startActivity(i);
+        finish();
         overridePendingTransition(R.anim.right_to_left_1, R.anim.right_to_left_2);
     }
 

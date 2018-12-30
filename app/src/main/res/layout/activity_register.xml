@@ -19,13 +19,13 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/textColor"
-            android:text="Create a new account"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@color/textColor"-->
+            <!--android:text="Create a new account"-->
+            <!--android:textSize="20sp"-->
+            <!--android:textStyle="bold" />-->
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/username"

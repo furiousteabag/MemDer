@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.MemDerPack"
-    >
+    package="com.MemDerPack">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -18,18 +17,17 @@
         <activity
             android:name=".MainActivity"
             android:label="MemDer"
-            android:noHistory="false">
-        </activity>
+            android:noHistory="false"></activity>
         <activity
             android:name=".RegisterActivity"
-            android:parentActivityName="com.MemDerPack.StartActivity" />
-        <activity
-            android:name="com.MemDerPack.LoginActivity"
             android:parentActivityName=".StartActivity" />
-        <activity android:name="com.MemDerPack.StartActivity"></activity>
+        <activity
+            android:name=".LoginActivity"
+            android:parentActivityName=".StartActivity" />
+        <activity android:name=".StartActivity" />
         <activity
             android:name=".ChatsActivity"
-            android:noHistory="false"/>
+            android:noHistory="false" />
         <activity android:name=".MessageActivity" />
         <activity android:name=".LoadActivity">
             <intent-filter>
@@ -37,8 +35,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ProfileActivity" />
         <activity
-            android:name="com.MemDerPack.ProfileActivity"/>
+            android:name=".ResetPasswordActivity"
+            android:parentActivityName=".LoginActivity"></activity>
     </application>
 
 </manifest>
