@@ -227,9 +227,18 @@ public class ProfileActivity extends AppCompatActivity {
         database.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null) {
-                    user_description.setText(dataSnapshot.getValue().toString());
+                if (fuser.getUid().equals(userid)) {
+                    if (dataSnapshot.getValue() != null) {
+                        user_description.setText(dataSnapshot.getValue().toString());
+                    }
+                } else {
+                    if (dataSnapshot.getValue() == null) {
+                        user_description.setText("no information given");
+                    } else {
+                        user_description.setText(dataSnapshot.getValue().toString());
+                    }
                 }
+
             }
 
             @Override
