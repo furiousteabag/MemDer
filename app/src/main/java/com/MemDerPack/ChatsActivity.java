@@ -41,7 +41,7 @@ public class ChatsActivity extends AppCompatActivity {
     CircleImageView profile_image;
     Button btn_profile;
     Button btn_profile_click;
-
+    //int x = 0;
     // Firebase stuff.
     FirebaseUser firebaseUser;
     DatabaseReference reference;
