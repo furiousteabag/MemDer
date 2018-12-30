@@ -189,28 +189,23 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
 
-        // Edit description.
-        user_description.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        if (fuser.getUid().equals(userid)) {
+            // Edit description.
+            user_description.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
 
-            }
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    updateDescription(s.toString());
+                }
+                @Override
+                public void afterTextChanged(Editable s) {
+                }
+            });
+        }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-
-                updateDescription(s.toString());
-
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-                // user_description.setCursorVisible(false);
-            }
-        });
     }
 
     private void openImage() {
