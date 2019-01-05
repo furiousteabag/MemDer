@@ -29,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.perf.metrics.AddTrace;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,6 +67,7 @@ public class LoadActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
 
     @Override
+    @AddTrace(name = "onCreateTrace", enabled = true /* optional */)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load);
