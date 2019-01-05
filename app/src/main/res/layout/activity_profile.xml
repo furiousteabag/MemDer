@@ -19,7 +19,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Profile"
+            android:text="Профиль"
             android:textColor="@color/textColor"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/username"
                 android:layout_marginTop="15dp"
-                android:hint="Write about yourself..."
+                android:hint="Расскажите о себе..."
                 android:textColor="@color/textColor"
                 android:textColorHint="@color/textColorGray"
                 />

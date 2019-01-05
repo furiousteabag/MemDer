@@ -15,10 +15,6 @@
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="">
         <activity
-            android:name=".MainActivity"
-            android:label="MemDer"
-            android:noHistory="false"></activity>
-        <activity
             android:name=".RegisterActivity"
             android:parentActivityName=".StartActivity" />
         <activity

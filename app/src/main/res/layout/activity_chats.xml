@@ -12,12 +12,12 @@
     android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
     app:popupTheme="@style/MenuStyle">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="77dp"
         android:background="@color/colorPrimary"
         android:orientation="vertical"
         android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -37,48 +37,48 @@
                 android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:popupTheme="@style/MenuStyle">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent">-->
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                    <!--<RelativeLayout-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_weight="1">-->
 
-                        <Button
-                            android:id="@+id/btn_profile_click"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="#00373e45"
-                            android:onClick="onClick" />
+                        <!--<Button-->
+                            <!--android:id="@+id/btn_profile_click"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:background="#00373e45"-->
+                            <!--android:onClick="onClick" />-->
 
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/profile_image"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_centerVertical="true" />
+                        <!--<de.hdodenhof.circleimageview.CircleImageView-->
+                            <!--android:id="@+id/profile_image"-->
+                            <!--android:layout_width="40dp"-->
+                            <!--android:layout_height="40dp"-->
+                            <!--android:layout_centerVertical="true" />-->
 
 
-                        <Button
-                            android:id="@+id/btn_profile"
-                            style="@style/Widget.AppCompat.Button.Borderless"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/profile_image"
-                            android:background="@color/colorPrimaryDark"
-                            android:text="username"
-                            android:textAllCaps="false"
-                            android:textColor="@color/textColor"
-                            android:textSize="16dp" />
-                    </RelativeLayout>
+                        <!--<Button-->
+                            <!--android:id="@+id/btn_profile"-->
+                            <!--style="@style/Widget.AppCompat.Button.Borderless"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_toRightOf="@+id/profile_image"-->
+                            <!--android:background="@color/colorPrimaryDark"-->
+                            <!--android:text="username"-->
+                            <!--android:textAllCaps="false"-->
+                            <!--android:textColor="@color/textColor"-->
+                            <!--android:textSize="16dp" />-->
+                    <!--</RelativeLayout>-->
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                    <!--<RelativeLayout-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_weight="1" />-->
 
-                </LinearLayout>
+                <!--</LinearLayout>-->
 
             </android.support.v7.widget.Toolbar>
 
@@ -104,48 +104,48 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/Buttons"
-        android:layout_width="match_parent"
-        android:layout_height="77dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginBottom="69dp"
-        android:orientation="horizontal"
-        android:paddingTop="10dp">
+    <!--<LinearLayout-->
+        <!--android:id="@+id/Buttons"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="77dp"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_marginStart="0dp"-->
+        <!--android:layout_marginLeft="0dp"-->
+        <!--android:layout_marginBottom="69dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:paddingTop="10dp">-->
 
-        <Button
-            android:id="@+id/btn_memes"
-            style="@style/CustomAnimationButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_button_clickable"
-            android:onClick="onClick"
-            android:text="Memes"
-            android:textColor="@color/textColor"
-            android:textSize="15sp" />
-
-
-        <Button
-            android:id="@+id/btn_chats"
-            style="@style/CustomAnimationButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:layout_weight="1"
-
-            android:background="@drawable/rounded_button_notclickable"
-            android:onClick="onClick"
-            android:text="Chats"
-            android:textColor="@color/textColor"
-            android:textStyle="normal" />
+        <!--<Button-->
+            <!--android:id="@+id/btn_memes"-->
+            <!--style="@style/CustomAnimationButton"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="2dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/rounded_button_clickable"-->
+            <!--android:onClick="onClick"-->
+            <!--android:text="Memes"-->
+            <!--android:textColor="@color/textColor"-->
+            <!--android:textSize="15sp" />-->
 
 
-    </LinearLayout>
+        <!--<Button-->
+            <!--android:id="@+id/btn_chats"-->
+            <!--style="@style/CustomAnimationButton"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="2dp"-->
+            <!--android:layout_weight="1"-->
+
+            <!--android:background="@drawable/rounded_button_notclickable"-->
+            <!--android:onClick="onClick"-->
+            <!--android:text="Chats"-->
+            <!--android:textColor="@color/textColor"-->
+            <!--android:textStyle="normal" />-->
+
+
+    <!--</LinearLayout>-->
 
 </RelativeLayout>

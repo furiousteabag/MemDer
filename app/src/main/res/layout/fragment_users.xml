@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:textColor="@color/textColor"
-        android:hint="Search..."
+        android:hint="Поиск по пользователям..."
         android:textColorHint="@color/textColorGray"
         android:id="@+id/search_users"/>
 

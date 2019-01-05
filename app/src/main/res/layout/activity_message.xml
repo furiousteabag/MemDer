@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/text_send"
             android:background="@drawable/rounded_edittext"
-            android:hint="Type a message..."
+            android:hint="Введите сообщение..."
             android:textColorHint="@color/textColorGray"
             android:textColor="@color/textColor"
             android:paddingLeft="10dp"

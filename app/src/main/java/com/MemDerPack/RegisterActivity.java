@@ -148,7 +148,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
 
                                         findViewById(R.id.loadingPanel).setVisibility(View.GONE);
-                                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                        Intent intent = new Intent(RegisterActivity.this, ChatsActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
                                         finish();

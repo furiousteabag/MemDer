@@ -406,11 +406,12 @@ public class LoadActivity extends AppCompatActivity {
                     }
 
                 });
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
 
-                        Intent i = new Intent(LoadActivity.this, MainActivity.class);
+                        Intent i = new Intent(LoadActivity.this, ChatsActivity.class);
                         startActivity(i);
                         finish();
                         overridePendingTransition(R.anim.left_to_right_1, R.anim.left_to_right_2);

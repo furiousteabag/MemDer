@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.MemDerPack.Fragments.MemesFragment;
 import com.bumptech.glide.Glide;
 import com.MemDerPack.Fragments.ChatsFragment;
 import com.MemDerPack.Fragments.UsersFragment;
@@ -38,9 +39,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ChatsActivity extends AppCompatActivity {
 
     // Activity patterns.
-    CircleImageView profile_image;
-    Button btn_profile;
-    Button btn_profile_click;
+//    CircleImageView profile_image;
+//    Button btn_profile;
+//    Button btn_profile_click;
     //int x = 0;
     // Firebase stuff.
     FirebaseUser firebaseUser;
@@ -54,39 +55,39 @@ public class ChatsActivity extends AppCompatActivity {
         // Toolbar initializing.
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle("MemDer");
 
         // Associating patterns with them.
-        profile_image = findViewById(R.id.profile_image);
-        btn_profile = findViewById(R.id.btn_profile);
-        btn_profile_click = findViewById(R.id.btn_profile_click);
+//        profile_image = findViewById(R.id.profile_image);
+//        btn_profile = findViewById(R.id.btn_profile);
+//        btn_profile_click = findViewById(R.id.btn_profile_click);
 
         //Initializing firebase.
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
-        // Handling username and image.
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                // Setting username.
-                UserLogic.User user = dataSnapshot.getValue(UserLogic.User.class);
-                btn_profile.setText(user.getUsername());
-
-                // Setting image.
-                if (user.getImageURL().equals("default")) {
-                    profile_image.setImageResource(R.mipmap.ic_launcher);
-                } else {
-                    Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
+//        // Handling username and image.
+//        reference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                // Setting username.
+//                UserLogic.User user = dataSnapshot.getValue(UserLogic.User.class);
+//                btn_profile.setText(user.getUsername());
+//
+//                // Setting image.
+//                if (user.getImageURL().equals("default")) {
+//                    profile_image.setImageResource(R.mipmap.ic_launcher);
+//                } else {
+//                    Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//            }
+//        });
 
         // Initializing activity elements.
         TabLayout tabLayout = findViewById(R.id.tab_layout);
@@ -95,8 +96,9 @@ public class ChatsActivity extends AppCompatActivity {
 
         // Initializing adapter.
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
-        viewPagerAdapter.addFragment(new UsersFragment(), "Users");
+        viewPagerAdapter.addFragment(new MemesFragment(), "Мемы");
+        viewPagerAdapter.addFragment(new ChatsFragment(), "Чаты");
+        viewPagerAdapter.addFragment(new UsersFragment(), "Пользователи");
 
         // Associating adapter with form elements.
         viewPager.setAdapter(viewPagerAdapter);
@@ -117,6 +119,13 @@ public class ChatsActivity extends AppCompatActivity {
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(ChatsActivity.this, StartActivity.class));
+                finish();
+                return true;
+            case R.id.profile:
+                Intent intent1  = new Intent(ChatsActivity.this, ProfileActivity.class);
+                intent1.putExtra("userid", firebaseUser.getUid());
+                intent1.putExtra("form", firebaseUser.getUid());
+                startActivity(intent1);
                 finish();
                 return true;
         }
@@ -161,11 +170,6 @@ public class ChatsActivity extends AppCompatActivity {
     // Handling the chat button.
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_memes:
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.right_to_left_1, R.anim.right_to_left_2);
-                break;
             case R.id.btn_profile_click:
                 Intent intent1 = new Intent(this, ProfileActivity.class);
                 intent1.putExtra("userid", firebaseUser.getUid());
