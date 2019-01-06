@@ -4,21 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e6e6e6"
+    android:background="?attr/colorBackground"
     tools:context=".MessageActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
         android:id="@+id/bar_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
-            android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/MenuStyle">
+            android:background="?attr/colorPrimary"
+            android:theme="@style/Base.ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/MenuStyle"
+            app:theme="@style/ToolbarTheme">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -49,10 +50,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/profile_image"
-                        android:background="@color/colorPrimaryDark"
+                        android:background="?attr/colorPrimary"
                         android:text="username"
                         android:textAllCaps="false"
-                        android:textColor="@color/textColor"
+                        android:textColor="?attr/textColor"
                         android:textSize="16dp" />
                 </RelativeLayout>
 
@@ -68,44 +69,42 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
         android:id="@+id/recycler_view"
-        android:layout_below="@id/bar_layout"
-        android:layout_above="@+id/bottom"
-        android:background="@color/colorPrimary"
-        android:layout_height="match_parent"/>
-    
-    <RelativeLayout
         android:layout_width="match_parent"
-        android:padding="5dp"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom"
+        android:layout_below="@id/bar_layout"
+        android:background="?attr/colorBackground" />
 
-        android:background="@color/colorPrimaryDark"
+    <RelativeLayout
         android:id="@+id/bottom"
-
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_height="wrap_content">
+        android:background="?attr/colorPrimary"
+        android:padding="5dp">
 
         <EditText
+            android:id="@+id/text_send"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/text_send"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/btn_send"
             android:background="@drawable/rounded_edittext"
             android:hint="Введите сообщение..."
-            android:textColorHint="@color/textColorGray"
-            android:textColor="@color/textColor"
             android:paddingLeft="10dp"
             android:paddingTop="3dp"
             android:paddingBottom="3dp"
-            android:layout_toLeftOf="@+id/btn_send"
-            android:layout_centerVertical="true"/>
+            android:textColor="?attr/textColor"
+            android:textColorHint="?attr/textColorHint" />
 
         <ImageButton
+            android:id="@+id/btn_send"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:id="@+id/btn_send"
-            android:background="@drawable/ic_action_name1"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ic_action_name1" />
 
     </RelativeLayout>
 

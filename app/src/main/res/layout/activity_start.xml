@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@color/colorPrimary"
+    android:background="?attr/colorBackground"
     android:layout_height="match_parent"
     tools:context=".StartActivity">
 
@@ -13,8 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="MemDer"
-
-        android:textColor="@color/textColor"
+        android:textColor="?attr/textColor"
         android:textSize="40sp"
         android:textStyle="bold"/>
 
@@ -25,7 +24,7 @@
         style="@style/CustomAnimationButton"
         android:layout_marginTop="100dp"
         android:background="@drawable/rounded_button_clickable"
-        android:textColor="@color/textColor"
+        android:textColor="?attr/textColor"
         android:text="login"/>
     <Button
         android:layout_width="200dp"
@@ -33,7 +32,7 @@
         android:id="@+id/register"
         style="@style/CustomAnimationButton"
         android:background="@drawable/rounded_button_clickable"
-        android:textColor="@color/textColor"
+        android:textColor="?attr/textColor"
         android:layout_marginTop="10dp"
         android:text="register"/>
 

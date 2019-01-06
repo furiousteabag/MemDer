@@ -7,9 +7,11 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,6 +51,11 @@ public class ChatsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            setTheme(R.style.AppThemeDark);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chats);
 
@@ -103,6 +110,8 @@ public class ChatsActivity extends AppCompatActivity {
         // Associating adapter with form elements.
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+
+
     }
 
 
@@ -126,6 +135,11 @@ public class ChatsActivity extends AppCompatActivity {
                 intent1.putExtra("userid", firebaseUser.getUid());
                 intent1.putExtra("form", firebaseUser.getUid());
                 startActivity(intent1);
+                finish();
+                return true;
+            case R.id.settings:
+                Intent intent2  = new Intent(ChatsActivity.this, SettingsActivity.class);
+                startActivity(intent2);
                 finish();
                 return true;
         }

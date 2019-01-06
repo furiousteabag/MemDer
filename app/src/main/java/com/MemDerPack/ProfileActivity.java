@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -66,13 +67,18 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            setTheme(R.style.AppThemeDark);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
         // Toolbar initializing.
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle("Профиль");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,12 +88,12 @@ public class ProfileActivity extends AppCompatActivity {
                     i.putExtra("userid", userid);
                     startActivity(i);
                     finish();
-                  //  overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
+                    overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
                 } else if (intent.getStringExtra("form") != null) {
                     Intent i = new Intent(ProfileActivity.this, ChatsActivity.class);
                     startActivity(i);
                     finish();
-                    //overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
+                    overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
                 }
             }
         });

@@ -28,35 +28,37 @@
         <activity android:name=".LoadActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".ProfileActivity" />
         <activity
             android:name=".ResetPasswordActivity"
-            android:parentActivityName=".LoginActivity"></activity>
+            android:parentActivityName=".LoginActivity" />
 
-        <service android:name=".Notifications.MyFirebaseIdService"
+        <service
+            android:name=".Notifications.MyFirebaseIdService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTACE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTACE_ID_EVENT" />
             </intent-filter>
         </service>
-
-        <service android:name=".Notifications.MyFirebaseMessanging"
+        <service
+            android:name=".Notifications.MyFirebaseMessanging"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="00e56bd4ace6d5bcc8c7209685a5de1f6ed8371c"
-            />
+            android:value="00e56bd4ace6d5bcc8c7209685a5de1f6ed8371c" />
 
+        <activity android:name=".SettingsActivity"></activity>
     </application>
 
 </manifest>
