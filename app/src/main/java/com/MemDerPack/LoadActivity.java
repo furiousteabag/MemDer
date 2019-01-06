@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.MemDerPack.Logic.SharedPref;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 
@@ -45,10 +46,7 @@ public class LoadActivity extends AppCompatActivity {
 
 
     //ToDo: Время загрузки в зависимости от инета
-    //ToDo: share
     //ToDo: 10 картинок из буфера сохранять в кэш и подгружать их при повоторном заходе
-    //ToDo: Санек должен сделать чтобы у всех пользователей могла добавляться категория к categories_seen
-    //ToDo: Когда открыли приложение после сворачивания после отсутсвия интернета нужно заново запускать лоад активити
 
     public static HashMap<String, Integer> numberOfMemesInBuffer;
 
@@ -67,14 +65,22 @@ public class LoadActivity extends AppCompatActivity {
     // Announce a firebase user.
     FirebaseUser firebaseUser;
 
+    // For nightmode.
+    SharedPref sharedPref;
+
     @Override
     @AddTrace(name = "onCreateTrace", enabled = true /* optional */)
     protected void onCreate(Bundle savedInstanceState) {
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+
+        // Setting theme.
+        sharedPref = new SharedPref(this);
+        if (sharedPref.loadNightModeState()) {
             setTheme(R.style.AppThemeDark);
         } else {
             setTheme(R.style.AppTheme);
         }
+
+        // Creating activity.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load);
 

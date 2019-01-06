@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.MemDerPack.Logic.SharedPref;
 import com.MemDerPack.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,19 +24,29 @@ import static com.MemDerPack.StartActivity.hideKeyboard;
 
 public class LoginActivity extends AppCompatActivity {
 
+    // Activity elements.
     MaterialEditText email, password;
     Button btn_login;
     TextView forgot_password;
 
+    // Firebase.
     FirebaseAuth auth;
+
+    // For nightmode.
+    SharedPref sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+
+        // Setting theme.
+        sharedPref = new SharedPref(this);
+        if (sharedPref.loadNightModeState()) {
             setTheme(R.style.AppThemeDark);
         } else {
             setTheme(R.style.AppTheme);
         }
+
+        // Creating activity.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 

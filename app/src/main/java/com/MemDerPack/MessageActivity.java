@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.MemDerPack.Fragments.APIService;
+import com.MemDerPack.Logic.SharedPref;
 import com.MemDerPack.Notifications.Client;
 import com.MemDerPack.Notifications.Data;
 import com.MemDerPack.Notifications.MyResponse;
@@ -48,39 +49,48 @@ import retrofit2.Response;
 
 public class MessageActivity extends AppCompatActivity {
 
+    // Activity elements.
     CircleImageView profile_image;
     TextView username;
     ImageButton btn_send;
     EditText text_send;
     Button btn_profile_click;
+    RecyclerView recyclerView;
 
     // Initializing firebase elements.
     FirebaseUser firebaseUser;
     DatabaseReference reference;
     String userid;
+    boolean notify = false;
 
     // Message adapter.
     MessageAdapter messageAdapter;
     List<Chat> mchat;
 
-    RecyclerView recyclerView;
-
     // For check if messages are seen.
     ValueEventListener seenListener;
 
+    // Some intent.
     Intent intent;
 
+    // For notifications.
     APIService apiService;
 
-    boolean notify = false;
+    // For nightmode.
+    SharedPref sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+
+        // Setting theme.
+        sharedPref = new SharedPref(this);
+        if (sharedPref.loadNightModeState()) {
             setTheme(R.style.AppThemeDark);
         } else {
             setTheme(R.style.AppTheme);
         }
+
+        // Creating activity.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
 

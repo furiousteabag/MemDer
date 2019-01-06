@@ -9,28 +9,29 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
+import com.MemDerPack.Logic.SharedPref;
 import com.MemDerPack.R;
 
 public class StartActivity extends AppCompatActivity {
 
-    // Buttons announcement.
+    // Activity elements.
     Button login, register;
 
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-    }
+    // For nightmode.
+    SharedPref sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+
+        // Setting theme.
+        sharedPref = new SharedPref(this);
+        if (sharedPref.loadNightModeState()) {
             setTheme(R.style.AppThemeDark);
         } else {
             setTheme(R.style.AppTheme);
         }
+
+        // Creating activity.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
@@ -66,7 +67,8 @@ public class StartActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
+    protected void onStart() {
+        super.onStart();
 
     }
 }

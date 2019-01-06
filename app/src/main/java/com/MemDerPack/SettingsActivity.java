@@ -9,17 +9,28 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
+import com.MemDerPack.Logic.SharedPref;
+
 public class SettingsActivity extends AppCompatActivity {
 
+    // Activity elements.
     private Switch myswitch;
+
+    // Theme variable.
+    SharedPref sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+
+        // Setting theme.
+        sharedPref = new SharedPref(this);
+        if (sharedPref.loadNightModeState()) {
             setTheme(R.style.AppThemeDark);
         } else {
             setTheme(R.style.AppTheme);
         }
+
+        // Creating activity.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
@@ -41,17 +52,17 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         myswitch = (Switch) findViewById(R.id.myswitch);
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+        if (sharedPref.loadNightModeState()) {
             myswitch.setChecked(true);
         }
         myswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    sharedPref.setNightModeState(true);
                     restartApp();
                 } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    sharedPref.setNightModeState(false);
                     restartApp();
                 }
             }

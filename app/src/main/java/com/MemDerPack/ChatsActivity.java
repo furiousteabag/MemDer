@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.MemDerPack.Fragments.MemesFragment;
+import com.MemDerPack.Logic.SharedPref;
 import com.bumptech.glide.Glide;
 import com.MemDerPack.Fragments.ChatsFragment;
 import com.MemDerPack.Fragments.UsersFragment;
@@ -40,22 +41,25 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatsActivity extends AppCompatActivity {
 
-    // Activity patterns.
-//    CircleImageView profile_image;
-//    Button btn_profile;
-//    Button btn_profile_click;
-    //int x = 0;
-    // Firebase stuff.
+    // Firebase data.
     FirebaseUser firebaseUser;
     DatabaseReference reference;
 
+    // For nightmode.
+    SharedPref sharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+
+        // Setting theme.
+        sharedPref = new SharedPref(this);
+        if (sharedPref.loadNightModeState()) {
             setTheme(R.style.AppThemeDark);
         } else {
             setTheme(R.style.AppTheme);
         }
+
+        // Creating activity.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chats);
 
