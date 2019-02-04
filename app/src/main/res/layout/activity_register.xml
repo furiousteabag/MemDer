@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="?attr/colorBackground"
     tools:context=".RegisterActivity">
 
     <include
@@ -19,65 +19,57 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/textColor"
-            android:text="Create a new account"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:met_textColor="@color/textColor"
             android:layout_marginTop="10dp"
-            android:inputType="text"
             android:hint="Username"
-            app:met_textColorHint="@color/textColorGray"
-            app:met_floatingLabel="normal" />
+            android:inputType="text"
+            app:met_floatingLabel="normal"
+            app:met_textColor="?attr/textColor"
+            app:met_textColorHint="?attr/textColorHint" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
             android:layout_marginTop="10dp"
-            app:met_textColor="@color/textColor"
-            app:met_textColorHint="@color/textColorGray"
             android:hint="Email"
-            app:met_floatingLabel="normal" />
+            android:inputType="textEmailAddress"
+            app:met_floatingLabel="normal"
+            app:met_textColor="?attr/textColor"
+            app:met_textColorHint="?attr/textColorHint" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/password"
             android:layout_width="match_parent"
-            android:inputType="textPassword"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:met_textColorHint="@color/textColorGray"
-            app:met_textColor="@color/textColor"
             android:hint="Password"
-            app:met_floatingLabel="normal" />
+            android:inputType="textPassword"
+            app:met_floatingLabel="normal"
+            app:met_textColor="?attr/textColor"
+            app:met_textColorHint="?attr/textColorHint" />
 
         <Button
             android:id="@+id/btn_register"
+            style="@style/CustomAnimationButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            style="@style/CustomAnimationButton"
             android:background="@drawable/rounded_button_clickable"
             android:text="register"
-            android:textColor="@color/textColor" />
+            android:textColor="?attr/textColor" />
 
         <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_height="wrap_content"
             android:id="@+id/loadingPanel"
-            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:indeterminate="true"
             android:theme="@style/CircularProgress"
-            android:indeterminate="true" />
+            android:visibility="gone" />
 
 
     </LinearLayout>

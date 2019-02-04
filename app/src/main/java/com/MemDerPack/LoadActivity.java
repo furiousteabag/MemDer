@@ -1,16 +1,24 @@
 package com.MemDerPack;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.MemDerPack.Logic.SharedPref;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 import com.MemDerPack.Logic.AlphanumericComparator;
 import com.MemDerPack.Logic.PictureLogic;
@@ -23,6 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.perf.metrics.AddTrace;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,11 +46,7 @@ public class LoadActivity extends AppCompatActivity {
 
 
     //ToDo: Время загрузки в зависимости от инета
-    //ToDo: share
     //ToDo: 10 картинок из буфера сохранять в кэш и подгружать их при повоторном заходе
-    //ToDo: очищать кэш
-    //ToDo: Санек должен сделать чтобы у всех пользователей могла добавляться категория к categories_seen
-    //ToDo: Когда открыли приложение после сворачивания после отсутсвия интернета нужно заново запускать лоад активити
 
     public static HashMap<String, Integer> numberOfMemesInBuffer;
 
@@ -60,10 +65,27 @@ public class LoadActivity extends AppCompatActivity {
     // Announce a firebase user.
     FirebaseUser firebaseUser;
 
+    // For nightmode.
+    SharedPref sharedPref;
+
     @Override
+    @AddTrace(name = "onCreateTrace", enabled = true /* optional */)
     protected void onCreate(Bundle savedInstanceState) {
+
+        // Setting theme.
+        sharedPref = new SharedPref(this);
+        if (sharedPref.loadNightModeState()) {
+            setTheme(R.style.AppThemeDark);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
+
+        // Creating activity.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load);
+
+        Fabric.with(this, new Crashlytics());
+
 
         /*
          *
@@ -75,7 +97,7 @@ public class LoadActivity extends AppCompatActivity {
 //
 
 
-        if (isOnline()) {
+        if (haveNetworkConnection()) {
             loadingPanel.setVisibility(View.VISIBLE);
 
 
@@ -171,6 +193,7 @@ public class LoadActivity extends AppCompatActivity {
                         Intent i = new Intent(LoadActivity.this, StartActivity.class);
                         startActivity(i);
                         finish();
+                        overridePendingTransition(R.anim.left_to_right_1, R.anim.left_to_right_2);
                     }
                 }, TIME_OUT);
 
@@ -395,40 +418,57 @@ public class LoadActivity extends AppCompatActivity {
                     }
 
                 });
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
 
-                        Intent i = new Intent(LoadActivity.this, MainActivity.class);
+                        Intent i = new Intent(LoadActivity.this, ChatsActivity.class);
                         startActivity(i);
                         finish();
+                        overridePendingTransition(R.anim.left_to_right_1, R.anim.left_to_right_2);
 
                     }
                 }, TIME_OUT);
 
 
             }
-        }
-
-        else{
+        } else {
             Toast.makeText(LoadActivity.this, "No internet!", Toast.LENGTH_SHORT).show();
             loadingPanel.setVisibility(View.GONE);
         }
 
     }
-    // ICMP
-    public boolean isOnline () {
-        Runtime runtime = Runtime.getRuntime();
-        try {
-            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
-            int exitValue = ipProcess.waitFor();
-            return (exitValue == 0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-        return false;
+    //    // ICMP
+//    public boolean isOnline() {
+//        Runtime runtime = Runtime.getRuntime();
+//        try {
+//            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
+//            int exitValue = ipProcess.waitFor();
+//            return (exitValue == 0);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return false;
+//    }
+    public boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
     }
 }

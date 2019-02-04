@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.MemDerPack.Logic.SharedPref;
 import com.MemDerPack.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -38,8 +40,21 @@ public class RegisterActivity extends AppCompatActivity {
     DatabaseReference reference;
     DatabaseReference referenceSeen;
 
+    // For nightmode.
+    SharedPref sharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // Setting theme.
+        sharedPref = new SharedPref(this);
+        if (sharedPref.loadNightModeState()) {
+            setTheme(R.style.AppThemeDark);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
+
+        // Creating activity.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
@@ -48,6 +63,16 @@ public class RegisterActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Register");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(RegisterActivity.this, StartActivity.class);
+                startActivity(i);
+                finish();
+                overridePendingTransition(R.anim.right_to_left_1, R.anim.right_to_left_2);
+                //  startActivity(new Intent(MessageActivity.this, ChatsActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            }
+        });
 
         // Associating variables.
         username = findViewById(R.id.username);
@@ -138,7 +163,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
 
                                         findViewById(R.id.loadingPanel).setVisibility(View.GONE);
-                                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                        Intent intent = new Intent(RegisterActivity.this, ChatsActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
                                         finish();
@@ -159,7 +184,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        //super.onBackPressed();
+        Intent i = new Intent(RegisterActivity.this, StartActivity.class);
+        startActivity(i);
+        finish();
         overridePendingTransition(R.anim.right_to_left_1, R.anim.right_to_left_2);
     }
 

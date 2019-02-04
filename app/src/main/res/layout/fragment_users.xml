@@ -3,22 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorBackground"
     tools:context=".Fragments.UsersFragment">
 
     <EditText
+        android:id="@+id/search_users"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:textColor="@color/textColor"
-        android:hint="Search..."
-        android:textColorHint="@color/textColorGray"
-        android:id="@+id/search_users"/>
+        android:hint="Поиск по пользователям..."
+        android:textColor="?attr/textColor"
+        android:textColorHint="?attr/textColorHint" />
 
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/search_users"
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recycler_view"/>
+        android:layout_below="@+id/search_users" />
 
 
 </RelativeLayout>

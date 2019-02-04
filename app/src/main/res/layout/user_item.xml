@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:text="username"
         android:id="@+id/username"
-        android:textColor="@color/textColor"
+        android:textColor="?attr/textColor"
         android:layout_toRightOf="@id/profile_image"
         android:layout_marginLeft="10dp"
         android:layout_centerVertical="true"
@@ -57,7 +57,7 @@
         android:layout_marginTop="5dp"
         android:paddingTop="5dp"
         android:id="@+id/last_msg"
-        android:textColor="@color/textColorGray"
+        android:textColor="?attr/textColorSecond"
         android:layout_marginLeft="20dp"
         android:maxLines="1"/>
 

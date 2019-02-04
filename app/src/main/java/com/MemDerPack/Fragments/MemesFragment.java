@@ -1,28 +1,29 @@
-package com.MemDerPack;
+package com.MemDerPack.Fragments;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-
-import com.bumptech.glide.Glide;
+import com.MemDerPack.ChatsActivity;
+import com.MemDerPack.LoadActivity;
 import com.MemDerPack.Logic.PictureLogic;
 import com.MemDerPack.Logic.UserLogic;
-
+import com.MemDerPack.R;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,22 +31,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.io.File;
 import java.util.ArrayList;
-
-import de.hdodenhof.circleimageview.CircleImageView;
-
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
-
-
-import com.lorentzos.flingswipe.SwipeFlingAdapterView;
-
-import com.MemDerPack.R;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -54,17 +43,10 @@ import java.util.Map;
 import static com.MemDerPack.LoadActivity.memeFolder;
 import static com.MemDerPack.LoadActivity.numberOfMemesInBuffer;
 
-
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MemesFragment extends Fragment {
 
     // Arraylist of memes.
     private ArrayList<PictureLogic.Picture> pictureList;
-
-    // Initializing activity elements.
-    Button btnChats;
-    CircleImageView profile_image;
-    Button username;
-    Button btn_profile;
 
     // Initializing firebase elements.
     FirebaseUser firebaseUser;
@@ -77,24 +59,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static ViewHolder viewHolder;
     private SwipeFlingAdapterView flingContainer;
 
-    @SuppressLint("ClickableViewAccessibility")
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_memes, container, false);
 
-        // Toolbar initializing.
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
 
-        // Associating activity elements.
-        profile_image = findViewById(R.id.profile_image);
-        username = findViewById(R.id.username);
-        btnChats = findViewById(R.id.btn_chats);
-        btn_profile = findViewById(R.id.btn_profile);
-        btnChats.setOnClickListener(this);
-        flingContainer = findViewById(R.id.frame);
+        flingContainer = view.findViewById(R.id.frame);
+
 
         // Associating firebase variables
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -102,28 +75,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         referenceChangeRight = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
         referenceChangeLeft = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
-        // Handling username and image.
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                // Setting username.
-                UserLogic.User fireUser = dataSnapshot.getValue(UserLogic.User.class);
-                username.setText(fireUser.getUsername());
-
-                // Setting image.
-                if (fireUser.getImageURL().equals("default")) {
-                    profile_image.setImageResource(R.mipmap.ic_launcher);
-                } else {
-                    Glide.with(getApplicationContext()).load(fireUser.getImageURL()).into(profile_image);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
         /*
          * SWIPES HANDLING
@@ -133,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pictureList = LoadActivity.pictureList;
 
         // Initializing adapter.
-        myAppAdapter = new MyAppAdapter(pictureList, MainActivity.this);
+        myAppAdapter = new MyAppAdapter(pictureList, getContext());
         flingContainer.setAdapter(myAppAdapter);
 
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
@@ -258,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                 // Current meme number.
                                                 Integer memeNumber;
                                                 memeNumber = Integer.parseInt(dataSnapshot.getValue().toString()) + numberOfMemesInBuffer.get(categoryNext);
-                                                if (memeNumber  < td.size()) {
+                                                if (memeNumber < td.size()) {
                                                     numberOfMemesInBuffer.put(categoryNext, numberOfMemesInBuffer.get(categoryNext) + 1);
                                                     memeUrl = td.get(keys.get(memeNumber)).toString();
                                                 } else {
@@ -298,7 +249,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 myAppAdapter.notifyDataSetChanged();
 
 
-
                                 System.out.println(fireUser.getPreferencesList().toString());
 
 
@@ -315,14 +265,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
 
                 // Vibration.
-                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     v.vibrate(VibrationEffect.createOneShot(30, VibrationEffect.DEFAULT_AMPLITUDE));
                 } else {
                     v.vibrate(30);
                 }
 
-                deleteCache(getApplicationContext());
+                deleteCache(getActivity().getApplicationContext());
 
 
             }
@@ -383,7 +333,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                         if (memeNumber >= td.size()) {
                                             System.out.println("Закончились мемесы.");
-                                           // numberOfMemesInBuffer.put(category, 0);
+                                            // numberOfMemesInBuffer.put(category, 0);
 
                                         } else {
                                             currentMemeCategory.setValue(memeNumber + 1);
@@ -487,7 +437,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                        startService(intentVibrate);
 
 
-
                                 System.out.println(fireUser.getPreferencesList().toString());
 
 
@@ -501,7 +450,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 });
 
-                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
                 // Vibrate for 500 milliseconds
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     v.vibrate(VibrationEffect.createOneShot(30, VibrationEffect.DEFAULT_AMPLITUDE));
@@ -510,7 +459,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     v.vibrate(30);
                 }
 
-                deleteCache(getApplicationContext());
+                deleteCache(getActivity().getApplicationContext());
 
             }
 
@@ -524,7 +473,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                 View view = flingContainer.getSelectedView();
-                view.findViewById(R.id.background).setAlpha(0);
+                //view.findViewById(R.id.background).setAlpha(0);
                 view.findViewById(R.id.item_swipe_right_indicator).setAlpha(scrollProgressPercent < 0 ? -scrollProgressPercent : 0);
                 view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
             }
@@ -545,61 +494,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
+        return view;
     }
 
 
-    // Methods to handle top menu with logout button.
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.logout:
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(MainActivity.this, StartActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                return true;
-        }
-        return false;
-    }
-
-    // Handling the chat button.
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_chats:
-                Intent intent = new Intent(this, ChatsActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.left_to_right_1, R.anim.left_to_right_2);
-                break;
-            case R.id.username:
-                Intent intent1 = new Intent(this, ProfileActivity.class);
-                intent1.putExtra("userid", firebaseUser.getUid());
-                startActivity(intent1);
-                overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
-                break;
-            case R.id.profile_image:
-                Intent intent2 = new Intent(this, ProfileActivity.class);
-                intent2.putExtra("userid", firebaseUser.getUid());
-                startActivity(intent2);
-                overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
-                break;
-            case R.id.btn_profile:
-                Intent intent3 = new Intent(this, ProfileActivity.class);
-                intent3.putExtra("userid", firebaseUser.getUid());
-                startActivity(intent3);
-                overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
-                break;
-
-
-            default:
-                break;
-
+    public static void deleteCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        } else if (dir != null && dir.isFile()) {
+            return dir.delete();
+        } else {
+            return false;
+        }
+    }
 
     // Swipes handlers.
     public static class ViewHolder {
@@ -652,66 +575,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 viewHolder = (ViewHolder) convertView.getTag();
             }
 
-            Glide.with(MainActivity.this).load(parkingList.get(position).Image.getImagePath()).into(viewHolder.cardImage);
+            Glide.with(MemesFragment.this).load(parkingList.get(position).Image.getImagePath()).into(viewHolder.cardImage);
 
             return rowView;
-        }
-    }
-
-    private void status(String status) {
-        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("status", status);
-
-        reference.updateChildren(hashMap);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        status("online");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        status("offline");
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Intent startMain = new Intent(Intent.ACTION_MAIN);
-            startMain.addCategory(Intent.CATEGORY_HOME);
-            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(startMain);
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    public static void deleteCache(Context context) {
-        try {
-            File dir = context.getCacheDir();
-            deleteDir(dir);
-        } catch (Exception e) { e.printStackTrace();}
-    }
-
-    public static boolean deleteDir(File dir) {
-        if (dir != null && dir.isDirectory()) {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
-                if (!success) {
-                    return false;
-                }
-            }
-            return dir.delete();
-        } else if(dir!= null && dir.isFile()) {
-            return dir.delete();
-        } else {
-            return false;
         }
     }
 }

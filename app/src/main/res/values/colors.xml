@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<color name="colorPrimary">#008577</color>-->
-    <!--<color name="colorPrimaryDark">#00574B</color>-->
-    <!--<color name="colorAccent">#D81B60</color>-->
-    <!--<color name="backGround">#FBE0FB</color>-->
-    <!--<color name="textColor">#fff</color>-->
 
-    <!--<color name="colorPrimary">#ff9100</color>-->
-    <!--<color name="colorPrimaryDark">#c56200</color>-->
-    <!--<color name="colorAccent">#ffc246</color>-->
-    <!--<color name="backGround">#FBE0FB</color>-->
-    <!--<color name="textColor">#fff</color>-->
 
-    <!--<color name="colorPrimary">#3d5afe</color>-->
-    <!--<color name="colorPrimaryDark">#0031ca</color>-->
-    <!--<color name="colorAccent">#8187ff</color>-->
-    <!--<color name="backGround">#FBE0FB</color>-->
-    <!--<color name="textColor">#fff</color>-->
+    <!--Light theme colors-->
+    <color name="LcolorBackground">#ffffff</color>
+    <color name="LcolorPrimary">#f1f0f5</color>
+    <color name="LcolorPrimarySecond">#007ee5</color>
+    <color name="LcolorAccent">#009788</color>
+    <color name="LtextColor">#000000</color>
+    <color name="LtoolbarColor">#000000</color>
+    <color name="LtextColorSecond">#939395</color>
+    <color name="LtextColorThird">#ffffff</color>
+    <color name="LtextColorHint">#939395</color>
 
-    <color name="colorPrimary">#12232b</color>
-    <color name="colorPrimaryDark">#373e45</color>
-    <color name="colorAccent">#009788</color>
-    <color name="textColor">#fff</color>
-    <color name="textColorGray">#939395</color>
+    <!--Dark theme colors-->
+    <color name="DcolorBackground">#12232b</color>
+    <color name="DcolorPrimary">#373e45</color>
+    <color name="DcolorPrimarySecond">#373e45</color>
+    <color name="DcolorAccent">#009788</color>
+    <color name="DtextColor">#fff</color>
+    <color name="DtoolbarColor">#fff</color>
+    <color name="DtextColorSecond">#939395</color>
+    <color name="DtextColorThird">#ffffff</color>
+    <color name="DtextColorHint">#939395</color>
 
 
 </resources>

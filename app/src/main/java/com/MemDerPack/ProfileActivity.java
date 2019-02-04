@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.MemDerPack.Logic.SharedPref;
 import com.bumptech.glide.Glide;
 import com.MemDerPack.Logic.UserLogic;
 
@@ -63,16 +65,28 @@ public class ProfileActivity extends AppCompatActivity {
 
     Intent intent;
 
+    // For nightmode.
+    SharedPref sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // Setting theme.
+        sharedPref = new SharedPref(this);
+        if (sharedPref.loadNightModeState()) {
+            setTheme(R.style.AppThemeDark);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
+
+        // Creating activity.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
         // Toolbar initializing.
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle("Профиль");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,11 +99,6 @@ public class ProfileActivity extends AppCompatActivity {
                     overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
                 } else if (intent.getStringExtra("form") != null) {
                     Intent i = new Intent(ProfileActivity.this, ChatsActivity.class);
-                    startActivity(i);
-                    finish();
-                    overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
-                } else {
-                    Intent i = new Intent(ProfileActivity.this, MainActivity.class);
                     startActivity(i);
                     finish();
                     overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
@@ -189,28 +198,23 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
 
-        // Edit description.
-        user_description.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        if (fuser.getUid().equals(userid)) {
+            // Edit description.
+            user_description.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
 
-            }
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    updateDescription(s.toString());
+                }
+                @Override
+                public void afterTextChanged(Editable s) {
+                }
+            });
+        }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-
-                updateDescription(s.toString());
-
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-                // user_description.setCursorVisible(false);
-            }
-        });
     }
 
     private void openImage() {
@@ -227,9 +231,18 @@ public class ProfileActivity extends AppCompatActivity {
         database.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null) {
-                    user_description.setText(dataSnapshot.getValue().toString());
+                if (fuser.getUid().equals(userid)) {
+                    if (dataSnapshot.getValue() != null) {
+                        user_description.setText(dataSnapshot.getValue().toString());
+                    }
+                } else {
+                    if (dataSnapshot.getValue() == null) {
+                        user_description.setText("no information given");
+                    } else {
+                        user_description.setText(dataSnapshot.getValue().toString());
+                    }
                 }
+
             }
 
             @Override
@@ -332,11 +345,6 @@ public class ProfileActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
         } else if (intent.getStringExtra("form") != null) {
             Intent i = new Intent(ProfileActivity.this, ChatsActivity.class);
-            startActivity(i);
-            finish();
-            overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
-        } else {
-            Intent i = new Intent(ProfileActivity.this, MainActivity.class);
             startActivity(i);
             finish();
             overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);

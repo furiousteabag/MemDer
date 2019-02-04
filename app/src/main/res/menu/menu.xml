@@ -3,9 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/profile"
+        android:title="Профиль"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/settings"
+        android:title="Настройки"
+        app:showAsAction="never"
+        />
+    <item
         android:id="@+id/logout"
-        android:title="Logout"
-        
+        android:title="Выйти"
         app:showAsAction="never"
         />
 

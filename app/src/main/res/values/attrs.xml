@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ds">
+        <attr name="colorBackground" format="color"/>
+        <attr name="colorPrimary" format="color"/>
+        <attr name="colorPrimarySecond" format="color"/>
+        <attr name="colorAccent" format="color"/>
+        <attr name="textColor" format="color"/>
+        <attr name="toolbarColor" format="color"/>
+        <attr name="textColorSecond" format="color"/>
+        <attr name="textColorThird" format="color"/>
+        <attr name="textColorHint" format="color"/>
+    </declare-styleable>
+</resources>
