@@ -11,7 +11,7 @@
         <item name="textColorSecond">@color/LtextColorSecond</item>
         <item name="textColorThird">@color/LtextColorThird</item>
         <item name="textColorHint">@color/LtextColorHint</item>
-        <item name="android:windowAnimationStyle">@style/WindowsAnimationTransition</item>
+        <item name="android:windowAnimationStyle">@style/noAnimTheme</item>
     </style>
 
     <!--Dark theme-->
@@ -25,10 +25,13 @@
         <item name="textColorSecond">@color/DtextColorSecond</item>
         <item name="textColorThird">@color/DtextColorThird</item>
         <item name="textColorHint">@color/DtextColorHint</item>
-        <item name="android:windowAnimationStyle">@style/WindowsAnimationTransition</item>
+        <item name="android:windowAnimationStyle">@style/noAnimTheme</item>
     </style>
 
 
+    <style name="noAnimTheme" parent="android:Theme">
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
 
     <!--Theme change-->
     <style name="WindowsAnimationTransition">

@@ -3,32 +3,28 @@
     <string name="app_name">MainActivity</string>
 
     <!--Chats activity-->
-    <string name="memes">Memes</string>
-    <string name="chats">Chats</string>
-    <string name="users">Users</string>
+    <string name="memes">Мемы</string>
+    <string name="chats">Чаты</string>
+    <string name="users">Пользователи</string>
 
     <!--Settings activity-->
-    <string name="enable_night_mode">Enable night mode</string>
-    <string name="night_mode">Night mode</string>
-    <string name="change_language">Change language</string>
-    <string name="change_language_button">Change language</string>
-    <string name="choose_language">Choose language…</string>
-    <string name="settings">Settings</string>
+    <string name="enable_night_mode">Включить ночной режим</string>
+    <string name="night_mode">Ночной режим</string>
+    <string name="change_language">Поменять язык</string>
+    <string name="change_language_button">Сменить язык</string>
+    <string name="choose_language">Выберете язык…</string>
+    <string name="settings">Настройки</string>
 
     <!--Menu-->
-    <string name="profile">Profile</string>
-    <string name="settings_menu">Settings</string>
-    <string name="logout">Log out</string>
+    <string name="profile">Профиль</string>
+    <string name="settings_menu">Настройки</string>
+    <string name="logout">Выйти</string>
 
     <!--Users fragment-->
-    <string name="search_users">Search for users...</string>
+    <string name="search_users">Поиск по пользователям...</string>
 
     <!--Message activity-->
-    <string name="enter_message">Enter message...</string>
-
-
-
-
+    <string name="enter_message">Введите сообщение...</string>
 
 
 

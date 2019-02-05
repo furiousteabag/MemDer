@@ -4,17 +4,17 @@
 
     <item
         android:id="@+id/profile"
-        android:title="Профиль"
+        android:title="@string/profile"
         app:showAsAction="never"
         />
     <item
         android:id="@+id/settings"
-        android:title="Настройки"
+        android:title="@string/settings_menu"
         app:showAsAction="never"
         />
     <item
         android:id="@+id/logout"
-        android:title="Выйти"
+        android:title="@string/logout"
         app:showAsAction="never"
         />
 

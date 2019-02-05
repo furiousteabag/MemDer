@@ -96,12 +96,12 @@ public class ProfileActivity extends AppCompatActivity {
                     i.putExtra("userid", userid);
                     startActivity(i);
                     finish();
-                    overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
+//                    overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
                 } else if (intent.getStringExtra("form") != null) {
                     Intent i = new Intent(ProfileActivity.this, ChatsActivity.class);
                     startActivity(i);
                     finish();
-                    overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
+//                    overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
                 }
             }
         });
@@ -342,12 +342,12 @@ public class ProfileActivity extends AppCompatActivity {
             i.putExtra("userid", userid);
             startActivity(i);
             finish();
-            overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
+//            overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
         } else if (intent.getStringExtra("form") != null) {
             Intent i = new Intent(ProfileActivity.this, ChatsActivity.class);
             startActivity(i);
             finish();
-            overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
+//            overridePendingTransition(R.anim.bottom_to_top_1, R.anim.bottom_to_top_2);
         }
     }
 

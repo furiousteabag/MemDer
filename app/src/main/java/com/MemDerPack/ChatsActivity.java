@@ -1,6 +1,9 @@
 package com.MemDerPack;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -36,6 +39,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -59,6 +63,14 @@ public class ChatsActivity extends AppCompatActivity {
             setTheme(R.style.AppTheme);
         }
 
+        SharedPreferences prefs = getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        String language = prefs.getString("My_lang", "");
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
         // Creating activity.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chats);
@@ -67,11 +79,6 @@ public class ChatsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("MemDer");
-
-        // Associating patterns with them.
-//        profile_image = findViewById(R.id.profile_image);
-//        btn_profile = findViewById(R.id.btn_profile);
-//        btn_profile_click = findViewById(R.id.btn_profile_click);
 
         //Initializing firebase.
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -107,9 +114,9 @@ public class ChatsActivity extends AppCompatActivity {
 
         // Initializing adapter.
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new MemesFragment(), "Мемы");
-        viewPagerAdapter.addFragment(new ChatsFragment(), "Чаты");
-        viewPagerAdapter.addFragment(new UsersFragment(), "Пользователи");
+        viewPagerAdapter.addFragment(new MemesFragment(), getString(R.string.memes));
+        viewPagerAdapter.addFragment(new ChatsFragment(), getString(R.string.chats));
+        viewPagerAdapter.addFragment(new UsersFragment(), getString(R.string.users));
 
         // Associating adapter with form elements.
         viewPager.setAdapter(viewPagerAdapter);

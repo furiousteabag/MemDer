@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'io.fabric'
@@ -13,6 +14,7 @@ android {
         versionName "1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -37,6 +39,7 @@ buildscript {
 repositories {
     // Crashlytics.
     maven { url 'https://maven.fabric.io/public' }
+    mavenCentral()
 }
 
 dependencies {
@@ -81,8 +84,21 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
-    // Sqipes.
+    // Swipes.
+    implementation "com.yuyakaido.android:card-stack-view:2.2.1"
     implementation 'com.lorentzos.swipecards:library:1.0.9'
     implementation 'com.github.bumptech.glide:glide:4.8.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // Image Loading
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+
+    // Support Library
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+
+    // View
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+
+    implementation 'com.android.support:multidex:1.0.3'
 
 }

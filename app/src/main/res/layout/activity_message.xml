@@ -91,7 +91,7 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/btn_send"
             android:background="@drawable/rounded_edittext"
-            android:hint="Введите сообщение..."
+            android:hint="@string/enter_message"
             android:paddingLeft="10dp"
             android:paddingTop="3dp"
             android:paddingBottom="3dp"

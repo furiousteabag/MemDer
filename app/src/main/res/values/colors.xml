@@ -6,7 +6,7 @@
     <color name="LcolorBackground">#ffffff</color>
     <color name="LcolorPrimary">#f1f0f5</color>
     <color name="LcolorPrimarySecond">#007ee5</color>
-    <color name="LcolorAccent">#009788</color>
+    <color name="LcolorAccent">#007ee5</color>
     <color name="LtextColor">#000000</color>
     <color name="LtoolbarColor">#000000</color>
     <color name="LtextColorSecond">#939395</color>

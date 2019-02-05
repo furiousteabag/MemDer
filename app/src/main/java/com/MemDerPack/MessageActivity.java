@@ -105,7 +105,7 @@ public class MessageActivity extends AppCompatActivity {
                 Intent i = new Intent(MessageActivity.this, ChatsActivity.class);
                 startActivity(i);
                 finish();
-                overridePendingTransition(R.anim.right_to_left_1, R.anim.right_to_left_2);
+//                overridePendingTransition(R.anim.right_to_left_1, R.anim.right_to_left_2);
             }
         });
 
@@ -379,7 +379,7 @@ public class MessageActivity extends AppCompatActivity {
                 Intent intent2 = new Intent(this, ProfileActivity.class);
                 intent2.putExtra("userid", userid);
                 startActivity(intent2);
-                overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
+//                overridePendingTransition(R.anim.top_to_bottom_1, R.anim.top_to_bottom_2);
                 break;
 
 
@@ -424,6 +424,6 @@ public class MessageActivity extends AppCompatActivity {
         Intent i = new Intent(MessageActivity.this, ChatsActivity.class);
         startActivity(i);
         finish();
-        overridePendingTransition(R.anim.right_to_left_1, R.anim.right_to_left_2);
+//        overridePendingTransition(R.anim.right_to_left_1, R.anim.right_to_left_2);
     }
 }

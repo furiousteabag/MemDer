@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:hint="Поиск по пользователям..."
+        android:hint="@string/search_users"
         android:textColor="?attr/textColor"
         android:textColorHint="?attr/textColorHint" />
 

@@ -9,15 +9,25 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
+
 public class PictureLogic {
 
     // Picture element class.
     public static class Picture {
 
+
+
+        public long id;
+        public static long id_next;
         public Data Image;
         public int Category;
 
+        public Picture() {
+        }
+
         public Picture(Data image, int category) {
+            id = id_next;
+            id_next++;
             Image = image;
             Category = category;
         }
@@ -89,16 +99,22 @@ public class PictureLogic {
 
 
         // We take a user, picture and the fact whether we liked or not.
-        public static UserLogic.User ChangePreference(UserLogic.User user, Picture pic, boolean liked) {
+        public static UserLogic.User ChangePreference(UserLogic.User user, Picture pic, String forHowMuchLiked) {
             // Index of a category to change
             int index = pic.Category;
 
-            if (liked) {
+            if (forHowMuchLiked.equals("like")) {
                 if (user.getPreferencesList().get(index) < 15)
                     user.setSinglePreferences(index, user.getPreferencesList().get(index) + 1);
-            } else {
+            } else if (forHowMuchLiked.equals("dislike")) {
                 if (user.getPreferencesList().get(index) > 0)
                     user.setSinglePreferences(index, user.getPreferencesList().get(index) - 1);
+            } else if (forHowMuchLiked.equals("superlike")) {
+                if (user.getPreferencesList().get(index) < 13)
+                    user.setSinglePreferences(index, user.getPreferencesList().get(index) + 3);
+            } else if (forHowMuchLiked.equals("superdislike")) {
+                if (user.getPreferencesList().get(index) > 2)
+                    user.setSinglePreferences(index, user.getPreferencesList().get(index) - 3);
             }
 
             return user;
