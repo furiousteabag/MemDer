@@ -142,14 +142,14 @@ public class ChatsActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.profile:
-                Intent intent1  = new Intent(ChatsActivity.this, ProfileActivity.class);
+                Intent intent1 = new Intent(ChatsActivity.this, ProfileActivity.class);
                 intent1.putExtra("userid", firebaseUser.getUid());
                 intent1.putExtra("form", firebaseUser.getUid());
                 startActivity(intent1);
                 finish();
                 return true;
             case R.id.settings:
-                Intent intent2  = new Intent(ChatsActivity.this, SettingsActivity.class);
+                Intent intent2 = new Intent(ChatsActivity.this, SettingsActivity.class);
                 startActivity(intent2);
                 finish();
                 return true;

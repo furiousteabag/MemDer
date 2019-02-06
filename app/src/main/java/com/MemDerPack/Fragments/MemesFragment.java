@@ -2,6 +2,7 @@ package com.MemDerPack.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -55,13 +56,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.MemDerPack.LoadActivity.memeFolder;
 import static com.MemDerPack.LoadActivity.numberOfMemesInBuffer;
+import static com.MemDerPack.Logic.JSONConverter.convertToJSON;
 
 public class MemesFragment extends Fragment implements CardStackListener {
 
     // Arraylist of memes.
-    private ArrayList<PictureLogic.Picture> pictureList;
+    public ArrayList<PictureLogic.Picture> pictureList;
+    public Integer counter;
 
     // Initializing firebase elements.
     FirebaseUser firebaseUser;
@@ -108,6 +112,7 @@ public class MemesFragment extends Fragment implements CardStackListener {
 
 
         pictureList = LoadActivity.pictureList;
+        counter = 0;
 
 
 
@@ -727,7 +732,7 @@ public class MemesFragment extends Fragment implements CardStackListener {
                 final UserLogic.User fireUser = dataSnapshot.getValue(UserLogic.User.class);
 
                 // Changing preferences.
-                PictureLogic.PictureMethods.ChangePreference(fireUser, pictureList.get(0), forHowMuchLiked);
+                PictureLogic.PictureMethods.ChangePreference(fireUser, pictureList.get(counter), forHowMuchLiked);
 
                 // Sending them to sever.
                 databaseReference.child("Users").child(firebaseUser.getUid()).child("preferences").setValue(fireUser.getPreferencesList().toString());
@@ -737,7 +742,7 @@ public class MemesFragment extends Fragment implements CardStackListener {
                  */
 
                 // String of current category.
-                final String category = LoadActivity.categories.get(pictureList.get(0).Category);
+                final String category = LoadActivity.categories.get(pictureList.get(counter).Category);
 
                 // Number of meme in category.
 
@@ -832,11 +837,9 @@ public class MemesFragment extends Fragment implements CardStackListener {
                                         }
 
 
-                                        // Making image of Url.
-                                        PictureLogic.Data image = new PictureLogic.Data(memeUrl);
 
                                         // Making a Picture element (attaching category to a picture).
-                                        pictureToLoad = new PictureLogic.Picture(image, LoadActivity.categories.indexOf(categoryNext));
+                                        pictureToLoad = new PictureLogic.Picture(memeUrl, LoadActivity.categories.indexOf(categoryNext));
 
 
 //                                        // Add it to pic list.
@@ -878,23 +881,28 @@ public class MemesFragment extends Fragment implements CardStackListener {
             v.vibrate(30);
         }
 
+
+        counter++;
         deleteCache(getActivity().getApplicationContext());
+
+        String jsonString = convertToJSON(pictureList);
+
+        // Saving data to shared preferences.
+        SharedPreferences.Editor editor = getContext().getSharedPreferences("Buffer", MODE_PRIVATE).edit();
+        editor.putString("pictures", jsonString);
+        editor.apply();
+
 
         return pictureToLoad;
     }
 
 
+    @Override
+    public void onDestroy() {
 
 
-
-
-
-
-
-
-
-
-
+        super.onDestroy();
+    }
 
     public static void deleteCache(Context context) {
         try {

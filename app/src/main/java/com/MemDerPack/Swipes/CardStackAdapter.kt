@@ -9,12 +9,22 @@ import android.widget.TextView
 import android.widget.Toast
 import com.MemDerPack.Logic.PictureLogic
 import com.MemDerPack.R
+import com.MemDerPack.Swipes.CardStackAdapter.Apple.hui
 import com.bumptech.glide.Glide
 import java.lang.Exception
 
-class CardStackAdapter(
-        private var pictures: List<PictureLogic.Picture> = emptyList()
+public class CardStackAdapter(
+
+
+        public var pictures: List<PictureLogic.Picture> = emptyList()
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
+
+
+    object Apple {
+        var hui: Int = 0
+    }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -23,16 +33,16 @@ class CardStackAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val picture = pictures[position]
+        hui = position
 //        holder.name.text = "${spot.id}. ${spot.name}"
 //        holder.city.text = spot.city
 
         try {
             Glide.with(holder.image)
-                    .load(picture.Image.imagePath)
+                    .load(picture.ImagePath)
                     .into(holder.image)
 
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             println(e.message);
         }
 
