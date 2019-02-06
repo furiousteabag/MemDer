@@ -12,7 +12,7 @@ public class JSONConverter {
     public String convertToJSON(ArrayList<PictureLogic.Picture> pictureList) {
 
         String jsonFile = "";
-
+//ds
         for (int i = pictureList.size()-10; i < pictureList.size(); i++) {
 
             jsonFile += json.toJson(pictureList.get(i));
