@@ -1,11 +1,66 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <!--Light theme-->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorBackground">@color/LcolorBackground</item>
+        <item name="colorPrimary">@color/LcolorPrimary</item>
+        <item name="colorPrimarySecond">@color/LcolorPrimarySecond</item>
+        <item name="colorAccent">@color/LcolorAccent</item>
+        <item name="textColor">@color/LtextColor</item>
+        <item name="toolbarColor">@color/LtoolbarColor</item>
+        <item name="textColorSecond">@color/LtextColorSecond</item>
+        <item name="textColorThird">@color/LtextColorThird</item>
+        <item name="textColorHint">@color/LtextColorHint</item>
+        <item name="android:windowAnimationStyle">@style/noAnimTheme</item>
+    </style>
+
+    <!--Dark theme-->
+    <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorBackground">@color/DcolorBackground</item>
+        <item name="colorPrimary">@color/DcolorPrimary</item>
+        <item name="colorPrimarySecond">@color/DcolorPrimarySecond</item>
+        <item name="colorAccent">@color/DcolorAccent</item>
+        <item name="textColor">@color/DtextColor</item>
+        <item name="toolbarColor">@color/DtoolbarColor</item>
+        <item name="textColorSecond">@color/DtextColorSecond</item>
+        <item name="textColorThird">@color/DtextColorThird</item>
+        <item name="textColorHint">@color/DtextColorHint</item>
+        <item name="android:windowAnimationStyle">@style/noAnimTheme</item>
+    </style>
+
+
+    <style name="noAnimTheme" parent="android:Theme">
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
+    <!--Theme change-->
+    <style name="WindowsAnimationTransition">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+    <!--Toolbar style-->
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">?attr/toolbarColor</item>
+        <item name="android:textColorPrimary">?attr/toolbarColor</item>
+    </style>
+
+    <!--Menu window color-->
+    <style name="MenuStyle" parent="Theme.AppCompat.Light">
+        <item name="android:background">?attr/colorBackground</item>
+        <item name="android:textColor">?attr/textColor</item>
+    </style>
+
+    <!--Button animation theme-->
+    <style name="CustomAnimationButton" parent="@style/Widget.AppCompat.Button">
+        <item name="colorButtonNormal">#1a237e</item>
+        <item name="colorControlHighlight">#673ab7</item>
+        <item name="android:stateListAnimator">@animator/btn_anima</item>
+    </style>
+
+    <!--Color of circle progress bar-->
+    <style name="CircularProgress" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">?attr/textColor</item>
     </style>
 
 </resources>

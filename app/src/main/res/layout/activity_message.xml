@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorBackground"
+    tools:context=".MessageActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/Base.ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/MenuStyle"
+            app:theme="@style/ToolbarTheme">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <Button
+                        android:id="@+id/btn_profile_click"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#00373e45"
+                        android:onClick="onClick" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profile_image"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true" />
+
+
+                    <Button
+                        android:id="@+id/username"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/profile_image"
+                        android:background="?attr/colorPrimary"
+                        android:text="username"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/textColor"
+                        android:textSize="16dp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom"
+        android:layout_below="@id/bar_layout"
+        android:background="?attr/colorBackground" />
+
+    <RelativeLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="?attr/colorPrimary"
+        android:padding="5dp">
+
+        <EditText
+            android:id="@+id/text_send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/btn_send"
+            android:background="@drawable/rounded_edittext"
+            android:hint="@string/enter_message"
+            android:paddingLeft="10dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:textColor="?attr/textColor"
+            android:textColorHint="?attr/textColorHint" />
+
+        <ImageButton
+            android:id="@+id/btn_send"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ic_action_name1" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
