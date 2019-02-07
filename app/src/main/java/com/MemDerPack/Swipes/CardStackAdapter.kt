@@ -1,6 +1,7 @@
 package com.MemDerPack.Swipes
 
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,21 +10,16 @@ import android.widget.TextView
 import android.widget.Toast
 import com.MemDerPack.Logic.PictureLogic
 import com.MemDerPack.R
-import com.MemDerPack.Swipes.CardStackAdapter.Apple.hui
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestListener
 import java.lang.Exception
+import java.net.URL
 
 public class CardStackAdapter(
 
 
         public var pictures: List<PictureLogic.Picture> = emptyList()
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
-
-
-    object Apple {
-        var hui: Int = 0
-    }
-
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,18 +29,18 @@ public class CardStackAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val picture = pictures[position]
-        hui = position
-//        holder.name.text = "${spot.id}. ${spot.name}"
-//        holder.city.text = spot.city
+
 
         try {
             Glide.with(holder.image)
-                    .load(picture.ImagePath)
+                    .load(URL(picture.ImagePath))
                     .into(holder.image)
-
-        } catch (e: Exception) {
-            println(e.message);
+            Log.d("URL", picture.ImagePath);
+        } catch (e: Exception){
+            Log.d("EXEPTION", e.message);
         }
+
+
 
 
     }

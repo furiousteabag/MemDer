@@ -74,11 +74,40 @@ public class MemesFragment extends Fragment implements CardStackListener {
     DatabaseReference referenceChangeRight;
     DatabaseReference referenceChangeLeft;
 
-    // Initializing swipes elements.
-    DrawerLayout drawerLayout;
-    CardStackView cardStackView;
-    CardStackLayoutManager manager;
-    CardStackAdapter adapter;
+    // Initializing swipes elements. public и методы добавил Федос, аккуратно для теста. OnCreate как в sample ? lazy - аналог этих методов synchronized, которые у него просто идут перед OnCreate
+    //Итог: белые листы много реже + почти нет белых вечных листов, которые не подгрузятся вообще => рабоать надо от его сэмпла и продумывать дальше, но lazy(синхронайзд) что-то решило точно
+    public DrawerLayout drawerLayout;
+    public CardStackView cardStackView;
+    public CardStackLayoutManager manager;
+    public CardStackAdapter adapter;
+
+    public synchronized DrawerLayout getlayout(View view) {
+
+        drawerLayout = view.findViewById(R.id.drawer_layout);
+
+        return drawerLayout;
+    }
+
+    public synchronized CardStackView getCardStackView(View view) {
+
+        cardStackView = view.findViewById(R.id.card_stack_view);
+
+        return cardStackView;
+    }
+
+    public synchronized CardStackLayoutManager getManager() {
+
+        manager = new CardStackLayoutManager(getContext(), this);
+
+        return manager;
+    }
+
+    public synchronized CardStackAdapter getAdapter() {
+
+        adapter = new CardStackAdapter(LoadActivity.pictureList);
+
+        return adapter;
+    }
 
     // Categories array.
     public static ArrayList<String> categories;
@@ -89,10 +118,16 @@ public class MemesFragment extends Fragment implements CardStackListener {
         View view = inflater.inflate(R.layout.fragment_memes, container, false);
 
         // Attaching swipes elements.
-        drawerLayout = view.findViewById(R.id.drawer_layout);
-        cardStackView = view.findViewById(R.id.card_stack_view);
-        manager = new CardStackLayoutManager(getContext(), this);
-        adapter = new CardStackAdapter(LoadActivity.pictureList);
+        drawerLayout = getlayout(view);
+        cardStackView = getCardStackView(view);
+        manager = getManager();
+        adapter = getAdapter();
+
+//        drawerLayout = view.findViewById(R.id.card_stack_view);
+//        cardStackView = gview.findViewById(R.id.card_stack_view);
+//        manager = new CardStackLayoutManager(getContext(), this);
+//        adapter = new CardStackAdapter(LoadActivity.pictureList);
+
         setupCardStackView();
 
         // Associating firebase variables
@@ -137,7 +172,7 @@ public class MemesFragment extends Fragment implements CardStackListener {
                     numberOfMemesInBuffer.put(categoryNext, numberOfMemesInBuffer.get(categoryNext) + 1);
                 }
 
-                System.out.println(numberOfMemesInBuffer);
+                //System.out.println(numberOfMemesInBuffer);
             }
 
             @Override
@@ -152,12 +187,12 @@ public class MemesFragment extends Fragment implements CardStackListener {
 
     @Override
     public void onCardDragging(Direction direction, float ratio) {
-        Log.d("CardStackView", "onCardDragging: d = ${direction.name}, r = $ratio");
+       // Log.d("CardStackView", "onCardDragging: d = ${direction.name}, r = $ratio");
     }
 
     @Override
     public void onCardSwiped(Direction direction) {
-        Log.d("CardStackView", "onCardSwiped: p = ${manager.topPosition}, d = $direction");
+       // Log.d("CardStackView", "onCardSwiped: p = ${manager.topPosition}, d = $direction");
 
         PictureLogic.Picture picture = ChooseMeme(direction);
 
@@ -166,18 +201,18 @@ public class MemesFragment extends Fragment implements CardStackListener {
 
     @Override
     public void onCardRewound() {
-        Log.d("CardStackView", "onCardRewound: ${manager.topPosition}");
+       // Log.d("CardStackView", "onCardRewound: ${manager.topPosition}");
     }
 
     @Override
     public void onCardCanceled() {
-        Log.d("CardStackView", "onCardCanceled: ${manager.topPosition}");
+     //   Log.d("CardStackView", "onCardCanceled: ${manager.topPosition}");
     }
 
     @Override
     public void onCardAppeared(View view, int position) {
 //        TextView textView = view.findViewById(R.id.item_name);
-        Log.d("CardStackView", "onCardAppeared: ($position) ${textView.text}");
+       //Log.d("CardStackView", "onCardAppeared: ($position) ${textView.text}");
     }
 
     @Override
@@ -204,7 +239,7 @@ public class MemesFragment extends Fragment implements CardStackListener {
         manager.setVisibleCount(3);
         manager.setTranslationInterval(10.0f);
         manager.setScaleInterval(0.95f);
-        manager.setSwipeThreshold(0.3f);
+        manager.setSwipeThreshold(0.30f);
         manager.setMaxDegree(30.0f);
         manager.setDirections(Direction.FREEDOM);
         manager.setCanScrollHorizontal(true);
