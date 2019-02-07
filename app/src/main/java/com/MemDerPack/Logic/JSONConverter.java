@@ -13,7 +13,7 @@ public class JSONConverter {
 
         String jsonFile = "";
 
-        for (int i = pictureList.size()-9; i < pictureList.size(); i++) {
+        for (int i = pictureList.size()- 9; i < pictureList.size(); i++) {
 
             jsonFile += json.toJson(pictureList.get(i));
             jsonFile += "@";
@@ -24,11 +24,10 @@ public class JSONConverter {
 
     public static ArrayList<PictureLogic.Picture> convertFromJSON(String jsonFile){
         ArrayList<PictureLogic.Picture> pictureList = new ArrayList<PictureLogic.Picture>();
-        PictureLogic.Picture picture = new PictureLogic.Picture();
 
         String[] jsonFileArray = jsonFile.split("@");
 
-        for (int i = 0; i<10; i++){
+        for (int i = 0; i<jsonFileArray.length; i++){
 
             pictureList.add(json.fromJson(jsonFileArray[i], PictureLogic.Picture.class));
         }

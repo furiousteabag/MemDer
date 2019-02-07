@@ -202,34 +202,13 @@ public class LoadActivity extends AppCompatActivity {
                 // If user closed the app and came again.
             } else {
 
-                // Memes reference.
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference(memeFolder);
-                reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
-                            // Filling them.
-                            categories.add(snapshot.getKey().toString());
-                            numberOfMemesInBuffer.put(snapshot.getKey().toString(), 0);
-
-                        }
-
-
-
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
                 SharedPreferences prefs = getSharedPreferences("Buffer", Activity.MODE_PRIVATE);
                 String pictires = prefs.getString("pictures", "");
 
                 pictureList = convertFromJSON(pictires);
+
+
 
 
                 Intent i = new Intent(LoadActivity.this, ChatsActivity.class);
