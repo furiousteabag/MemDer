@@ -417,15 +417,6 @@ public class MemesFragment extends Fragment implements CardStackListener {
             v.vibrate(30);
         }
 
-        deleteCache(getActivity().getApplicationContext());
-
-        String jsonString = convertToJSON(pictureList, counter + 1);
-
-        // Saving data to shared preferences.
-        SharedPreferences.Editor editor = getContext().getSharedPreferences("Buffer", MODE_PRIVATE).edit();
-        editor.putString("pictures", jsonString);
-        editor.apply();
-
         return pictureToLoad;
     }
 
@@ -465,6 +456,15 @@ public class MemesFragment extends Fragment implements CardStackListener {
         SharedPreferences.Editor editor = getContext().getSharedPreferences("Picturelist", MODE_PRIVATE).edit();
         editor.putString("current_elem", counter.toString());
         editor.apply();
+
+        // Saving the picturelist to shared preferences.
+        String jsonString = convertToJSON(pictureList, counter);
+        SharedPreferences.Editor editor1 = getContext().getSharedPreferences("Buffer", MODE_PRIVATE).edit();
+        editor1.putString("pictures", jsonString);
+        editor1.apply();
+
+        // Deleting cache.
+        deleteCache(getActivity().getApplicationContext());
     }
 
 }
