@@ -1,5 +1,6 @@
 package com.MemDerPack.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +11,7 @@ import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.util.DiffUtil;
@@ -66,51 +68,46 @@ public class MemesFragment extends Fragment implements CardStackListener {
 
     // Arraylist of memes.
     public ArrayList<PictureLogic.Picture> pictureList;
+
+    // Categories array.
+    public static ArrayList<String> categories;
+
+    // Counter for current meme.
     public Integer counter;
 
     // Initializing firebase elements.
     FirebaseUser firebaseUser;
     DatabaseReference reference;
-    DatabaseReference referenceChangeRight;
-    DatabaseReference referenceChangeLeft;
 
-    // Initializing swipes elements. public и методы добавил Федос, аккуратно для теста. OnCreate как в sample ? lazy - аналог этих методов synchronized, которые у него просто идут перед OnCreate
-    //Итог: белые листы много реже + почти нет белых вечных листов, которые не подгрузятся вообще => рабоать надо от его сэмпла и продумывать дальше, но lazy(синхронайзд) что-то решило точно
+    // Initializing swipes elements.
     public DrawerLayout drawerLayout;
     public CardStackView cardStackView;
     public CardStackLayoutManager manager;
     public CardStackAdapter adapter;
 
+    // Initializing a picture element for adding new pics.
+    public PictureLogic.Picture pictureToLoad = new PictureLogic.Picture();
+
+    // Making swipes elements with "by lazy".
     public synchronized DrawerLayout getlayout(View view) {
-
         drawerLayout = view.findViewById(R.id.drawer_layout);
-
         return drawerLayout;
     }
 
     public synchronized CardStackView getCardStackView(View view) {
-
         cardStackView = view.findViewById(R.id.card_stack_view);
-
         return cardStackView;
     }
 
     public synchronized CardStackLayoutManager getManager() {
-
         manager = new CardStackLayoutManager(getContext(), this);
-
         return manager;
     }
 
     public synchronized CardStackAdapter getAdapter() {
-
         adapter = new CardStackAdapter(LoadActivity.pictureList);
-
         return adapter;
     }
-
-    // Categories array.
-    public static ArrayList<String> categories;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -123,26 +120,22 @@ public class MemesFragment extends Fragment implements CardStackListener {
         manager = getManager();
         adapter = getAdapter();
 
-//        drawerLayout = view.findViewById(R.id.card_stack_view);
-//        cardStackView = gview.findViewById(R.id.card_stack_view);
-//        manager = new CardStackLayoutManager(getContext(), this);
-//        adapter = new CardStackAdapter(LoadActivity.pictureList);
-
+        // Initializing swipes cards.
         setupCardStackView();
 
         // Associating firebase variables
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-        referenceChangeRight = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-        referenceChangeLeft = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
         // Taking picturelist array from load activity.
         pictureList = LoadActivity.pictureList;
         categories = new ArrayList<>();
 
-
-        // Setting the counter of meme to display.
-        counter = 0;
+        // Getting the counter of meme to display.
+        SharedPreferences preferences = getContext().getSharedPreferences("Picturelist", Activity.MODE_PRIVATE);
+        String counter_string = preferences.getString("current_elem", "0");
+        counter = Integer.parseInt(counter_string);
+        manager.setTopPosition(counter);
 
         // Creating reference for the list of categories..
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(memeFolder);
@@ -171,8 +164,6 @@ public class MemesFragment extends Fragment implements CardStackListener {
                     // Adding a point to local buffer.
                     numberOfMemesInBuffer.put(categoryNext, numberOfMemesInBuffer.get(categoryNext) + 1);
                 }
-
-                //System.out.println(numberOfMemesInBuffer);
             }
 
             @Override
@@ -181,59 +172,50 @@ public class MemesFragment extends Fragment implements CardStackListener {
             }
         });
 
-
         return view;
     }
 
     @Override
     public void onCardDragging(Direction direction, float ratio) {
-       // Log.d("CardStackView", "onCardDragging: d = ${direction.name}, r = $ratio");
+
     }
 
     @Override
     public void onCardSwiped(Direction direction) {
-       // Log.d("CardStackView", "onCardSwiped: p = ${manager.topPosition}, d = $direction");
 
+        // Choose a picture to add to list of memes.
         PictureLogic.Picture picture = ChooseMeme(direction);
 
+        // Adding picture to the picturelist.
         paginate(picture);
     }
 
     @Override
     public void onCardRewound() {
-       // Log.d("CardStackView", "onCardRewound: ${manager.topPosition}");
+
     }
 
     @Override
     public void onCardCanceled() {
-     //   Log.d("CardStackView", "onCardCanceled: ${manager.topPosition}");
+
     }
 
     @Override
     public void onCardAppeared(View view, int position) {
-//        TextView textView = view.findViewById(R.id.item_name);
-       //Log.d("CardStackView", "onCardAppeared: ($position) ${textView.text}");
+
     }
 
     @Override
     public void onCardDisappeared(View view, int position) {
-//        TextView textView = view.findViewById(R.id.item_name);
-//        Log.d("CardStackView", "onCardDisappeared: ($position) ${textView.text}");
+
     }
 
-    private List<Spot> createSpots() {
-        ArrayList<Spot> spots = new ArrayList<>();
-
-        Methods methods = new Methods();
-        spots = methods.createSpots();
-
-        return spots;
-    }
-
+    // Setting the cards.
     private void setupCardStackView() {
         initialize();
     }
 
+    // Setting the cards.
     private void initialize() {
         manager.setStackFrom(StackFrom.Top);
         manager.setVisibleCount(3);
@@ -256,27 +238,18 @@ public class MemesFragment extends Fragment implements CardStackListener {
 //        }
     }
 
+    // Adding a picture to picturelist.
     private void paginate(PictureLogic.Picture picture) {
         List<PictureLogic.Picture> old = adapter.getSpots();
-
-
         List<PictureLogic.Picture> old_new = old;
-
-//        List<PictureLogic.Picture> temp = new ArrayList<>();
-//        temp.add(picture);
-
-
         old_new.add(picture);
-
-
         SpotDiffCallback callback = new SpotDiffCallback(old, old_new);
-
-
         DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
         adapter.setSpots(old_new);
         result.dispatchUpdatesTo(adapter);
     }
 
+    // Returns a picture to add depends on direction.
     public PictureLogic.Picture ChooseMeme(Direction direction) {
 
         PictureLogic.Picture picture = new PictureLogic.Picture();
@@ -291,17 +264,15 @@ public class MemesFragment extends Fragment implements CardStackListener {
             picture = ChangePreferenceAndLoadImage("superdislike");
         }
 
-
         return picture;
     }
 
-    public PictureLogic.Picture pictureToLoad = new PictureLogic.Picture();
-
+    // Receive a degree of how much liked, changes user preferences and returns a picture to add.
     public PictureLogic.Picture ChangePreferenceAndLoadImage(final String forHowMuchLiked) {
 
 
         // Database synchronization.
-        referenceChangeLeft.addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -531,14 +502,7 @@ public class MemesFragment extends Fragment implements CardStackListener {
         return pictureToLoad;
     }
 
-
-    @Override
-    public void onDestroy() {
-
-
-        super.onDestroy();
-    }
-
+    // Clearing cache.
     public static void deleteCache(Context context) {
         try {
             File dir = context.getCacheDir();
@@ -548,6 +512,7 @@ public class MemesFragment extends Fragment implements CardStackListener {
         }
     }
 
+    // Method to support cache clear.
     public static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
@@ -563,6 +528,16 @@ public class MemesFragment extends Fragment implements CardStackListener {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // Saving the position of current picture to phone to load it whether we change activity and go back.
+        SharedPreferences.Editor editor = getContext().getSharedPreferences("Picturelist", MODE_PRIVATE).edit();
+        editor.putString("current_elem", counter.toString());
+        editor.apply();
     }
 
 }

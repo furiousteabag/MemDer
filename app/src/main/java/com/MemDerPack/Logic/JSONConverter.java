@@ -1,5 +1,7 @@
 package com.MemDerPack.Logic;
 
+import android.util.Log;
+
 import com.MemDerPack.Logic.PictureLogic;
 import com.google.gson.Gson;
 
@@ -19,6 +21,8 @@ public class JSONConverter {
             jsonFile += "@";
         }
 
+        Log.d("JSON_TO", jsonFile);
+
         return jsonFile;
     }
 
@@ -31,6 +35,9 @@ public class JSONConverter {
 
             pictureList.add(json.fromJson(jsonFileArray[i], PictureLogic.Picture.class));
         }
+
+        Log.d("JSON_FROM_SIZE", String.valueOf(pictureList.size()));
+        Log.d("JSON_FROM", pictureList.toString());
 
         return pictureList;
     }
