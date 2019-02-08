@@ -1,5 +1,7 @@
 package com.MemDerPack.Logic;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.MemDerPack.Logic.PictureLogic;
@@ -11,11 +13,11 @@ public class JSONConverter {
 
     static Gson json = new Gson();
 
-    public static String convertToJSON(ArrayList<PictureLogic.Picture> pictureList) {
+    public static String convertToJSON(ArrayList<PictureLogic.Picture> pictureList, int numberOfCurrentMeme) {
 
         String jsonFile = "";
 
-        for (int i = pictureList.size()- 9; i < pictureList.size(); i++) {
+        for (int i = numberOfCurrentMeme; i < pictureList.size(); i++) {
 
             jsonFile += json.toJson(pictureList.get(i));
             jsonFile += "@";

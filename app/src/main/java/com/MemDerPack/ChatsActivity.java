@@ -100,9 +100,6 @@ public class ChatsActivity extends AppCompatActivity {
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
-
-
-
     }
 
 

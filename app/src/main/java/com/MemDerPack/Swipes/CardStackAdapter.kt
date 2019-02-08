@@ -17,10 +17,8 @@ import java.net.URL
 
 public class CardStackAdapter(
 
-
         public var pictures: List<PictureLogic.Picture> = emptyList()
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -30,7 +28,6 @@ public class CardStackAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val picture = pictures[position]
 
-
         try {
             Glide.with(holder.image)
                     .load(URL(picture.ImagePath))
@@ -39,10 +36,6 @@ public class CardStackAdapter(
         } catch (e: Exception){
             Log.d("EXEPTION", e.message);
         }
-
-
-
-
     }
 
     override fun getItemCount(): Int {

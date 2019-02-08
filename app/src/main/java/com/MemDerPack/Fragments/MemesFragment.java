@@ -401,77 +401,6 @@ public class MemesFragment extends Fragment implements CardStackListener {
                     }
                 });
 
-
-                /*
-                 * Adding new picture.
-                 */
-
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//                        // Defining the category of next meme.
-//                        final String categoryNext = categories.get(UserLogic.UserMethods.getCategory(fireUser.getPreferencesList()));
-//
-//                        // Creating reference for subfolder (selecting subfolder by choosing the prefered category).
-//                        DatabaseReference memeReference = FirebaseDatabase.getInstance().getReference(memeFolder).child(categoryNext);
-//                        memeReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                                // Getting the list of meme values (links).
-//                                final Map<String, Object> td = (HashMap<String, Object>) dataSnapshot.getValue();
-//
-//                                // Getting and sorting the keys.
-//                                final ArrayList<String> keys = new ArrayList<>(td.keySet());
-//                                Collections.sort(keys);
-//
-//                                // Taking the number of the meme to pick.
-//                                DatabaseReference memeCategory = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid()).child("Categories_seen").child(categoryNext);
-//                                memeCategory.addListenerForSingleValueEvent(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                                        String memeUrl;
-//                                        // Current meme number.
-//                                        Integer memeNumber;
-//                                        numberOfMemesInBuffer.put(categoryNext, numberOfMemesInBuffer.get(categoryNext) + 1);
-//                                        memeNumber = Integer.parseInt(dataSnapshot.getValue().toString()) + numberOfMemesInBuffer.get(categoryNext);
-//                                        if (memeNumber < td.size()) {
-//                                            memeUrl = td.get(keys.get(memeNumber)).toString();
-//                                        } else {
-//                                            memeUrl = td.get(keys.get(keys.size() - 1)).toString();
-//                                        }
-//
-//
-//                                        // Making a Picture element (attaching category to a picture).
-//                                        pictureToLoad = new PictureLogic.Picture(memeUrl, categories.indexOf(categoryNext));
-//                                        counter++;
-//
-//
-////                                        // Add it to pic list.
-////                                        pictureList.add(picture);
-//                                    }
-//
-//                                    @Override
-//                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                                    }
-//                                });
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                            }
-//                        });
-//
-////                        // Remove the object we just swiped.
-////                        pictureList.remove(0);
-//                    }
-//                }, 10);
-
-
             }
 
             @Override
@@ -488,16 +417,14 @@ public class MemesFragment extends Fragment implements CardStackListener {
             v.vibrate(30);
         }
 
-
         deleteCache(getActivity().getApplicationContext());
 
-        String jsonString = convertToJSON(pictureList);
+        String jsonString = convertToJSON(pictureList, counter + 1);
 
         // Saving data to shared preferences.
         SharedPreferences.Editor editor = getContext().getSharedPreferences("Buffer", MODE_PRIVATE).edit();
         editor.putString("pictures", jsonString);
         editor.apply();
-
 
         return pictureToLoad;
     }
