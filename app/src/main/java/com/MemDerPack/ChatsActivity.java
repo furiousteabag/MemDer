@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.MemDerPack.Fragments.MemesFragment;
+import com.MemDerPack.Logic.PictureLogic;
 import com.MemDerPack.Logic.SharedPref;
 import com.bumptech.glide.Glide;
 import com.MemDerPack.Fragments.ChatsFragment;
@@ -84,29 +85,6 @@ public class ChatsActivity extends AppCompatActivity {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
-//        // Handling username and image.
-//        reference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                // Setting username.
-//                UserLogic.User user = dataSnapshot.getValue(UserLogic.User.class);
-//                btn_profile.setText(user.getUsername());
-//
-//                // Setting image.
-//                if (user.getImageURL().equals("default")) {
-//                    profile_image.setImageResource(R.mipmap.ic_launcher);
-//                } else {
-//                    Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//            }
-//        });
-
         // Initializing activity elements.
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         ViewPager viewPager = findViewById(R.id.view_pager);
@@ -121,7 +99,6 @@ public class ChatsActivity extends AppCompatActivity {
         // Associating adapter with form elements.
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-
 
     }
 
@@ -142,14 +119,14 @@ public class ChatsActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.profile:
-                Intent intent1  = new Intent(ChatsActivity.this, ProfileActivity.class);
+                Intent intent1 = new Intent(ChatsActivity.this, ProfileActivity.class);
                 intent1.putExtra("userid", firebaseUser.getUid());
                 intent1.putExtra("form", firebaseUser.getUid());
                 startActivity(intent1);
                 finish();
                 return true;
             case R.id.settings:
-                Intent intent2  = new Intent(ChatsActivity.this, SettingsActivity.class);
+                Intent intent2 = new Intent(ChatsActivity.this, SettingsActivity.class);
                 startActivity(intent2);
                 finish();
                 return true;

@@ -19,16 +19,16 @@ public class PictureLogic {
 
         public long id;
         public static long id_next;
-        public Data Image;
+        public String ImagePath;
         public int Category;
 
         public Picture() {
         }
 
-        public Picture(Data image, int category) {
+        public Picture(String image, int category) {
             id = id_next;
             id_next++;
-            Image = image;
+            ImagePath = image;
             Category = category;
         }
     }
@@ -67,32 +67,6 @@ public class PictureLogic {
 
     }
 
-    //Class contains id or path to picture.
-    public static class Data {
-
-
-//        private int drawableId;
-//
-//        public Data(int drawableId) {
-//            this.drawableId = drawableId;
-//        }
-//
-//        public int getImagePath() {
-//            return drawableId;
-//        }
-
-
-        //   Получваем картинку по ссылке из инета.
-        private String imagePath;
-
-        public Data(String imagePath) {
-            this.imagePath = imagePath;
-        }
-
-        public String getImagePath() {
-            return imagePath;
-        }
-    }
 
     // Methods for picture elements.
     public static class PictureMethods {

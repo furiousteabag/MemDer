@@ -2,7 +2,9 @@ package com.MemDerPack.Logic;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserLogic {
 
@@ -15,6 +17,8 @@ public class UserLogic {
         private String preferences;
         private ArrayList<Integer> Preferences = new ArrayList<>();
         private String status;
+        private String description;
+        private Map<String, Object> Categories_seen;
 
         public User() {
         }
@@ -74,6 +78,22 @@ public class UserLogic {
             return username;
         }
 
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public Map<String, Object> getCategories_seen() {
+            return Categories_seen;
+        }
+
+        public void setCategories_seen(Map<String, Object> categories_seen) {
+            Categories_seen = categories_seen;
+        }
+
         // Transform a String into ArrayList.
         public ArrayList<Integer> stringToArrayList(String preferences) {
             String replace = preferences.replace("[", "").replace("]", "");
@@ -129,12 +149,11 @@ public class UserLogic {
             //int res = //r.nextInt(Sum);
             int res = (int) (Math.random() * Sum) + 1;
 
-            System.out.println(Sum + " " + res);
             while (res > 0) {
                 res = res - list.get(l) - 1;
                 l++;
             }
-            System.out.println(l - 1);
+
 
             return l - 1;
         }
