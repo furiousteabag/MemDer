@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.MemDerPack.ChatKit.features.demo.def.DefaultMessagesActivity;
 import com.bumptech.glide.Glide;
 import com.MemDerPack.Logic.Chat;
 import com.MemDerPack.Logic.UserLogic;
@@ -78,7 +79,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, MessageActivity.class);
+                Intent intent = new Intent(mContext, DefaultMessagesActivity.class);
                 intent.putExtra("userid", user.getId());
                 mContext.startActivity(intent);
             }
