@@ -20,10 +20,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import static com.MemDerPack.StartActivity.hideKeyboard;
 
@@ -127,7 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
                             // Initializing variables.
                             FirebaseUser firebaseUser = auth.getCurrentUser();
                             assert firebaseUser != null;
-                            String userid = firebaseUser.getUid();
+                            final String userid = firebaseUser.getUid();
 
                             reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
                             referenceSeen = FirebaseDatabase.getInstance().getReference("Users").child(userid).child("Categories_seen");
@@ -149,18 +152,26 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                             // Initializing hashmap to send.
-                            HashMap<String, String> hashMap = new HashMap<>();
+                            final Map<String, Object> hashMap = new HashMap<>();
+                            hashMap.put("Categories_seen", seen);
                             hashMap.put("id", userid);
                             hashMap.put("username", username);
                             hashMap.put("imageURL", "default");
                             hashMap.put("preferences", preferences.toString());
 
 
+                            FirebaseFirestore.getInstance().document("Users/"+userid).set(hashMap);
+
+
+
                             // Send the hashmap and close the form.
+                            final HashMap<String, Integer> finalSeen = seen;
                             reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
+
+
 
                                         findViewById(R.id.loadingPanel).setVisibility(View.GONE);
                                         Intent intent = new Intent(RegisterActivity.this, ChatsActivity.class);

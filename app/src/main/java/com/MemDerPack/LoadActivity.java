@@ -14,6 +14,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -28,6 +29,8 @@ import com.MemDerPack.Logic.AlphanumericComparator;
 import com.MemDerPack.Logic.PictureLogic;
 import com.MemDerPack.Logic.UserLogic;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,6 +38,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.perf.metrics.AddTrace;
 
 import java.io.IOException;
@@ -72,6 +77,9 @@ public class LoadActivity extends AppCompatActivity {
     // For nightmode.
     SharedPref sharedPref;
 
+
+    FirebaseFirestore firebaseFirestore;
+
     @Override
     @AddTrace(name = "onCreateTrace", enabled = true /* optional */)
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +106,46 @@ public class LoadActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = getSharedPreferences("Picturelist", MODE_PRIVATE).edit();
         editor.putString("current_elem", "0");
         editor.apply();
+
+
+//        Task<DocumentSnapshot> task =
+//                FirebaseFirestore.getInstance().document("Users/bob").get();
+//        task.addOnSuccessListener(new OnSuccessListener() {
+//            @Override
+//            public void onSuccess(Object o) {
+//                String a = o.toString();
+//                Log.d("FIREHUISKDJBCHKDSBFKJB", a);
+//            }
+//        });
+
+
+//        DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("MEMES");
+//
+//        reference1.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                HashMap<String, Object> map = new HashMap<>();
+//                map = (HashMap<String, Object>) dataSnapshot.getValue();
+//
+//
+//                firebaseFirestore = FirebaseFirestore.getInstance();
+//
+//                for (Map.Entry<String, Object> entry : map.entrySet())
+//                {
+//                    firebaseFirestore.collection("MEMES").document(entry.getKey()).set(entry.getValue());
+//                }
+//
+//
+//
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+
 
         // Check for internet connection.
         if (haveNetworkConnection()) {
