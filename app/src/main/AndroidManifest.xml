@@ -25,6 +25,7 @@
             android:name=".ChatsActivity"
             android:noHistory="false" />
         <activity android:name=".MessageActivity" />
+        <activity android:name=".ChatKit.features.demo.def.DefaultMessagesActivity" />
         <activity android:name=".LoadActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

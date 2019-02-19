@@ -105,4 +105,8 @@ dependencies {
     //JSON
     implementation 'com.google.code.gson:gson:2.8.5'
 
+    implementation 'com.github.stfalcon:chatkit:0.3.3'
+
+    implementation 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
+
 }
