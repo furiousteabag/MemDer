@@ -270,25 +270,63 @@ public class MemesFragment extends Fragment implements CardStackListener {
     Gson json = new Gson();
 
     // Adding a picture to picturelist.
-    private void paginate(PictureLogic.Picture picture) {
+    private void paginate(final PictureLogic.Picture picture) {
 
         List<PictureLogic.Picture> old = adapter.getSpots();
         List<PictureLogic.Picture> old_new = old;
 
         if (!IScontains(old, picture)) {
 
+
             old_new.add(picture);
             SpotDiffCallback callback = new SpotDiffCallback(old, old_new);
             DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
             adapter.setSpots(old_new);
             result.dispatchUpdatesTo(adapter);
+            counter++;
         } else {
-            ind++;
-            String s = json.toJson(picture);
-            Log.d("ELSE", s);
-            Log.d("ELSE", ind.toString());
-            Log.d("ELSE", d.toString());
-            ChooseMeme(d);
+
+            final List<PictureLogic.Picture> old2283221488 = adapter.getSpots();
+
+            Task<DocumentSnapshot> task1 =
+                    FirebaseFirestore.getInstance().document("Users/" + firebaseUser.getUid()).get();
+            task1.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                    // Initializing local user.
+                    final UserLogic.User fireUser = documentSnapshot.toObject(UserLogic.User.class);
+
+                    final Map<String, Object> map1 = fireUser.getCategories_seen();
+
+                    int intCategory = picture.Category;
+
+                    String category = categories.get(intCategory);
+
+                    // Current meme number.
+                    final Integer memeNumber = Integer.parseInt(map1.get(category).toString());
+
+                    FirebaseFirestore.getInstance().document("Users/" + firebaseUser.getUid()).update("Categories_seen." + category, memeNumber + 1);
+
+                    ind++;
+                    String s = json.toJson(picture);
+                    Log.d("ELSE", "curr pic "+s);
+                    Log.d("ELSE", "repeat counter "+ind.toString());
+                    Log.d("ELSE", "swipe direction "+ d.toString());
+                    Log.d("ELSE", "counter "+counter.toString());
+                    Log.d("ELSE", "stack size "+String.valueOf(old2283221488.size()));
+
+                    ChooseMeme(d);
+
+                }
+            });
+
+
+
+
+
+
+
         }
 
 
@@ -321,13 +359,6 @@ public class MemesFragment extends Fragment implements CardStackListener {
 
     }
 
-    ArrayList<Task<DocumentSnapshot>> list = new ArrayList<>();
-
-    int numCores = Runtime.getRuntime().availableProcessors();
-    ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 1,
-            0L, TimeUnit.MILLISECONDS,
-            new LinkedBlockingQueue<Runnable>());
-    Thread th = new Thread();
 
     // Receive a degree of how much liked, changes user preferences and returns a picture to add.
     public void ChangePreferenceAndLoadImage(final String forHowMuchLiked) {
@@ -455,7 +486,7 @@ public class MemesFragment extends Fragment implements CardStackListener {
 
                                                     // Making a Picture element (attaching category to a picture).
                                                     pictureToLoad = new PictureLogic.Picture(memeUrl, categories.indexOf(categoryNext));
-                                                    counter++;
+
 
                                                     // Adding picture to the picturelist.
                                                     paginate(pictureToLoad);
