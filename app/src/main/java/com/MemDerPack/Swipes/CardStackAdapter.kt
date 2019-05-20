@@ -1,5 +1,6 @@
 package com.MemDerPack.Swipes
 
+import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import com.MemDerPack.Logic.PictureLogic
 import com.MemDerPack.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
 import java.lang.Exception
 import java.net.URL
 
@@ -28,9 +30,13 @@ public class CardStackAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val picture = pictures[position]
 
+
+        //val drawable:Drawable = R.drawable.ic_action_delete
+
         try {
             Glide.with(holder.image)
                     .load(URL(picture.ImagePath))
+                    .apply(RequestOptions().placeholder(R.drawable.ic_action_delete))
                     .into(holder.image)
             Log.d("URL", picture.ImagePath);
         } catch (e: Exception){
