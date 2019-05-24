@@ -4,6 +4,8 @@
 \usepackage{minted}
 \usepackage{tabu}
 \usepackage{graphicx}
+\usepackage{animate}
+
 
 \newcommand*{\authorimg}[1]{%
   \raisebox{-.3\baselineskip}{%
@@ -100,6 +102,44 @@
 	\end{frame}		
 	
 	\begin{frame}
+		\frametitle{Как это всё работает}
+		\begin{figure}[h]
+            \center{\includegraphics[scale=0.2]{images/scheme.png}}
+            \caption{Схема проекта}
+            \label{fig:image}
+        \end{figure}
+	\end{frame}	
+	
+	\begin{frame}
+		\frametitle{Интерфейс приложения (1)}
+            \begin{columns}[t]
+                \column{.3\textwidth}
+                    \includegraphics[scale=0.09]{images/login.png}
+                \column{.3\textwidth}
+                    \includegraphics[scale=0.179]{images/chats.png}
+                \column{.3\textwidth}
+                    \includegraphics[scale=0.09]{images/settings.png}
+                    
+            \end{columns}
+	\end{frame}	
+	
+	\begin{frame}
+		\frametitle{Пролистывание мемов}
+		\begin{figure}[h]
+		\begin{columns}[t]
+		        \column{.5\textwidth}
+                    \includegraphics[scale=0.5]{images/swipe.png}
+                    \caption{Логика свайпа}
+                    \label{fig:image}
+                \column{.2\textwidth}
+                    \includegraphics[scale=0.09]{images/swipe1.png}
+                    \caption{Свайп}
+                    \label{fig:image}
+            \end{columns}
+        \end{figure}
+	\end{frame}	
+	
+	\begin{frame}
 		\frametitle{Рекомендательная система}
 		     \begin{columns}[t]
                 \column{.6\textwidth}
@@ -135,7 +175,6 @@
         \begin{itemize}
             \item Среднее значение по вектору
             \item Байесовский классификатор
-            \item Кластерный анализ
             \item Деревья решений
         \end{itemize}
 	\end{frame}	
@@ -191,28 +230,6 @@
 	\end{frame}
 	
 	\begin{frame}
-		\frametitle{Интерфейс приложения (1)}
-            \begin{columns}[t]
-                \column{.3\textwidth}
-                    \includegraphics[scale=0.09]{images/login.png}
-                \column{.3\textwidth}
-                    \includegraphics[scale=0.179]{images/chats.png}
-                \column{.3\textwidth}
-                    \includegraphics[scale=0.09]{images/settings.png}
-                    
-            \end{columns}
-	\end{frame}	
-	
-	\begin{frame}
-		\frametitle{Интерфейс приложения (2)}
-		\begin{figure}[h]
-            \center{\includegraphics[scale=0.095]{images/swipe1.png}}
-            \caption{MemDer}
-            \label{fig:image}
-        \end{figure}
-	\end{frame}
-	
-	\begin{frame}
 		\frametitle{Внутреннее устройство}
 		\begin{figure}[h]
             \center{\includegraphics[scale=0.25]{images/diagram.png}}
@@ -230,31 +247,30 @@
         \end{figure}
 	\end{frame}	
 	
-	\begin{frame}
-		\frametitle{Как это всё работает}
-		\begin{figure}[h]
-            \center{\includegraphics[scale=0.2]{images/scheme.png}}
-            \caption{Схема проекта}
-            \label{fig:image}
-        \end{figure}
-	\end{frame}	
 	
 	\begin{frame}
 		\frametitle{Итоги}
-		\begin{itemize}
-			\item Александр
-			    \begin{itemize}
-			    	\item Чаты
-			    	\item FireStore
-			    	\item Алгоритм предпочтений
-		        \end{itemize}
-			\item Феодор
-			    \begin{itemize}
-			    	\item Поиск и майнинг контента
-			    	\item Буфер  
-			    	\item Кастомные свайпы
+		     \begin{columns}[t]
+                \column{.4\textwidth}
+                    \begin{itemize}
+                       \animategraphics[loop,controls,width=19ex]{6}{gif/gif-}{0}{82}
+        			\end{itemize}
+                \column{.4\textwidth}
+                   \begin{itemize}
+            			\item Александр
+            			    \begin{itemize}
+            			    	\item Чаты
+            			    	\item FireStore
+            			    	\item Буфер
+            		        \end{itemize}
+            			\item Феодор
+            			    \begin{itemize}
+            			    	\item Сбор контента
+            			    	\item Рекомендательные системы  
+            			    	\item Кастомные свайпы
 		        \end{itemize}
 		\end{itemize}
+            \end{columns}		
 	\end{frame}
 
 	\begin{frame}
