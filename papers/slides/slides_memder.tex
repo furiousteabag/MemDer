@@ -1,9 +1,21 @@
-\documentclass[xetex,mathserif,serif]{beamer}
+\documentclass[xetex,mathserif,serif, xcolor=table]{beamer}
 \usepackage{polyglossia}
 \setdefaultlanguage[babelshorthands=true]{russian}
 \usepackage{minted}
 \usepackage{tabu}
 \usepackage{graphicx}
+\usepackage{animate}
+
+
+\newcommand*{\authorimg}[1]{%
+  \raisebox{-.3\baselineskip}{%
+    \includegraphics[
+      height=\baselineskip,
+      width=\baselineskip,
+      keepaspectratio,
+    ]{#1}%
+  }%
+}
 
 \useoutertheme{infolines}
 
@@ -90,6 +102,15 @@
 	\end{frame}		
 	
 	\begin{frame}
+		\frametitle{Как это всё работает}
+		\begin{figure}[h]
+            \center{\includegraphics[scale=0.2]{images/scheme.png}}
+            \caption{Схема проекта}
+            \label{fig:image}
+        \end{figure}
+	\end{frame}	
+	
+	\begin{frame}
 		\frametitle{Интерфейс приложения (1)}
             \begin{columns}[t]
                 \column{.3\textwidth}
@@ -103,12 +124,109 @@
 	\end{frame}	
 	
 	\begin{frame}
-		\frametitle{Интерфейс приложения (2)}
+		\frametitle{Пролистывание мемов}
 		\begin{figure}[h]
-            \center{\includegraphics[scale=0.095]{images/swipe1.png}}
-            \caption{MemDer}
-            \label{fig:image}
+		\begin{columns}[t]
+		        \column{.5\textwidth}
+                    \includegraphics[scale=0.5]{images/swipe.png}
+                    \caption{Логика свайпа}
+                    \label{fig:image}
+                \column{.2\textwidth}
+                    \includegraphics[scale=0.09]{images/swipe1.png}
+                    \caption{Свайп}
+                    \label{fig:image}
+            \end{columns}
         \end{figure}
+	\end{frame}	
+	
+	\begin{frame}
+		\frametitle{Рекомендательная система}
+		     \begin{columns}[t]
+                \column{.6\textwidth}
+                    \begin{itemize}
+                        \includegraphics[scale=0.179]{images/chats.png}
+        			\end{itemize}
+                \column{.3\textwidth}
+                    \item Рекомендация контента
+        		    \item Рекомендация пользователей
+            \end{columns}
+	\end{frame}	
+	
+	\begin{frame}
+		\frametitle{Контентная фильтрация}
+			\begin{itemize}
+		    	\item Есть много контента – как выбрать наиболее подходящее?
+		    	\item Предмет рекомендации – мемы из определенной категории (на самом деле категория)
+		    	\item Пользовательские оценки получаем явно
+		    	    \begin{itemize}
+        		    	\item SuperLike = +2
+        		    	\item SuperDislike = -2
+        		    	\item Like = +1
+        		    	\item Dislike = -1
+        		    	\newline 
+			        \end{itemize}
+			      \includegraphics[scale=0.8]{images/user.png}   
+			\end{itemize}
+	\end{frame}
+	
+	
+	\begin{frame}
+	\frametitle{Контентная фильтрация}
+        \begin{itemize}
+            \item Среднее значение по вектору
+            \item Байесовский классификатор
+            \item Деревья решений
+        \end{itemize}
+	\end{frame}	
+	
+	\begin{frame}
+	    \frametitle{Матрица предпочтений}
+        \begin{table}[]
+            \begin{tabular}{|c|c|c|c|c|}
+                \hline
+                \multicolumn{1}{|l|}{}                   & \cellcolor[HTML]{CBCEFB}Мемная папка & \cellcolor[HTML]{CBCEFB}4ch & \cellcolor[HTML]{CBCEFB}MDK & \cellcolor[HTML]{CBCEFB}Физкек \\ \hline
+                \cellcolor[HTML]{CBCEFB}MemLover         & 9                                    & 5                           & 3                           & 8                              \\ \hline
+                \cellcolor[HTML]{CBCEFB}Stepan           & 2                                    & 8                           & 6                           & 4                              \\ \hline
+                \cellcolor[HTML]{CBCEFB}Д@nNJL           & 15                                   & 19                          & 13                          & 21                             \\ \hline
+                \cellcolor[HTML]{CBCEFB}Polina\_Abramova & 7                                    & 9                           & 6                           & 7                              \\ \hline
+            \end{tabular}
+        \end{table}        
+    \end{frame}		
+	
+	
+	\begin{frame}
+    	\frametitle{Фильтрация пользователей}
+    	     \begin{itemize}
+	            \item «Похожесть» или корреляцию предпочтений двух пользователей можно считать сравнением двух векторов предпочтений.
+	         \end{itemize}
+    	     \begin{columns}[t]
+                \column{.4\textwidth}
+                    \includegraphics[scale=0.7]{images/user.png}
+                \column{.4\textwidth}
+                    \includegraphics[scale=0.7]{images/user2.png}
+            \end{columns}
+	\end{frame}	
+
+	\begin{frame}
+	\frametitle{Фильтрация пользователей}
+        \begin{itemize}
+            \item Корреляция Пирсона
+            \item Корреляция Спирмана
+            \item Косинусное расстояние
+                \begin{itemize}
+                    \item Почему косинусное? 
+                \end{itemize}
+        \end{itemize}
+	\end{frame}	
+	
+	
+	\begin{frame}
+	\frametitle{Фильтрация пользователей}
+        \begin{itemize}
+            \item Косинусное расстояние
+            \newline
+            {\Large $\mathbb \textbf{similarity} = cos(\theta) = \frac{AB}{|A||B|}= \frac{\sum\limits_{i=1}^n{A_iB_i}}{\sqrt{\sum\limits_{i=1}^n{A_i^2}}\sqrt{\sum\limits_{i=1}^n{B_i^2}}} $\par}
+        \end{itemize}
 	\end{frame}
 	
 	\begin{frame}
@@ -129,31 +247,30 @@
         \end{figure}
 	\end{frame}	
 	
-	\begin{frame}
-		\frametitle{Как это всё работает}
-		\begin{figure}[h]
-            \center{\includegraphics[scale=0.2]{images/scheme.png}}
-            \caption{Схема проекта}
-            \label{fig:image}
-        \end{figure}
-	\end{frame}	
 	
 	\begin{frame}
 		\frametitle{Итоги}
-		\begin{itemize}
-			\item Александр
-			    \begin{itemize}
-			    	\item Чаты
-			    	\item FireStore
-			    	\item Алгоритм предпочтений
-		        \end{itemize}
-			\item Феодор
-			    \begin{itemize}
-			    	\item Поиск и майнинг контента
-			    	\item Буфер  
-			    	\item Кастомные свайпы
+		     \begin{columns}[t]
+                \column{.4\textwidth}
+                    \begin{itemize}
+                       \animategraphics[loop,controls,width=19ex]{6}{gif/gif-}{0}{82}
+        			\end{itemize}
+                \column{.4\textwidth}
+                   \begin{itemize}
+            			\item Александр
+            			    \begin{itemize}
+            			    	\item Чаты
+            			    	\item FireStore
+            			    	\item Буфер
+            		        \end{itemize}
+            			\item Феодор
+            			    \begin{itemize}
+            			    	\item Сбор контента
+            			    	\item Рекомендательные системы  
+            			    	\item Кастомные свайпы
 		        \end{itemize}
 		\end{itemize}
+            \end{columns}		
 	\end{frame}
 
 	\begin{frame}
