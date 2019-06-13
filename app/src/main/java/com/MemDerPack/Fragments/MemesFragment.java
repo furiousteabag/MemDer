@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import com.MemDerPack.ChatsActivity;
 import com.MemDerPack.LoadActivity;
+import com.MemDerPack.Logic.AlphanumericComparator;
 import com.MemDerPack.Logic.PictureLogic;
 import com.MemDerPack.Logic.UserLogic;
 import com.MemDerPack.R;
@@ -45,13 +46,17 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+//import com.google.firebase.database.DataSnapshot;
+//import com.google.firebase.database.DatabaseError;
+//import com.google.firebase.database.DatabaseReference;
+//import com.google.firebase.database.FirebaseDatabase;
+//import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.gson.Gson;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
@@ -67,6 +72,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -85,7 +91,6 @@ public class MemesFragment extends Fragment implements CardStackListener {
     public ArrayList<PictureLogic.Picture> pictureList;
 
 
-
     Direction d;
 
     Integer ind = 0;
@@ -98,7 +103,7 @@ public class MemesFragment extends Fragment implements CardStackListener {
 
     // Initializing firebase elements.
     FirebaseUser firebaseUser;
-    DatabaseReference reference;
+    //  DatabaseReference reference;
     FirebaseFirestore firebaseFirestore;
 
     // Initializing swipes elements.
@@ -132,9 +137,6 @@ public class MemesFragment extends Fragment implements CardStackListener {
     }
 
 
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -151,7 +153,7 @@ public class MemesFragment extends Fragment implements CardStackListener {
 
         // Associating firebase variables
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        //  reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         // Taking picturelist array from load activity.
@@ -164,21 +166,19 @@ public class MemesFragment extends Fragment implements CardStackListener {
         counter = Integer.parseInt(counter_string);
         manager.setTopPosition(counter);
 
-        // Creating reference for the list of categories..
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(memeFolder);
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        CollectionReference reference = db.collection(memeFolder);
+
+        reference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                // Filling the categories array.
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
-                    // Filling categories array.
-                    categories.add(snapshot.getKey().toString());
-
-                    // Filling buffer array with zeros.
-                    numberOfMemesInBuffer.put(snapshot.getKey().toString(), 0);
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    categories.add(document.getId());
+                    numberOfMemesInBuffer.put(document.getId(), 0);
                 }
+
 
                 // Filling the local buffer.
                 for (PictureLogic.Picture pic : pictureList) {
@@ -190,14 +190,47 @@ public class MemesFragment extends Fragment implements CardStackListener {
 
                     // Adding a point to local buffer.
                     numberOfMemesInBuffer.put(categoryNext, numberOfMemesInBuffer.get(categoryNext) + 1);
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
 
             }
         });
+
+
+//        // Creating reference for the list of categories..
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(memeFolder);
+//        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                // Filling the categories array.
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//
+//                    // Filling categories array.
+//                    categories.add(snapshot.getKey().toString());
+//
+//                    // Filling buffer array with zeros.
+//                    numberOfMemesInBuffer.put(snapshot.getKey().toString(), 0);
+//                }
+//
+//                // Filling the local buffer.
+//                for (PictureLogic.Picture pic : pictureList) {
+//
+//                    int category = pic.Category;
+//
+//                    // Defining the category of current meme.
+//                    String categoryNext = categories.get(category);
+//
+//                    // Adding a point to local buffer.
+//                    numberOfMemesInBuffer.put(categoryNext, numberOfMemesInBuffer.get(categoryNext) + 1);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
         return view;
     }
@@ -310,11 +343,11 @@ public class MemesFragment extends Fragment implements CardStackListener {
 
                     ind++;
                     String s = json.toJson(picture);
-                    Log.d("ELSE", "curr pic "+s);
-                    Log.d("ELSE", "repeat counter "+ind.toString());
-                    Log.d("ELSE", "swipe direction "+ d.toString());
-                    Log.d("ELSE", "counter "+counter.toString());
-                    Log.d("ELSE", "stack size "+String.valueOf(old2283221488.size()));
+                    Log.d("ELSE", "curr pic " + s);
+                    Log.d("ELSE", "repeat counter " + ind.toString());
+                    Log.d("ELSE", "swipe direction " + d.toString());
+                    Log.d("ELSE", "counter " + counter.toString());
+                    Log.d("ELSE", "stack size " + String.valueOf(old2283221488.size()));
 
                     ChooseMeme(d);
 
@@ -322,21 +355,16 @@ public class MemesFragment extends Fragment implements CardStackListener {
             });
 
 
-
-
-
-
-
         }
 
 
     }
 
-    private boolean IScontains (List<PictureLogic.Picture> pictureList, PictureLogic.Picture picturere) {
+    private boolean IScontains(List<PictureLogic.Picture> pictureList, PictureLogic.Picture picturere) {
         for (PictureLogic.Picture pic : pictureList
-             ) {
+        ) {
             if (pic.ImagePath.equals(picturere.ImagePath))
-            return true;
+                return true;
 
         }
         return false;
@@ -377,7 +405,7 @@ public class MemesFragment extends Fragment implements CardStackListener {
                      */
 
                     // Creating new reference.
-                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                 //   DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
                     // Initializing local user.
                     final UserLogic.User fireUser = documentSnapshot.toObject(UserLogic.User.class);
@@ -654,13 +682,9 @@ public class MemesFragment extends Fragment implements CardStackListener {
 
         // Vibration.
         Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-
-        {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             v.vibrate(VibrationEffect.createOneShot(30, VibrationEffect.DEFAULT_AMPLITUDE));
-        } else
-
-        {
+        } else {
             v.vibrate(30);
         }
 

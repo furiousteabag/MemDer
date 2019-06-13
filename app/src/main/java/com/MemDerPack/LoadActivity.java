@@ -2,7 +2,9 @@ package com.MemDerPack;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -14,6 +16,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -29,17 +32,22 @@ import com.MemDerPack.Logic.AlphanumericComparator;
 import com.MemDerPack.Logic.PictureLogic;
 import com.MemDerPack.Logic.UserLogic;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+//import com.google.firebase.database.DataSnapshot;
+//import com.google.firebase.database.DatabaseError;
+//import com.google.firebase.database.DatabaseReference;
+//import com.google.firebase.database.FirebaseDatabase;
+//import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.perf.metrics.AddTrace;
 
 import java.io.IOException;
@@ -171,29 +179,43 @@ public class LoadActivity extends AppCompatActivity {
             // If user opens app for the first time.
             if (firebaseUser == null) {
 
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference(memeFolder);
 
-                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+
+
+
+
+
+
+
+
+
+                final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                CollectionReference reference = db.collection(memeFolder);
+
+                reference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            categories.add(snapshot.getKey().toString());
-                            numberOfMemesInBuffer.put(snapshot.getKey().toString(), 1);
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            categories.add(document.getId());
+                            numberOfMemesInBuffer.put(document.getId(), 1);
                         }
 
+
+                        CollectionReference reference1 = db.collection(memeFolder);
 
                         // Go into every category subfolder.
                         for (final String category : categories) {
 
-                            // Creating reference for subfolder.
-                            DatabaseReference memeReference = FirebaseDatabase.getInstance().getReference(memeFolder).child(category);
+                            DocumentReference documentReference = reference1.document(category);
 
-                            memeReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                 @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    DocumentSnapshot document = task.getResult();
 
-                                    // Getting the list of meme values (links).
-                                    final Map<String, Object> td = (HashMap<String, Object>) dataSnapshot.getValue();
+                                    final Map<String, Object> td = (HashMap<String, Object>) document.getData();
+
 
                                     // Getting and sorting the keys.
                                     final ArrayList<String> keys = new ArrayList<>(td.keySet());
@@ -216,23 +238,77 @@ public class LoadActivity extends AppCompatActivity {
 
 
                                 }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
                             });
 
 
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        String sd = "";
 
                     }
-
                 });
+
+
+//                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                            categories.add(snapshot.getKey().toString());
+//                            numberOfMemesInBuffer.put(snapshot.getKey().toString(), 1);
+//                        }
+//
+//
+//                        // Go into every category subfolder.
+//                        for (final String category : categories) {
+//
+//                            // Creating reference for subfolder.
+//                            DatabaseReference memeReference = FirebaseDatabase.getInstance().getReference(memeFolder).child(category);
+//
+//                            memeReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                @Override
+//                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                                    // Getting the list of meme values (links).
+//                                    final Map<String, Object> td = (HashMap<String, Object>) dataSnapshot.getValue();
+//
+//                                    // Getting and sorting the keys.
+//                                    final ArrayList<String> keys = new ArrayList<>(td.keySet());
+//
+//
+//                                    // Sort.
+//                                    //keys.sort(new AlphanumericComparator(Locale.ENGLISH));
+//                                    Collections.sort(keys, new AlphanumericComparator(Locale.ENGLISH));
+//
+//
+//                                    String memeUrl = td.get(keys.get(0)).toString();
+//
+//                                    // Making a Picture element (attaching category to a picture).
+//                                    PictureLogic.Picture picture = new PictureLogic.Picture(memeUrl, categories.indexOf(category));
+//
+//                                    // Add it to pic list.
+//                                    pictureList.add(picture);
+//
+//                                    System.out.println(pictureList.toString());
+//
+//
+//                                }
+//
+//                                @Override
+//                                public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                                }
+//                            });
+//
+//
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                    }
+//
+//                });
 
 
                 Intent i = new Intent(LoadActivity.this, StartActivity.class);
@@ -279,4 +355,6 @@ public class LoadActivity extends AppCompatActivity {
         }
         return haveConnectedWifi || haveConnectedMobile;
     }
+
+
 }
